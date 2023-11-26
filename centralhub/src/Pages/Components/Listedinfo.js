@@ -5,7 +5,10 @@ import ListItemText from "@mui/material/ListItemText";
 
 export default function Listedinfo({ title, information }) {
   return (
-    <div style={{ textAlign: "center" }} className="m-5 d-inline-block">
+    <div
+      style={{ textAlign: "center", verticalAlign: "top" }}
+      className="d-inline-block"
+    >
       <h4> {title} </h4>
       <List
         style={{ backgroundColor: "rgb(230, 227, 206)" }}

@@ -5,6 +5,7 @@ import Studentlogin from "./Pages/General/Studentlogin";
 import Adminlogin from "./Pages/General/Adminlogin";
 import Viewcourses from "./Pages/Course/Viewcourses";
 import Viewspecificcourse from "./Pages/Course/Viewspecificcourse";
+import Coursedetails from "./Pages/Course/Coursedetails";
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
           <Route
             path="viewcourses/:courseID"
             element={<Viewspecificcourse />}
+          ></Route>
+          <Route
+            path="explorecourses/:courseID"
+            element={<Coursedetails />}
           ></Route>
         </Routes>
       </BrowserRouter>

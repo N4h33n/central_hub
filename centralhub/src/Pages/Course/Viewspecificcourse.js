@@ -2,6 +2,8 @@ import React from "react";
 import Listedinfo from "../Components/Listedinfo";
 import Placeholdertable from "../Placeholdertable";
 
+//TODO-add URL param stuff here using CourseID to set the objects appropriately
+
 const courseInformation = [
   {
     label: "Introduction to Web Development",
