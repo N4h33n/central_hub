@@ -30,3 +30,8 @@ body {
 .title {
   color: #1976d2;
 }
+
+.assEx {
+  display: inline-block;
+  width: 40%;
+}
