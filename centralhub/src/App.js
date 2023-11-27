@@ -12,7 +12,8 @@ import Research from "./Pages/Research/Research";
 import Enrolledresearch from "./Pages/Research/Enrolledresearch";
 import Pastresearch from "./Pages/Research/Pastresearch";
 import Researchdetails from "./Pages/Research/Researchdetails";
-import Pastresearchdetails from "./Pages/Research/Pastresearch";
+import Pastresearchdetails from "./Pages/Research/Pastresearchdetails";
+import Facultyinfo from "./Pages/Components/Facultyinfo";
 
 function App() {
   return (
@@ -46,8 +47,9 @@ function App() {
           ></Route>
           <Route
             path="pastresearchdetails/:researchID"
-            element={<Pastresearchdetailsesearchdetails />}
+            element={<Pastresearchdetails />}
           ></Route>
+          <Route path="faculty/:ID" element={<Facultyinfo />}></Route>
         </Routes>
       </BrowserRouter>
     </>
