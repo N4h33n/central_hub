@@ -1,19 +1,24 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Landing from "./Pages/General/Landing";
-import Studentlogin from "./Pages/General/Studentlogin";
-import Adminlogin from "./Pages/General/Adminlogin";
-import Viewcourses from "./Pages/Course/Viewcourses";
-import Viewspecificcourse from "./Pages/Course/Viewspecificcourse";
-import Coursedetails from "./Pages/Course/Coursedetails";
-import ViewenrolledECA from "./Pages/ECA/ViewenrolledECA";
-import ECAdetails from "./Pages/ECA/ECAdetails";
-import Research from "./Pages/Research/Research";
-import Enrolledresearch from "./Pages/Research/Enrolledresearch";
-import Pastresearch from "./Pages/Research/Pastresearch";
-import Researchdetails from "./Pages/Research/Researchdetails";
-import Pastresearchdetails from "./Pages/Research/Pastresearchdetails";
-import Facultyinfo from "./Pages/Components/Facultyinfo";
+import Landing from "./Pages (student)/General/Landing";
+import Studentlogin from "./Pages (student)/General/Studentlogin";
+import Adminlogin from "./Pages (student)/General/Adminlogin";
+import Viewcourses from "./Pages (student)/Course/Viewcourses";
+import Viewspecificcourse from "./Pages (student)/Course/Viewspecificcourse";
+import Coursedetails from "./Pages (student)/Course/Coursedetails";
+import ViewenrolledECA from "./Pages (student)/ECA/ViewenrolledECA";
+import ECAdetails from "./Pages (student)/ECA/ECAdetails";
+import Research from "./Pages (student)/Research/Research";
+import Enrolledresearch from "./Pages (student)/Research/Enrolledresearch";
+import Pastresearch from "./Pages (student)/Research/Pastresearch";
+import Researchdetails from "./Pages (student)/Research/Researchdetails";
+import Pastresearchdetails from "./Pages (student)/Research/Pastresearchdetails";
+import Facultyinfo from "./Pages (student)/Components/Facultyinfo";
+import Updateinfo from "./Pages (student)/Updateinfo/Updateinfo";
+import Studentlist from "./Pages (admin)/Studentlist";
+import Updatestudentinfo from "./Pages (admin)/Updatestudentinfo";
+import Updatecoursecomp from "./Pages (admin)/Updatecoursecomp";
+import Addstudent
 
 function App() {
   return (
@@ -50,6 +55,17 @@ function App() {
             element={<Pastresearchdetails />}
           ></Route>
           <Route path="faculty/:ID" element={<Facultyinfo />}></Route>
+          <Route path="updateinfo" element={<Updateinfo />}></Route>
+          <Route path="studentlist" element={<Studentlist />}></Route>
+          <Route
+            path="studentlist/:studentID"
+            element={<Updatestudentinfo />}
+          ></Route>
+          <Route
+            path="updatecoursecomp/:studentID/:courseID"
+            element={<Updatecoursecomp />}
+          ></Route>
+          <Route path="/addstudent" element={<Addstudent />}></Route>
         </Routes>
       </BrowserRouter>
     </>
