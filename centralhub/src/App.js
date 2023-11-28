@@ -18,7 +18,11 @@ import Updateinfo from "./Pages (student)/Updateinfo/Updateinfo";
 import Studentlist from "./Pages (admin)/Studentlist";
 import Updatestudentinfo from "./Pages (admin)/Updatestudentinfo";
 import Updatecoursecomp from "./Pages (admin)/Updatecoursecomp";
-import Addstudent
+import Addstudent from "./Pages (admin)/Addstudent";
+import Updatepersonalinfo from "./Pages (admin)/Updatepersonalinfo";
+import Addtocourse from "./Pages (admin)/Addtocourse";
+import Editassignmentgrade from "./Pages (admin)/Editassignmentgrade";
+import Editexamgrade from "./Pages (admin)/Editexamgrade";
 
 function App() {
   return (
@@ -66,6 +70,22 @@ function App() {
             element={<Updatecoursecomp />}
           ></Route>
           <Route path="/addstudent" element={<Addstudent />}></Route>
+          <Route
+            path="/updatepersonalinfo/:studentID"
+            element={<Updatepersonalinfo />}
+          ></Route>
+          <Route
+            path="/addtocourse/:studentID"
+            element={<Addtocourse />}
+          ></Route>
+          <Route
+            path="/editassignmentgrade/:studentID/:courseID"
+            element={<Editassignmentgrade />}
+          ></Route>
+          <Route
+            path="/editexamgrade/:studentID/:courseID"
+            element={<Editexamgrade />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
