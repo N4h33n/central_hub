@@ -23,6 +23,8 @@ import Updatepersonalinfo from "./Pages (admin)/Updatepersonalinfo";
 import Addtocourse from "./Pages (admin)/Addtocourse";
 import Editassignmentgrade from "./Pages (admin)/Editassignmentgrade";
 import Editexamgrade from "./Pages (admin)/Editexamgrade";
+import Studentdashboard from "./Pages (student)/Studentdashboard";
+import Filtercourses from "./Pages (student)/Course/Filtercourses";
 
 function App() {
   return (
@@ -30,8 +32,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />}></Route>
+          <Route path="/" element={<Landing />}></Route>
           <Route path="studentlogin" element={<Studentlogin />}></Route>
           <Route path="adminlogin" element={<Adminlogin />}></Route>
+          <Route path="/dashboard" element={<Studentdashboard />}></Route>
           <Route path="viewcourses" element={<Viewcourses />}></Route>
           <Route
             path="viewcourses/:courseID"
@@ -86,6 +90,7 @@ function App() {
             path="/editexamgrade/:studentID/:courseID"
             element={<Editexamgrade />}
           ></Route>
+          <Route path="/filtercourses" element={<Filtercourses />}></Route>
         </Routes>
       </BrowserRouter>
     </>
