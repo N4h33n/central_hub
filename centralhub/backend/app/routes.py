@@ -23,7 +23,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             # Execute a test query
-            cursor.execute('SELECT * from STUDENT')
+            cursor.execute('SELECT * from FACULTY')
 
             # Fetch the result
             result = cursor.fetchone()
