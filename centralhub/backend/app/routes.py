@@ -12,7 +12,7 @@ def get_db_connection():
 
 # testing using dummy template test.html will change later
 def create_routes(app):
-    
+    #h
     @app.route('/')
     def index():
         try:
