@@ -6,28 +6,25 @@ import { Button } from "@mui/material";
 const BASE_URL = "http://localhost:5000/";
 
 export default function Addstudent() {
-  // handleClick = async () => {
-  //   const name = document.getElementById("name").value;
-  //   const email = document.getElementById("email").value;
-  //   const ucid = document.getElementById("ucid").value;
+  handleClick = async () => {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const ucid = document.getElementById("ucid").value;
+    const password = document.getElementById("password").value;
+    const telephone = document.getElementById("telephone").value;
+    const address = document.getElementById("address").value;
 
-  //   const response = await fetch(`${BASE_URL}/api/adminlogin`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email, password }),
-  //   });
+    const response = await fetch(`${BASE_URL}/api/addstudent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, ucid, password, telephone, address }),
+    });
 
-  //   const data = await response.json();
+    const data = await response.json();
+  };
 
-  //   if (data.success) {
-  //     window.location.href = "/studentlist";
-  //   } else {
-  //     document.getElementById("outlined-email").value = "";
-  //     document.getElementById("outlined-password").value = "";
-  //   }
-  // };
   return (
     <section className="mainSection">
       <h2 className="m-5">Add Student</h2>
