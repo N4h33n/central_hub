@@ -60,7 +60,7 @@ export default function Addstudent() {
           type="password"
         />
       </div>
-      <Button className="m-3" variant="contained">
+      <Button onClick={handleClick()} className="m-3" variant="contained">
         Add
       </Button>
     </section>
