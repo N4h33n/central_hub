@@ -4,13 +4,13 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3000'
+host_url = 'http://localhost:3001'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='*PASSworld*123',
+        password='sQlprequelwoohoo7676',
         database='centralhub'
     )
     
@@ -48,7 +48,7 @@ def create_routes(app):
             connection.close()
 
         except mysql.connector.Error as e:
-                print(f"Error: {err}")
+                print(f"Error: {e}")
         
         finally:
             cursor.close()
@@ -58,7 +58,7 @@ def create_routes(app):
     @app.route('/api/studentlist', methods = ['GET'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def student_list():
-
+        
         try:
             connection = get_db_connection()
 
@@ -72,11 +72,8 @@ def create_routes(app):
 
             return jsonify(result)
         
-
-
-
         except mysql.connector.Error as e:
-                print(f"Error: {err}")
+            print(f"Error{e}")
         
         finally:
             cursor.close()
@@ -93,16 +90,19 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "insert into STUDENT values (%s, %s, %s, %s, %s, %s)"
+            query = "insert into STUDENT values (%s, %s, %s, %s, %s, %s, %s)"
             
-            values = (data.get('ucid'), data.get('email'), data.get('telephone'), data.get('name'), data.get('address'), data.get('password'))
+            values = (data.get('ucid'), data.get('email'), data.get('telephone'), data.get('name'), data.get('address'), data.get('password'), data.get('a_ucid'))
             cursor.execute(query, values)
             
             connection.commit()
+            
+            return "True"
         
         except mysql.connector.Error as e:
-            print(f"Error: {err}")
-        
+                print(f"Error: {e}")
+
+                return "False"
         finally:
             cursor.close()
             connection.close()
