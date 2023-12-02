@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,28 +21,34 @@ const StudentID = () => {
   return studentID;
 };
 
-const data = [
-  {
-    ucid: "30134608",
-    Coursenumber: "CPSC471",
-    Coursename: "Database Management",
-    NextSemesterOffered: "FALL 2024",
-  },
-  {
-    ucid: "30134608",
-    Coursenumber: "CPSC413",
-    Coursename: "Data Structures and Algorithms",
-    NextSemesterOffered: "WINTER 2024",
-  },
-  {
-    ucid: "30134607",
-    Coursenumber: "CPSC413",
-    Coursename: "Data Structures and Algorithms",
-    NextSemesterOffered: "WINTER 2024",
-  },
-];
+const BASE_URL = "http://localhost:5000/";
+const ucid = StudentID;
 
 export default function Updatestudentinfo() {
+  const [data, setData] = useState([]);
+
+  const loadCourses = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/studentinfo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ucid }),
+      });
+
+      const courses = await response.json();
+      console.log("course", courses);
+      setData(courses);
+    } catch (error) {
+      console.error("Error loading courses:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
+
   const studentID = StudentID();
   const filteredData = data.filter((course) => course.ucid === studentID);
 
