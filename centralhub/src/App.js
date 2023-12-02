@@ -25,6 +25,7 @@ import Editassignmentgrade from "./Pages (admin)/Editassignmentgrade";
 import Editexamgrade from "./Pages (admin)/Editexamgrade";
 import Studentdashboard from "./Pages (student)/Studentdashboard";
 import Filtercourses from "./Pages (student)/Course/Filtercourses";
+import Explorecourses from "./Pages (student)/Course/Explorecourses";
 
 function App() {
   return (
@@ -35,16 +36,13 @@ function App() {
           <Route path="/" element={<Landing />}></Route>
           <Route path="studentlogin" element={<Studentlogin />}></Route>
           <Route path="adminlogin" element={<Adminlogin />}></Route>
-          <Route path="/dashboard" element={<Studentdashboard />}></Route>
+          <Route
+            path="dashboard/:studentID"
+            element={<Studentdashboard />}
+          ></Route>
           <Route path="viewcourses" element={<Viewcourses />}></Route>
-          <Route
-            path="viewcourses/:courseID"
-            element={<Viewspecificcourse />}
-          ></Route>
-          <Route
-            path="explorecourses/:courseID"
-            element={<Coursedetails />}
-          ></Route>
+          <Route path="viewcourses/:courseID" element={<Viewcourses />}></Route>
+          <Route path="explorecourses" element={<Explorecourses />}></Route>
           <Route path="enrolledeca" element={<ViewenrolledECA />}></Route>
           <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>
           <Route path="research" element={<Research />}></Route>

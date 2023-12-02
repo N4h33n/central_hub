@@ -3,11 +3,13 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 export default class Studentlogin extends Component {
+  student = [{ ucid: "30134608" }];
+
   data = { success: true };
 
   handleClick = () => {
     if (this.data.success) {
-      window.location.href = "/dashboard";
+      window.location.href = `/dashboard/:${this.student[0].ucid}`;
     } else {
       document.getElementById("outlined-email").value = "";
       document.getElementById("outlined-password").value = "";
