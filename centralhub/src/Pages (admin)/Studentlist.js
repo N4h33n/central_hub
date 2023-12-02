@@ -9,6 +9,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
+//TODO-Change phone to phone#
+//TODO-Fix order
+
 const BASE_URL = "http://localhost:5000/";
 
 export default function Studentlist() {
@@ -62,7 +65,7 @@ function Studentlisttable({ data }) {
           <TableRow>
             {columns.map((column) => (
               <TableCell key={column} align="center">
-                {column}
+                {capitalizeFirstLetter(column)}
               </TableCell>
             ))}
             <TableCell align="center">Update Information</TableCell>
@@ -102,4 +105,8 @@ function Studentlisttable({ data }) {
       </Table>
     </TableContainer>
   );
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
