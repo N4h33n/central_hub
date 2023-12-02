@@ -26,7 +26,9 @@ export default function Viewcourses() {
       <h2 className="title m-5">ENROLLED COURSES</h2>
       <Coursetable data={courses} />
       <Button variant="contained" size="large" className="m-5">
-        Explore Courses ⌕
+        <Link className="link" to={`/explorecourses`}>
+          Explore Courses ⌕
+        </Link>
       </Button>
     </section>
   );

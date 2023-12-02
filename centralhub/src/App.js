@@ -26,6 +26,7 @@ import Editexamgrade from "./Pages (admin)/Editexamgrade";
 import Studentdashboard from "./Pages (student)/Studentdashboard";
 import Filtercourses from "./Pages (student)/Course/Filtercourses";
 import Explorecourses from "./Pages (student)/Course/Explorecourses";
+import DiscoverECA from "./Pages (student)/ECA/DiscoverECA";
 
 function App() {
   return (
@@ -43,7 +44,10 @@ function App() {
           <Route path="viewcourses" element={<Viewcourses />}></Route>
           <Route path="viewcourses/:courseID" element={<Viewcourses />}></Route>
           <Route path="explorecourses" element={<Explorecourses />}></Route>
-          <Route path="enrolledeca" element={<ViewenrolledECA />}></Route>
+          <Route
+            path="enrolledeca/:StudentID"
+            element={<ViewenrolledECA />}
+          ></Route>
           <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>
           <Route path="research" element={<Research />}></Route>
           <Route path="enrolledresearch" element={<Enrolledresearch />}></Route>
@@ -89,6 +93,7 @@ function App() {
             element={<Editexamgrade />}
           ></Route>
           <Route path="/filtercourses" element={<Filtercourses />}></Route>
+          <Route path="/discoverecas" element={<DiscoverECA />}></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -14,13 +14,17 @@ export default function Listedinfo({ title, information }) {
         style={{ backgroundColor: "rgb(230, 227, 206)" }}
         sx={{ width: "100%", maxWidth: 360 }}
       >
-        {information.map((info) => {
-          return (
-            <ListItem>
-              <ListItemText primary={info.label} secondary={info.details} />
-            </ListItem>
-          );
-        })}
+        {information.map((info, index) => (
+          <ListItem key={index} style={{ display: "block" }}>
+            {Object.keys(info).map((field) => (
+              <ListItemText
+                key={field}
+                primary={field}
+                secondary={info[field]}
+              />
+            ))}
+          </ListItem>
+        ))}
       </List>
     </div>
   );
