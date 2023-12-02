@@ -67,7 +67,8 @@ def create_routes(app):
             query = f"SELECT s_ucid, name, email, phone, address from STUDENT"
             cursor.execute(query)
 
-            result = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
             return jsonify(result)
         
