@@ -1,20 +1,27 @@
 from flask import render_template
-from flask import Flask
+from flask import Flask, request, jsonify, Blueprint
+from flask_cors import cross_origin
 import mysql.connector
+
+routes = Blueprint('routes', __name__)
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='password',
+        password='sQlprequelwoohoo7676',
         database='centralhub'
     )
-#h
+    
 # testing using dummy template test.html will change later
 def create_routes(app):
     
-    @app.route('/')
-    def index():
+    @app.route('/api/adminlogin', methods = ['POST'])
+    @cross_origin(origin='http://localhost:3001', headers=['Content-Type', 'Authorization'])
+    def admin_login():
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
         try:
             # Establish a database connection
             connection = get_db_connection()
@@ -23,19 +30,28 @@ def create_routes(app):
             cursor = connection.cursor()
 
             # Execute a test query
-            cursor.execute('SELECT * from STUDENT')
-
+            query = f"SELECT * from admin as A, faculty as F Where F.f_ucid = A.a_ucid and F.email = '{email}' and A.passhash = '{password}'"
+            cursor.execute(query)
             # Fetch the result
             result = cursor.fetchone()
 
+            if result:
+                print("yayy")
+                return jsonify({'success': True})
+        
+            else:
+                print("nooo1")
+                return jsonify({'success': False})
+
+            
             # Close the cursor and connection
             cursor.close()
             connection.close()
 
-            # Pass the result to the template for rendering
-            return render_template('test.html', result=result)
-
         except mysql.connector.Error as e:
-            # Handle database connection errors
-            return f"Database connection error: {e}"
+                print(f"Error: {err}")
+        
+        finally:
+            cursor.close()
+            connection.close()
     

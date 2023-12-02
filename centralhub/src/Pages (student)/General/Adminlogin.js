@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Button, TextField } from "@mui/material";
 import { Redirect } from "react-router-dom";
 
+const BASE_URL = 'http://localhost:5000';
+
 export default class Adminlogin extends Component {
   handleClick = async () => {
     const email = document.getElementById("outlined-email").value;
     const password = document.getElementById("outlined-password").value;
 
-    const response = await fetch("/adminlogin", {
+    const response = await fetch(`${BASE_URL}/api/adminlogin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
