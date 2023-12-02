@@ -9,7 +9,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='sQlprequelwoohoo7676',
+        password='*PASSworld*123',
         database='centralhub'
     )
     
@@ -17,7 +17,7 @@ def get_db_connection():
 def create_routes(app):
     
     @app.route('/api/adminlogin', methods = ['POST'])
-    @cross_origin(origin='http://localhost:3001', headers=['Content-Type', 'Authorization'])
+    @cross_origin(origin='http://localhost:3000', headers=['Content-Type', 'Authorization'])
     def admin_login():
         data = request.get_json()
         email = data.get('email')

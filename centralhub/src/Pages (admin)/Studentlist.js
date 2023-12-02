@@ -12,7 +12,22 @@ import Paper from "@mui/material/Paper";
 //TODO-table has one column for 'update info' and one for remove student
 //TODO-what happens when 'remove student' is clicked
 
+const BASE_URL = "http://localhost:5000/";
+
 export default function Studentlist() {
+  // const loadStudents = async () => {
+  //   const response = await fetch(`${BASE_URL}/api/studentlist`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+
+  //   const data = await response.json();
+  // };
+
+  // loadStudents();
+
   const data = [
     {
       ucid: "30134608",
@@ -34,7 +49,7 @@ export default function Studentlist() {
     <section className="mainSection">
       <h2 className="mt-5 m-3">Current Students</h2>
       <Button variant="contained" className="position-relative float-end m-3">
-        <Link className="link" to="/adminlogin">
+        <Link className="link" to="/addstudent">
           Add Student
         </Link>
       </Button>

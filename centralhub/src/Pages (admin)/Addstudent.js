@@ -3,52 +3,63 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
+const BASE_URL = "http://localhost:5000/";
+
 export default function Addstudent() {
+  // handleClick = async () => {
+  //   const name = document.getElementById("name").value;
+  //   const email = document.getElementById("email").value;
+  //   const ucid = document.getElementById("ucid").value;
+
+  //   const response = await fetch(`${BASE_URL}/api/adminlogin`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ email, password }),
+  //   });
+
+  //   const data = await response.json();
+
+  //   if (data.success) {
+  //     window.location.href = "/studentlist";
+  //   } else {
+  //     document.getElementById("outlined-email").value = "";
+  //     document.getElementById("outlined-password").value = "";
+  //   }
+  // };
   return (
     <section className="mainSection">
       <h2 className="m-5">Add Student</h2>
       <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="outlined-read-only-input"
-          label="Name"
-        />
+        <TextField required style={{ width: "20%" }} id="name" label="Name" />
+      </div>
+      <div className="m-4">
+        <TextField required style={{ width: "20%" }} id="email" label="Email" />
       </div>
       <div className="m-4">
         <TextField
+          required
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
-          label="Email"
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="ucid"
           label="UCID Number"
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          required
-          id="outlined-required"
+          id="telephone"
           label="Telephone Number"
         />
       </div>
       <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          required
-          id="outlined-required"
-          label="Address"
-        />
+        <TextField style={{ width: "20%" }} id="address" label="Address" />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-password-input"
-          label="Password"
+          id="password"
+          label="Default Password"
           type="password"
         />
       </div>
