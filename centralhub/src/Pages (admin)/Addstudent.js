@@ -15,7 +15,7 @@ export default function Addstudent() {
     const password = document.getElementById("password").value;
     const telephone = document.getElementById("telephone").value;
     const address = document.getElementById("address").value;
-    const a_ucid = "000111";
+    const a_ucid = "00000001";
 
     const response = await fetch(`${BASE_URL}/api/addstudent`, {
       method: "POST",
