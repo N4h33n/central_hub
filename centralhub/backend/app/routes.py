@@ -4,13 +4,13 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3000'
+host_url = 'http://localhost:3001'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='password',
+        password='sQlprequelwoohoo7676',
         database='centralhub'
     )
     
@@ -48,7 +48,7 @@ def create_routes(app):
             connection.close()
 
         except mysql.connector.Error as e:
-                print(f"Error: {err}")
+                print(f"Error: oops")
         
         finally:
             cursor.close()
@@ -76,7 +76,7 @@ def create_routes(app):
 
 
         except mysql.connector.Error as e:
-                print(f"Error: {err}")
+                print(f"Error: oops")
         
         finally:
             cursor.close()
@@ -101,7 +101,7 @@ def create_routes(app):
             connection.commit()
         
         except mysql.connector.Error as e:
-            print(f"Error: {err}")
+            print("Error: oops")
         
         finally:
             cursor.close()
