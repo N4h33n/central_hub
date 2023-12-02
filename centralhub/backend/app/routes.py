@@ -84,7 +84,7 @@ def create_routes(app):
             
     @app.route('/api/addstudent', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
-    def student_list():
+    def addStudent():
         
         data = request.get_json()
         
