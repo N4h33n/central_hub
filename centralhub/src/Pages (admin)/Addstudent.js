@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 const BASE_URL = "http://localhost:5000/";
 
 export default function Addstudent() {
-  handleClick = async () => {
+  const handleClick = async () => {
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const ucid = document.getElementById("ucid").value;
@@ -60,7 +60,7 @@ export default function Addstudent() {
           type="password"
         />
       </div>
-      <Button onClick={handleClick()} className="m-3" variant="contained">
+      <Button onClick={handleClick} className="m-3" variant="contained">
         Add
       </Button>
     </section>
