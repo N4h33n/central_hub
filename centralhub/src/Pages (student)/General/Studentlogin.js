@@ -2,14 +2,29 @@ import { Button, TextField } from "@mui/material";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
+//TODO-grab student ucid as well from backend
+
+const ucid = "00000001";
+
+const BASE_URL = "http://localhost:5000/";
+
 export default class Studentlogin extends Component {
-  student = [{ ucid: "30134608" }];
+  handleClick = async () => {
+    const email = document.getElementById("outlined-email").value;
+    const password = document.getElementById("outlined-password").value;
 
-  data = { success: true };
+    const response = await fetch(`${BASE_URL}/api/studentlogin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-  handleClick = () => {
-    if (this.data.success) {
-      window.location.href = `/dashboard/:${this.student[0].ucid}`;
+    const data = await response.json();
+
+    if (data.success) {
+      window.location.href = `/dashboard/:${ucid}`;
     } else {
       document.getElementById("outlined-email").value = "";
       document.getElementById("outlined-password").value = "";
@@ -22,13 +37,13 @@ export default class Studentlogin extends Component {
           <h1 style={{ color: "#1976d2" }}>Student Login</h1>
           <TextField
             className="loginput d-block m-5"
-            id="outlined-basic"
+            id="outlined-email"
             label="Email"
             variant="outlined"
           />
           <TextField
             className="loginput d-block m-5"
-            id="outlined-basic"
+            id="outlined-password"
             label="Password"
             variant="outlined"
           />
