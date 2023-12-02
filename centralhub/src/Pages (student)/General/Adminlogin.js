@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, TextField } from "@mui/material";
 import { Redirect } from "react-router-dom";
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = "http://localhost:5000/";
 
 export default class Adminlogin extends Component {
   handleClick = async () => {

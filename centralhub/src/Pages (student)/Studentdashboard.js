@@ -91,7 +91,9 @@ export default function Studentdashboard() {
           </Link>
         </Button>
         <Button className="m-3 d-block float-end" variant="contained">
-          Extracurriculars
+          <Link className="link" to={`/enrolledeca/${studentID}`}>
+            Extracurriculars
+          </Link>
         </Button>
         <Button className="m-3 d-block float-end" variant="contained">
           Research
