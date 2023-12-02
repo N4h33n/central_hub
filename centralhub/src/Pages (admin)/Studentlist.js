@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -9,41 +9,31 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-//TODO-table has one column for 'update info' and one for remove student
-//TODO-what happens when 'remove student' is clicked
-
 const BASE_URL = "http://localhost:5000/";
 
 export default function Studentlist() {
-  // const loadStudents = async () => {
-  //   const response = await fetch(`${BASE_URL}/api/studentlist`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
+  const [data, setData] = useState([]);
 
-  //   const data = await response.json();
-  // };
+  const loadStudents = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/studentlist`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  // loadStudents();
+      const students = await response.json();
+      console.log("students", students);
+      setData(students);
+    } catch (error) {
+      console.error("Error loading students:", error);
+    }
+  };
 
-  const data = [
-    {
-      ucid: "30134608",
-      name: "Abi",
-      email: "Abitibebu123@gmail.com",
-      phone: "5878346929",
-      Address: "Calgary",
-    },
-    {
-      ucid: "30134607",
-      name: "Naheen",
-      email: "Naheenkabir@gmail.com",
-      phone: "5878346929",
-      Address: "Calgary",
-    },
-  ];
+  useEffect(() => {
+    loadStudents();
+  }, []); // Load students on component mount
 
   return (
     <section className="mainSection">
@@ -60,15 +50,10 @@ export default function Studentlist() {
 
 function Studentlisttable({ data }) {
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 
-  const columns = [
-    ...Object.keys(data[0]),
-    "Update Information",
-    "Remove Student",
-  ]; // Add "Remove Student" column
+  const columns = Object.keys(data[0]);
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
@@ -80,31 +65,37 @@ function Studentlisttable({ data }) {
                 {column}
               </TableCell>
             ))}
+            <TableCell align="center">Update Information</TableCell>
+            <TableCell align="center">Remove Student</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((row, index) => (
             <TableRow
-              key={index} // Assuming each row has a unique identifier
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (
-                <TableCell key={column} align={"center"}>
-                  {column === "Update Information" ? (
-                    <Button variant="outlined">
-                      <Link className="link" to={`/studentlist/${row["ucid"]}`}>
-                        Update
-                      </Link>
-                    </Button>
-                  ) : column === "Remove Student" ? (
-                    <Button variant="outlined" color="error">
-                      {/* What happens here */}
-                    </Button>
-                  ) : (
-                    row[column]
-                  )}
+                <TableCell key={column} align="center">
+                  {row[column]}
                 </TableCell>
               ))}
+              <TableCell align="center">
+                <Button variant="outlined">
+                  <Link className="link" to={`/studentlist/${row["ucid"]}`}>
+                    Update
+                  </Link>
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Button
+                  variant="outlined"
+                  color="error"
+                  // onClick={() => handleRemoveStudent(row["ucid"])}
+                >
+                  Remove
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
