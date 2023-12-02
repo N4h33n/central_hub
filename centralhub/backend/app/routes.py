@@ -10,7 +10,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='*PASSworld*123',
+        password='password',
         database='centralhub'
     )
     
@@ -81,3 +81,30 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/addstudent', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def student_list():
+        
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into STUDENT values (%s, %s, %s, %s, %s, %s)"
+            
+            values = (data.get('ucid'), data.get('email'), data.get('telephone'), data.get('name'), data.get('address'), data.get('password'))
+            cursor.execute(query, values)
+            
+            connection.commit()
+        
+        except mysql.connector.Error as e:
+            print(f"Error: {err}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+        
+
