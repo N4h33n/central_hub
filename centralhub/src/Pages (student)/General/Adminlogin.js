@@ -3,10 +3,21 @@ import { Button, TextField } from "@mui/material";
 import { Redirect } from "react-router-dom";
 
 export default class Adminlogin extends Component {
-  data = { success: true };
+  handleClick = async () => {
+    const email = document.getElementById("outlined-email").value;
+    const password = document.getElementById("outlined-password").value;
 
-  handleClick = () => {
-    if (this.data.success) {
+    const response = await fetch("/adminlogin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
       window.location.href = "/studentlist";
     } else {
       document.getElementById("outlined-email").value = "";
