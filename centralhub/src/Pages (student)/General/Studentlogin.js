@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 //TODO-grab student ucid as well from backend
 
-const ucid = "30134608";
+const ucid = "00000001";
 
 const BASE_URL = "http://localhost:5000/";
 
