@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
+//TODO-add a_ucid to navbar and retrieve
+
 const BASE_URL = "http://localhost:5000/";
 
 export default function Addstudent() {
@@ -13,13 +15,22 @@ export default function Addstudent() {
     const password = document.getElementById("password").value;
     const telephone = document.getElementById("telephone").value;
     const address = document.getElementById("address").value;
+    const a_ucid = "000111";
 
     const response = await fetch(`${BASE_URL}/api/addstudent`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, ucid, password, telephone, address }),
+      body: JSON.stringify({
+        name,
+        email,
+        ucid,
+        password,
+        telephone,
+        address,
+        a_ucid,
+      }),
     });
 
     const data = await response.json();
