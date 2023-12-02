@@ -9,11 +9,10 @@ import Paper from "@mui/material/Paper";
 
 export default function Placeholdertable({ data }) {
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 
-  const columns = Object.keys(data[0]); // Get the columns from the keys of the first object
+  const columns = Object.keys(data[0]);
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
@@ -21,7 +20,9 @@ export default function Placeholdertable({ data }) {
         <TableHead>
           <TableRow>
             {columns.map((column) => (
-              <TableCell key={column}>{column}</TableCell>
+              <TableCell align="center" key={column}>
+                {column}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -32,7 +33,7 @@ export default function Placeholdertable({ data }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (
-                <TableCell key={column} align="right">
+                <TableCell key={column} align="center">
                   {row[column]}
                 </TableCell>
               ))}

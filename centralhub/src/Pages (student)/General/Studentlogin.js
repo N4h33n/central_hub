@@ -1,7 +1,18 @@
 import { Button, TextField } from "@mui/material";
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 export default class Studentlogin extends Component {
+  data = { success: true };
+
+  handleClick = () => {
+    if (this.data.success) {
+      window.location.href = "/dashboard";
+    } else {
+      document.getElementById("outlined-email").value = "";
+      document.getElementById("outlined-password").value = "";
+    }
+  };
   render() {
     return (
       <div className="loginContainer">
@@ -19,7 +30,11 @@ export default class Studentlogin extends Component {
             label="Password"
             variant="outlined"
           />
-          <Button className="loginput d-block m-auto" variant="contained">
+          <Button
+            onClick={this.handleClick}
+            className="loginput d-block m-auto"
+            variant="contained"
+          >
             Login
           </Button>
         </div>
