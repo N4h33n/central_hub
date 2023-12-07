@@ -65,7 +65,7 @@ function App() {
             element={<Pastresearchdetails />}
           ></Route>
           <Route path="faculty/:ID" element={<Facultyinfo />}></Route>
-          <Route path="updateinfo" element={<Updateinfo />}></Route>
+          <Route path="updateinfo/:studentID" element={<Updateinfo />}></Route>
           <Route path="studentlist" element={<Studentlist />}></Route>
           <Route
             path="studentlist/:studentID"

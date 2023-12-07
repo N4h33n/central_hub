@@ -2,66 +2,90 @@ import React from "react";
 import Placeholdertable from "./Placeholdertable";
 import { Button } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 //TODO-setstudentname
 //TODO-sort by date AND THEN by weight?
 //TODO-sort by date AND THEN by time?
 //TODO-examdate?
 
-const studentname = "Abi";
-
-const assignment = [
-  {
-    courseno: "CPSC 413",
-    assno: "Assignment 01",
-    deadline: "01/12/23",
-    weight: "70%",
-  },
-  {
-    courseno: "CPSC 413",
-    assno: "Assignment 02",
-    deadline: "01/12/23",
-    weight: "50%",
-  },
-  {
-    courseno: "CPSC 471",
-    assno: "Assignment 01",
-    deadline: "06/12/23",
-    weight: "50%",
-  },
-];
-
-const exams = [
-  {
-    courseno: "CPSC 413",
-    examno: "Assignment 01",
-    date: "01/12/23",
-    time: "21:00",
-    location: "ENA201",
-  },
-  {
-    courseno: "CPSC 413",
-    examno: "Assignment 02",
-    date: "01/12/23",
-    time: "21:00",
-    location: "ENA201",
-  },
-  {
-    courseno: "CPSC 471",
-    examno: "Assignment 01",
-    date: "06/12/23",
-    time: "21:00",
-    location: "ENA201",
-  },
-];
+const BASE_URL = "http://localhost:5000/";
 
 export default function Studentdashboard() {
   const { studentID } = useParams();
 
+  const [assignment, setAssignment] = useState([]);
+  const [exams, setExams] = useState([]);
+  const [name, setName] = useState([]);
+
+  const loadAssignments = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/dashboardassignments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentID,
+        }),
+      });
+
+      const assignments = await response.json();
+      setAssignment(assignments);
+    } catch (error) {
+      console.error("Error loading assignments:", error);
+    }
+  };
+
+  const loadExams = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/dashboardexams`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentID,
+        }),
+      });
+
+      const exams = await response.json();
+      setExams(exams);
+    } catch (error) {
+      console.error("Error loading exams:", error);
+    }
+  };
+
+  const loadName = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/dashboardname`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentID,
+        }),
+      });
+
+      const name = await response.json();
+      setName(name);
+    } catch (error) {
+      console.error("Error loading name:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadAssignments();
+    loadExams();
+    loadName();
+  }, []);
+
   return (
     <section className="mainSection">
       <h1 style={{ fontSize: "700%" }} className="m-4">
-        Welcome, {studentname}!
+        Welcome, {name}!
       </h1>
       <div className="d-inline-block">
         <div className="m-4">
@@ -99,7 +123,9 @@ export default function Studentdashboard() {
           Research
         </Button>
         <Button className="m-3 d-block float-end" variant="contained">
-          Update Personal Information
+          <Link className="link" to={`/updateinfo/${studentID}`}>
+            Update Personal Information
+          </Link>
         </Button>
       </div>
     </section>
