@@ -4,13 +4,13 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3003'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -20,8 +20,6 @@ def create_routes(app):
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def admin_login():
         data = request.get_json()
-        email = data.get('email')
-        password = data.get('password')
         try:
 
             connection = get_db_connection()
@@ -30,8 +28,9 @@ def create_routes(app):
             cursor = connection.cursor()
 
 
-            query = f"SELECT * from admin as A, faculty as F Where F.f_ucid = A.a_ucid and F.email = '{email}' and A.passhash = '{password}'"
-            cursor.execute(query)
+            query = "SELECT * from admin as A, faculty as F Where F.f_ucid = A.a_ucid and F.email = (%s) and A.passhash = (%s)"
+            values = (data.get('email'), data.get('password'))
+            cursor.execute(query, values)
 
             result = cursor.fetchone()
 
@@ -172,7 +171,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT SA.courseno, SA.assignmentno, A.deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno"
-            values = (data.get("ucid"))
+            values = (data.get("ucid"),)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
@@ -198,7 +197,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT SE.courseno, SE.examno, E.time, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno"
-            values = (data.get("ucid"))
+            values = (data.get("ucid"),)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
@@ -224,7 +223,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT S.name from STUDENT as S where S.s_ucid = (%s)"
-            values = (data.get("ucid"))
+            values = (data.get("ucid"),)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
@@ -250,7 +249,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT S.name, S.email, S.s_ucid, s.address, s.passhash from STUDENT as S where S.s_ucid = (%s)"
-            values = (data.get("ucid"))
+            values = (data.get("ucid"),)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
