@@ -14,6 +14,7 @@ const BASE_URL = "http://localhost:5000/";
 
 export default function Studentdashboard() {
   const { studentID } = useParams();
+  const ucid = studentID;
 
   const [assignment, setAssignment] = useState([]);
   const [exams, setExams] = useState([]);
@@ -27,12 +28,13 @@ export default function Studentdashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentID,
+          ucid,
         }),
       });
 
       const assignments = await response.json();
       setAssignment(assignments);
+      console.log(assignment);
     } catch (error) {
       console.error("Error loading assignments:", error);
     }
@@ -46,7 +48,7 @@ export default function Studentdashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentID,
+          ucid,
         }),
       });
 
@@ -65,12 +67,13 @@ export default function Studentdashboard() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentID,
+          ucid,
         }),
       });
 
       const name = await response.json();
       setName(name);
+      console.log(name);
     } catch (error) {
       console.error("Error loading name:", error);
     }
