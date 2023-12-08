@@ -17,7 +17,7 @@ export default function Updateinfo() {
   const loadStudent = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/studentinfodefault`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
