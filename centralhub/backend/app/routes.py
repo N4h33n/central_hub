@@ -2,6 +2,7 @@ from flask import render_template
 from flask import Flask, request, jsonify, Blueprint
 from flask_cors import cross_origin
 import mysql.connector
+from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
 host_url = 'http://localhost:3000'
@@ -169,9 +170,12 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
+            
+            today = datetime.now()
+            check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SA.courseno, SA.assignmentno, A.deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno"
-            values = (data.get("ucid"),)
+            query = "SELECT SA.courseno, SA.assignmentno, A.deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno and A.deadline <= (%s)"
+            values = (data.get("ucid"), check_date)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
@@ -195,9 +199,12 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
+            
+            today = datetime.now()
+            check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SE.courseno, SE.examno, E.time, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno"
-            values = (data.get("ucid"),)
+            query = "SELECT SE.courseno, SE.examno, E.time, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s)"
+            values = (data.get("ucid"), check_date)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
