@@ -10,7 +10,8 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        database='centralhub'
+        database='centralhub',
+        password = '*PASSworld*123'
     )
     
 # testing using dummy template test.html will change later

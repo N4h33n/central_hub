@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { React, useState, useEffect, Component } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -12,14 +12,35 @@ import Paper from "@mui/material/Paper";
 
 //TODO-derive course grade?
 
+const BASE_URL = "http://localhost:5000/";
+
 export default function Viewcourses() {
   const { studentID } = useParams();
 
-  const courses = [
-    { courseno: "CPSC 413", coursename: "Datastructures", currentgrade: "60%" },
-    { courseno: "CPSC 413", coursename: "Datastructures", currentgrade: "60%" },
-    { courseno: "CPSC 413", coursename: "Datastructures", currentgrade: "60%" },
-  ];
+  const [courses, setCourses] = useState([]);
+
+  const loadCourses = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/enrolledcourses`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentID,
+        }),
+      });
+
+      const courses = await response.json();
+      setCourses(courses);
+    } catch (error) {
+      console.error("Error loading courses:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
 
   return (
     <section className="mainSection">

@@ -35,7 +35,7 @@ export default function Updateinfo() {
 
   useEffect(() => {
     loadStudent();
-  }, []); // Load students on component mount
+  }, []);
 
   const handleClick = async () => {
     const password = document.getElementById("password").value;
