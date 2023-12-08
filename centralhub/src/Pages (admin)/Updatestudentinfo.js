@@ -16,15 +16,12 @@ import Paper from "@mui/material/Paper";
 // TODO: display more information about the course??
 //TODO: what does remove from course do?
 
-const StudentID = () => {
-  const { studentID } = useParams();
-  return studentID;
-};
-
 const BASE_URL = "http://localhost:5000/";
-const ucid = StudentID;
 
 export default function Updatestudentinfo() {
+  const { studentID } = useParams();
+  const ucid = studentID;
+
   const [data, setData] = useState([]);
 
   const loadCourses = async () => {
@@ -40,6 +37,7 @@ export default function Updatestudentinfo() {
       const courses = await response.json();
       console.log("course", courses);
       setData(courses);
+      console.log(data);
     } catch (error) {
       console.error("Error loading courses:", error);
     }
@@ -49,7 +47,6 @@ export default function Updatestudentinfo() {
     loadCourses();
   }, []);
 
-  const studentID = StudentID();
   const filteredData = data.filter((course) => course.ucid === studentID);
 
   return (

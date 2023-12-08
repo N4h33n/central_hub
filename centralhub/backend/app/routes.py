@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3001'
+host_url = 'http://localhost:3002'
 
 def get_db_connection():
     return mysql.connector.connect(
@@ -113,7 +113,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT C.courseno, C.coursename, C.semester from COURSE as C, STUDENT_ENROLLEDIN_COURSE as SC where SC.s_ucid = (%s) and SC.courseno = C.courseno"
-            values = (data.get("ucid"))
+            values = data.get("ucid")
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]

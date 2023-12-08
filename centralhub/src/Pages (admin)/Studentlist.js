@@ -115,7 +115,7 @@ function Studentlisttable({ data }) {
                 ))}
                 <TableCell align="center">
                   <Button variant="outlined">
-                    <Link className="link" to={`/studentlist/${row["ucid"]}`}>
+                    <Link className="link" to={`/studentlist/${row["s_ucid"]}`}>
                       Update
                     </Link>
                   </Button>
