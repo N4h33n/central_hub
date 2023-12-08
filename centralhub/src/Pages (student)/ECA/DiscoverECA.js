@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
@@ -10,58 +10,36 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const clubs = [
-  {
-    clubname: "CPSC 413",
-    coursename: "Datastructures",
-    Field: "Information Security",
-    Instructor: "Janet",
-    TeachingAssistant: "Asha",
-  },
-  {
-    clubname: "CPSC 413",
-    coursename: "Datastructures",
-    Field: "Information Security",
-    Instructor: "Janet",
-    TeachingAssistant: "Asha",
-  },
-  {
-    clubname: "CPSC 413",
-    coursename: "Datastructures",
-    Field: "Information Security",
-    Instructor: "Janet",
-    TeachingAssistant: "Asha",
-  },
-
-  {
-    clubname: "CPSC 417",
-    coursename: "Datastructures",
-    Field: "Information Security",
-    Instructor: "Janet",
-    TeachingAssistant: "Asha",
-  },
-  {
-    clubname: "CPSC 417",
-    coursename: "Datastructures",
-    Field: "Information Security",
-    Instructor: "Janet",
-    TeachingAssistant: "Asha",
-  },
-  {
-    clubname: "CPSC 417",
-    coursename: "Datastructures",
-    Field: "Information Security",
-    Instructor: "Janet",
-    TeachingAssistant: "Asha",
-  },
-];
+const BASE_URL = "http://localhost:5000/";
 
 export default function DiscoverECA() {
+  const [data, setData] = useState([]);
+  const loadECAS = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/discoverecas`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const ecas = await response.json();
+      console.log("ecas", ecas);
+      setData(ecas);
+    } catch (error) {
+      // console.error("Error loading courses:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadECAS();
+  }, []);
+
   return (
     <section className="filtercourse mainSection">
       <h1 className="m-5">EXPLORE CLUBS</h1>
       <div className="d-inline-block">
-        <ECAtable data={clubs} />
+        <ECAtable data={data} />
       </div>
       <div
         className="d-inline-block"
@@ -104,7 +82,7 @@ function ECAtable({ data }) {
   }
 
   // Add "Course Details" to the columns array
-  const columns = [...Object.keys(data[0]), "Course Details"];
+  const columns = [...Object.keys(data[0]), "Club Details"];
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
