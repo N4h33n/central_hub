@@ -4,17 +4,16 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        database='centralhub',
-        password = '*PASSworld*123'
+        password="sQlprequelwoohoo7676",
+        database='centralhub'
     )
     
-# testing using dummy template test.html will change later
 def create_routes(app):
 
     @app.route('/api/adminlogin', methods = ['POST'])
@@ -113,7 +112,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT C.courseno, C.coursename, C.semester from COURSE as C, STUDENT_ENROLLEDIN_COURSE as SC where SC.s_ucid = (%s) and SC.courseno = C.courseno"
-            values = data.get("ucid")
+            values = (data.get("ucid"),)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
@@ -123,6 +122,7 @@ def create_routes(app):
         
         except mysql.connector.Error as e:
             print(f"Error{e}")
+            return jsonify({"error": "bruh"})
         
         finally:
             cursor.close()
