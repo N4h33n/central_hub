@@ -22,6 +22,7 @@ export default class Studentlogin extends Component {
     });
 
     const data = await response.json();
+    console.log(data);
 
     if (data.success) {
       window.location.href = `/dashboard/:${ucid}`;

@@ -15,6 +15,8 @@ import Paper from "@mui/material/Paper";
 // TODO: one column for update course component info and one for remove from course
 // TODO: display more information about the course??
 //TODO: what does remove from course do?
+//TODO- Change semester to semester offered + Increase data limit
+//TODO- Remove grade section
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -37,7 +39,7 @@ export default function Updatestudentinfo() {
       const courses = await response.json();
       console.log("course", courses);
       setData(courses);
-      console.log(data);
+      console.log("data");
     } catch (error) {
       console.error("Error loading courses:", error);
     }
@@ -46,8 +48,6 @@ export default function Updatestudentinfo() {
   useEffect(() => {
     loadCourses();
   }, []);
-
-  const filteredData = data.filter((course) => course.ucid === studentID);
 
   return (
     <section className="mainSection">
@@ -68,7 +68,7 @@ export default function Updatestudentinfo() {
           Add to Course
         </Link>
       </Button>
-      <Studentcoursetable data={filteredData} />
+      <Studentcoursetable data={data} />
     </section>
   );
 }
