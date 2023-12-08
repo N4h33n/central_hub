@@ -25,7 +25,7 @@ export default class Studentlogin extends Component {
     console.log(data);
 
     if (data.success) {
-      window.location.href = `/dashboard/:${data.ucid}`;
+      window.location.href = `/dashboard/${data.ucid}`;
     } else {
       document.getElementById("outlined-email").value = "";
       document.getElementById("outlined-password").value = "";
