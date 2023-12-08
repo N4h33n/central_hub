@@ -146,8 +146,10 @@ def create_routes(app):
             
             result = cursor.fetchone()
 
+            s_ucid = result[0]
+            
             if result:
-                return jsonify({'success': True})
+                return jsonify({'success': True, 'ucid': s_ucid})
         
             else:
                 return jsonify({'success': False})
