@@ -223,12 +223,12 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "SELECT S.name from STUDENT as S where S.s_ucid = (%s)"
+            print(data.get("ucid"))
             values = (data.get("ucid"),)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
             return jsonify(result)
         
         except mysql.connector.Error as e:
@@ -293,6 +293,30 @@ def create_routes(app):
     @app.route('/api/explorecourses', methods = ['GET'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def explore_courses():
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2 where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
+            cursor.execute(query)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/scourses', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def scourses():
         
         try:
             connection = get_db_connection()
