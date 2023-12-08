@@ -39,7 +39,6 @@ export default function Updatestudentinfo() {
       const courses = await response.json();
       console.log("course", courses);
       setData(courses);
-      console.log("data");
     } catch (error) {
       console.error("Error loading courses:", error);
     }
@@ -80,9 +79,9 @@ function Studentcoursetable({ data }) {
   }
 
   const columns = [
-    "Coursenumber",
-    "Coursename",
-    "NextSemesterOffered",
+    "courseno",
+    "coursename",
+    "semester",
     "Update Grades",
     "Remove From Course",
   ];
@@ -102,23 +101,23 @@ function Studentcoursetable({ data }) {
         <TableBody>
           {data.map((row, index) => (
             <TableRow
-              key={index} // Assuming each row has a unique identifier
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (
-                <TableCell key={column} align={"center"}>
+                <TableCell key={column} align="center">
                   {column === "Update Grades" ? (
                     <Button variant="outlined">
                       <Link
                         className="link"
-                        to={`/updatecoursecomp/${row["ucid"]}/${row["Coursenumber"]}`}
+                        to={`/updatecoursecomp/${row["ucid"]}/${row["coursenumber"]}`}
                       >
                         Update
                       </Link>
                     </Button>
                   ) : column === "Remove From Course" ? (
                     <Button variant="outlined" color="error">
-                      {/* What happens here */}
+                      {/* Handle removal logic here */}
                     </Button>
                   ) : (
                     row[column]

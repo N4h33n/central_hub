@@ -4,13 +4,13 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3000'
+host_url = 'http://localhost:3003'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="sQlprequelwoohoo7676",
+        password="*PASSworld*123",
         database='centralhub'
     )
     
