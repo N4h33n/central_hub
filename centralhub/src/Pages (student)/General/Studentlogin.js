@@ -22,9 +22,7 @@ export default function Studentlogin() {
     console.log("Received data:", data);
 
     if (data.success) {
-      // const ucid = data.ucid.toString();
-      // console.log("Extracted ucid:", ucid);
-      window.location.href = `/dashboard/12345678`;
+      window.location.href = `/dashboard/${data.ucid}`;
     } else {
       document.getElementById("outlined-email").value = "";
       document.getElementById("outlined-password").value = "";
