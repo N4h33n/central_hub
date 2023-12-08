@@ -9,6 +9,7 @@ import { useEffect } from "react";
 //TODO-sort by date AND THEN by weight?
 //TODO-sort by date AND THEN by time?
 //TODO-examdate?
+//TODO-change weight to %
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -54,6 +55,7 @@ export default function Studentdashboard() {
 
       const exams = await response.json();
       setExams(exams);
+      console.log(exams);
     } catch (error) {
       console.error("Error loading exams:", error);
     }
@@ -71,9 +73,16 @@ export default function Studentdashboard() {
         }),
       });
 
-      const name = await response.json();
-      setName(name);
-      console.log(name);
+      const nameData = await response.json();
+
+      // Check if the nameData is an array and not empty
+      if (Array.isArray(nameData) && nameData.length > 0) {
+        const name = nameData[0].name; // Access the 'name' property
+        setName(name);
+        console.log(name);
+      } else {
+        console.error("Error: Unexpected name data format");
+      }
     } catch (error) {
       console.error("Error loading name:", error);
     }

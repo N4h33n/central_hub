@@ -12,7 +12,15 @@ export default function Placeholdertable({ data }) {
     return <p>No data available</p>;
   }
 
-  const columns = Object.keys(data[0]);
+  // Extract unique column names from all objects in data
+  const columns = Array.from(
+    data.reduce((columnSet, row) => {
+      Object.keys(row).forEach((column) => {
+        columnSet.add(column);
+      });
+      return columnSet;
+    }, new Set())
+  );
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
