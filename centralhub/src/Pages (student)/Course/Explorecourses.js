@@ -41,7 +41,7 @@ export default function Explorecourses() {
   const filterCourses = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/filtercourses`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },

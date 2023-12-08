@@ -11,6 +11,7 @@ const BASE_URL = "http://localhost:5000/";
 
 export default function Updateinfo() {
   const { studentID } = useParams();
+  const ucid = studentID;
 
   const [student, setStudent] = useState([]);
 
@@ -22,12 +23,13 @@ export default function Updateinfo() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentID,
+          ucid,
         }),
       });
 
       const student = await response.json();
       setStudent(student);
+      console.log(student);
     } catch (error) {
       console.error("Error loading student:", error);
     }
@@ -87,7 +89,7 @@ export default function Updateinfo() {
           style={{ width: "20%" }}
           id="outlined-read-only-input"
           label="UCID Number"
-          defaultValue={student.UCID}
+          defaultValue={student.s_ucid}
           InputProps={{
             readOnly: true,
           }}
@@ -108,7 +110,7 @@ export default function Updateinfo() {
           required
           id="address"
           label="Address"
-          defaultValue={student.Address}
+          defaultValue={student.address}
         />
       </div>
       <div className="m-4">
@@ -118,7 +120,7 @@ export default function Updateinfo() {
           label="Password"
           type="password"
           autoComplete="current-password"
-          defaultValue={student.Password}
+          defaultValue={student.passhash}
         />
       </div>
       <Button className="m-3" variant="contained" onClick={handleClick}>
