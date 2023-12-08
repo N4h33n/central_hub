@@ -10,6 +10,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
+        password="yuh"
         database='centralhub'
     )
     
@@ -130,7 +131,7 @@ def create_routes(app):
     #POST?   
     @app.route('/api/studentlogin', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
-    def student_info():
+    def student_login():
         data = request.get_json()
         
         try:
