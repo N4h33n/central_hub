@@ -14,6 +14,13 @@ const BASE_URL = "http://localhost:5000/";
 
 export default function DiscoverECA() {
   const [data, setData] = useState([]);
+  const [filterValues, setFilterValues] = useState({
+    clubname: "",
+    field: "",
+    meetingday: "",
+    meetingtime: "",
+    location: "",
+  });
   const loadECAS = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/discoverecas`, {
@@ -35,6 +42,23 @@ export default function DiscoverECA() {
     loadECAS();
   }, []);
 
+  const filterEcas = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/filterecas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filterValues),
+      });
+
+      const filteredEcas = await response.json();
+      setData(filteredEcas);
+    } catch (error) {
+      // console.error("Error loading courses:", error);
+    }
+  };
+
   return (
     <section className="filtercourse mainSection">
       <h1 className="m-5">EXPLORE CLUBS</h1>
@@ -46,26 +70,47 @@ export default function DiscoverECA() {
         style={{ minWidth: "30%", verticalAlign: "top" }}
       >
         <div>
-          <TextField id="filled-basic" label="Club Name" variant="filled" />
+          <TextField
+            id="filled-basic"
+            label="Club Name"
+            value={filterValues.clubname}
+            variant="filled"
+          />
         </div>
         <div>
-          <TextField id="filled-basic" label="Club Location" variant="filled" />
+          <TextField
+            id="filled-basic"
+            label="Club Location"
+            value={filterValues.location}
+            variant="filled"
+          />
         </div>
         <div>
           <TextField
             id="filled-basic"
             label="Club Meeting Day"
+            value={filterValues.meetingday}
             variant="filled"
           />
         </div>
         <div>
-          <TextField id="filled-basic" label="Club Time" variant="filled" />
+          <TextField
+            id="filled-basic"
+            label="Club Time"
+            value={filterValues.meetingtime}
+            variant="filled"
+          />
         </div>
         <div>
-          <TextField id="filled-basic" label="Club Field" variant="filled" />
+          <TextField
+            id="filled-basic"
+            label="Club Field"
+            value={filterValues.field}
+            variant="filled"
+          />
 
           <div>
-            <Button className="mt-3" variant="contained">
+            <Button className="mt-3" variant="contained" onClick={filterEcas}>
               Filter
             </Button>
           </div>
