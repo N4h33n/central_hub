@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 //TODO-grab student ucid as well from backend
 
-const ucid = "00000001";
+const ucid = "12345678";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -25,7 +25,7 @@ export default class Studentlogin extends Component {
     console.log(data);
 
     if (data.success) {
-      window.location.href = `/dashboard/:${ucid}`;
+      window.location.href = `/dashboard/:${data.ucid}`;
     } else {
       document.getElementById("outlined-email").value = "";
       document.getElementById("outlined-password").value = "";

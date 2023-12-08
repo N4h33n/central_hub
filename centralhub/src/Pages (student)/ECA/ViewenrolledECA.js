@@ -1,5 +1,6 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,37 +14,35 @@ import Paper from "@mui/material/Paper";
 //TODO-Change 'ECA' to 'club'
 //TODO-Add 'date' to ECA
 
-const data = [
-  {
-    clubname: "WICS",
-    description:
-      "This is the WICS club, where we discuss all things related to computer science.",
-    location: "ENTE",
-    date: "Monday",
-    time: "20:00",
-    datejoined: "February 2022",
-  },
-  {
-    clubname: "WICS",
-    description:
-      "This is the WICS club, where we discuss all things related to computer science.",
-    location: "ENTE",
-    date: "Monday",
-    time: "20:00",
-    datejoined: "February 2022",
-  },
-  {
-    clubname: "WICS",
-    description:
-      "This is the WICS club, where we discuss all things related to computer science.",
-    location: "ENTE",
-    date: "Monday",
-    time: "20:00",
-    datejoined: "February 2022",
-  },
-];
+const BASE_URL = "http://localhost:5000/";
 
 export default function ViewenrolledECA() {
+  const { studentID } = useParams();
+  const ucid = studentID;
+
+  const [data, setData] = useState([]);
+
+  const loadECAs = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/enrolledecas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ucid }),
+      });
+
+      const ecas = await response.json();
+      console.log("ecas", ecas);
+      setData(ecas);
+    } catch (error) {
+      console.error("Error loading ecas:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadECAs();
+  }, []);
   return (
     <section className="mainSection">
       <h2 className="title m-5">ENROLLED EXTRACURRICULAR ACTIVITIES</h2>
@@ -64,7 +63,7 @@ function ECAtable({ data }) {
   }
 
   // Add "Course Details" to the columns array
-  const columns = [...Object.keys(data[0]), "Course Details"];
+  const columns = [...Object.keys(data[0]), "Club Details"];
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">

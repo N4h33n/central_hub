@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 import mysql.connector
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3003'
+host_url = 'http://localhost:3004'
 
 def get_db_connection():
     return mysql.connector.connect(

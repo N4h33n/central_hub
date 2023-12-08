@@ -6,7 +6,7 @@ from .routes import create_routes, routes
 def create_app():
     app = Flask(__name__)
 
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3003"}}, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3004"}}, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
     
     app.register_blueprint(routes)
     
