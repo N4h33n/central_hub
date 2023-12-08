@@ -71,6 +71,7 @@ export default function Studentdashboard() {
 
       const name = await response.json();
       setName(name);
+      console.log(name);
     } catch (error) {
       console.error("Error loading name:", error);
     }
