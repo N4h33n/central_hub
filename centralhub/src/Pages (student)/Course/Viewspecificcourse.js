@@ -1,13 +1,16 @@
 import React from "react";
 import Listedinfo from "../Components/Listedinfo";
 import Placeholdertable from "../Placeholdertable";
+import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 //TODO-add URL param stuff here using CourseID to set the objects appropriately
 
 const BASE_URL = "http://localhost:5000/";
 
 export default function Viewspecificcourse() {
-  const { studentID, courseID } = useparams();
+  const { studentID, courseID } = useParams();
   const ucid = studentID;
   const courseno = courseID;
 
