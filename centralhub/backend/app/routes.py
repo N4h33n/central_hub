@@ -11,7 +11,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -256,13 +256,14 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT S.name, S.email, S.s_ucid, s.address, s.passhash from STUDENT as S where S.s_ucid = (%s)"
+            query = "SELECT S.name, S.email, S.s_ucid, s.phone, s.address, s.passhash from STUDENT as S where S.s_ucid = (%s)"
             values = (data.get("ucid"),)
+            print(values)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
+            print(result)
             return jsonify(result)
         
         except mysql.connector.Error as e:
