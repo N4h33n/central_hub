@@ -55,7 +55,7 @@ export default function Updatestudentinfo() {
         variant="contained"
         className="position-relative float-start m-3 ms-5"
       >
-        <Link className="link" to="/adminlogin">
+        <Link className="link" to={`/updatepersonalinfo/${studentID}`}>
           Update Personal Information
         </Link>
       </Button>
@@ -67,12 +67,12 @@ export default function Updatestudentinfo() {
           Add to Course
         </Link>
       </Button>
-      <Studentcoursetable data={data} />
+      <Studentcoursetable data={data} ucid={studentID} />
     </section>
   );
 }
 
-function Studentcoursetable({ data }) {
+function Studentcoursetable({ data, ucid }) {
   if (!data || data.length === 0) {
     // Handle case where data is empty or undefined
     return <p>No data available</p>;
@@ -110,9 +110,11 @@ function Studentcoursetable({ data }) {
                     <Button variant="outlined">
                       <Link
                         className="link"
-                        to={`/updatecoursecomp/${row["ucid"]}/${row["coursenumber"]}`}
+                        to={`/updatecoursecomp/${ucid}/${row[
+                          "courseno"
+                        ].replace(/\s/g, "")}`}
                       >
-                        Update
+                        Update Component
                       </Link>
                     </Button>
                   ) : column === "Remove From Course" ? (

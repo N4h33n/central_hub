@@ -42,6 +42,10 @@ function App() {
             element={<Studentdashboard />}
           ></Route>
           <Route path="viewcourses" element={<Viewcourses />}></Route>
+          <Route
+            path="viewcourses/:courseID"
+            element={<Viewspecificcourse />}
+          ></Route>
           <Route path="viewcourses/:courseID" element={<Viewcourses />}></Route>
           <Route path="explorecourses" element={<Explorecourses />}></Route>
           <Route
@@ -49,9 +53,13 @@ function App() {
             element={<ViewenrolledECA />}
           ></Route>
           <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>
-          <Route path="research" element={<Research />}></Route>
-          <Route path="enrolledresearch" element={<Enrolledresearch />}></Route>
-          <Route path="pastresearch" element={<Pastresearch />}></Route>
+          <Route path="research/:StudentID" element={<Research />}></Route>
+          <Route
+            path="enrolledresearch/:studentID"
+            element={<Enrolledresearch />}
+          ></Route>
+          <Route path="pastresearch" element={<Pastresearch />} />
+
           <Route
             path="currentresearchdetails/:researchID"
             element={<Researchdetails />}

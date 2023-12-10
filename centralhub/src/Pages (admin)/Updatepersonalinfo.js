@@ -1,27 +1,72 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 //TODO-Grab UCID from navbar and set object
 
-const student = {
-  name: "Abigia Debebe",
-  email: "Abigia.debebe@ucalgary.ca",
-  UCID: "30134608",
-  PhoneNumber: "5878346929",
-  Address: "UniCalgary",
-  DefaultPassword: "yourmom",
-};
+const BASE_URL = "http://localhost:5000/";
 
 export default function Updatepersonalinfo() {
+  const { studentID } = useParams();
+  const olducid = studentID;
+  const [student, setStudent] = useState([]);
+
+  const loadPersonalInfo = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/loadpersonalinfo`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          olducid,
+        }),
+      });
+
+      const student = await response.json();
+      setStudent(student);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    loadPersonalInfo();
+  }, []);
+
+  const handleClick = async () => {
+    const Name = document.getElementById("name").value;
+    const Email = document.getElementById("email").value;
+    const newucid = document.getElementById("ucid").value;
+    const Password = document.getElementById("password").value;
+    const PhoneNumber = document.getElementById("telephone").value;
+    const Address = document.getElementById("address").value;
+
+    const response = await fetch(`${BASE_URL}/api/updatepersonalinfo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        olducid,
+        Name,
+        Email,
+        newucid,
+        Password,
+        PhoneNumber,
+        Address,
+      }),
+    });
+    const data = await response.json();
+  };
+
   return (
     <section className="mainSection">
       <h2 className="m-5">Update Information</h2>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="name"
           label="Name"
           defaultValue={student.name}
         />
@@ -29,7 +74,7 @@ export default function Updatepersonalinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="email"
           label="Email"
           defaultValue={student.email}
         />
@@ -37,16 +82,16 @@ export default function Updatepersonalinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="ucid"
           label="UCID Number"
-          defaultValue={student.UCID}
+          defaultValue={studentID}
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
           required
-          id="outlined-required"
+          id="telephone"
           label="Telephone Number"
           defaultValue={student.PhoneNumber}
         />
@@ -54,7 +99,7 @@ export default function Updatepersonalinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="address"
           label="Address"
           defaultValue={student.Address}
         />
@@ -62,14 +107,14 @@ export default function Updatepersonalinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-password-input"
+          id="password"
           label="Password"
           type="password"
           autoComplete="current-password"
           defaultValue={student.Password}
         />
       </div>
-      <Button className="m-3" variant="contained">
+      <Button className="m-3" variant="contained" onClick={handleClick}>
         Update
       </Button>
     </section>

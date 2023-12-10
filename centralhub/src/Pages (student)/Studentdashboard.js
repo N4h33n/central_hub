@@ -132,7 +132,9 @@ export default function Studentdashboard() {
           </Link>
         </Button>
         <Button className="m-3 d-block float-end" variant="contained">
-          Research
+          <Link className="link" to={`/research/${studentID}`}>
+            Research
+          </Link>
         </Button>
         <Button className="m-3 d-block float-end" variant="contained">
           <Link className="link" to={`/updateinfo/${studentID}`}>

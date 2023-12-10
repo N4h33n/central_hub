@@ -4,9 +4,6 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-//TODO-Grab UCID from navbar and set object
-//TODO- Allow address edit as well
-
 const BASE_URL = "http://localhost:5000/";
 
 export default function Updateinfo() {
@@ -14,30 +11,33 @@ export default function Updateinfo() {
   const ucid = studentID;
 
   const [student, setStudent] = useState([]);
-
-  const loadStudent = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/api/studentinfodefault`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ucid,
-        }),
-      });
-
-      const student = await response.json();
-      setStudent(student);
-      console.log(student);
-    } catch (error) {
-      console.error("Error loading student:", error);
-    }
-  };
+  const [name, setName] = useState("");
 
   useEffect(() => {
+    const loadStudent = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/studentinfodefault`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ucid,
+          }),
+        });
+
+        const student = await response.json();
+        setStudent(student);
+        console.log(student);
+        console.log(student[0].name);
+        setName(student[0].name);
+      } catch (error) {
+        console.error("Error loading student:", error);
+      }
+    };
+
     loadStudent();
-  }, []);
+  }, [ucid]);
 
   const handleClick = async () => {
     const password = document.getElementById("password").value;
@@ -67,7 +67,7 @@ export default function Updateinfo() {
           style={{ width: "20%" }}
           id="outlined-read-only-input"
           label="Name"
-          defaultValue={student.name}
+          defaultValue={name}
           InputProps={{
             readOnly: true,
           }}
@@ -78,7 +78,7 @@ export default function Updateinfo() {
           style={{ width: "20%" }}
           id="outlined-read-only-input"
           label="Email"
-          defaultValue={student.email}
+          defaultValue={student.email || ""}
           InputProps={{
             readOnly: true,
           }}
@@ -89,7 +89,7 @@ export default function Updateinfo() {
           style={{ width: "20%" }}
           id="outlined-read-only-input"
           label="UCID Number"
-          defaultValue={student.s_ucid}
+          defaultValue={student.s_ucid || ""}
           InputProps={{
             readOnly: true,
           }}
@@ -101,7 +101,7 @@ export default function Updateinfo() {
           required
           id="phonenumber"
           label="Telephone Number"
-          defaultValue={student.PhoneNumber}
+          defaultValue={student.PhoneNumber || ""}
         />
       </div>
       <div className="m-4">
@@ -110,7 +110,7 @@ export default function Updateinfo() {
           required
           id="address"
           label="Address"
-          defaultValue={student.address}
+          defaultValue={student.address || ""}
         />
       </div>
       <div className="m-4">
@@ -120,7 +120,7 @@ export default function Updateinfo() {
           label="Password"
           type="password"
           autoComplete="current-password"
-          defaultValue={student.passhash}
+          defaultValue={student.passhash || ""}
         />
       </div>
       <Button className="m-3" variant="contained" onClick={handleClick}>
