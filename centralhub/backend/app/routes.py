@@ -380,6 +380,7 @@ def create_routes(app):
 
             query = "select sc.clubname, sc.datejoined, c.description, c.location, c.time from CLUB as c, STUDENT_MEMBEROF_CLUB as sc where sc.s_ucid = %s and sc.clubname = c.clubname"
             values = (data.get("ucid"),)
+            print("enrolledeca")
             print(values)
             cursor.execute(query, values)
 
@@ -606,6 +607,7 @@ def create_routes(app):
 
             query = "select sr.researchid, r.title, rf.field, sr.datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid"
             values = (data.get("ucid"),)
+            print("research")
             print(values)
             cursor.execute(query, values)
 
