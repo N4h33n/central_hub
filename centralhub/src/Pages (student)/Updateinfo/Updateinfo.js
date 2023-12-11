@@ -48,7 +48,7 @@ export default function Updateinfo() {
 
   const handleClick = async () => {
     const { password, PhoneNumber, address } = student;
-
+    console.log(student);
     const response = await fetch(`${BASE_URL}/api/updateinfo`, {
       method: "POST",
       headers: {
