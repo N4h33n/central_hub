@@ -1,5 +1,4 @@
-import { React, useState, useEffect } from "react";
-import Box from "@mui/material/Box";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -10,8 +9,9 @@ export default function Updateinfo() {
   const { studentID } = useParams();
   const ucid = studentID;
 
-  const [student, setStudent] = useState([]);
+  const [student, setStudent] = useState({});
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const loadStudent = async () => {
@@ -26,11 +26,10 @@ export default function Updateinfo() {
           }),
         });
 
-        const student = await response.json();
-        setStudent(student);
-        console.log(student);
-        console.log(student[0].name);
-        setName(student[0].name);
+        const studentData = await response.json();
+        setStudent(studentData[0]);
+        setName(studentData[0].name);
+        setEmail(studentData[0].email);
       } catch (error) {
         console.error("Error loading student:", error);
       }
@@ -39,10 +38,16 @@ export default function Updateinfo() {
     loadStudent();
   }, [ucid]);
 
+  const handleChange = (field, value) => {
+    // Update the corresponding field in the state
+    setStudent((prevStudent) => ({
+      ...prevStudent,
+      [field]: value,
+    }));
+  };
+
   const handleClick = async () => {
-    const password = document.getElementById("password").value;
-    const telephone = document.getElementById("phonenumber").value;
-    const address = document.getElementById("address").value;
+    const { password, PhoneNumber, address } = student;
 
     const response = await fetch(`${BASE_URL}/api/updateinfo`, {
       method: "POST",
@@ -51,12 +56,13 @@ export default function Updateinfo() {
       },
       body: JSON.stringify({
         password,
-        telephone,
+        telephone: PhoneNumber,
         address,
       }),
     });
 
     const data = await response.json();
+    // Handle response data as needed
   };
 
   return (
@@ -65,9 +71,9 @@ export default function Updateinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="name"
           label="Name"
-          defaultValue={name}
+          value={name}
           InputProps={{
             readOnly: true,
           }}
@@ -76,9 +82,9 @@ export default function Updateinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="email"
           label="Email"
-          defaultValue={student.email || ""}
+          value={email}
           InputProps={{
             readOnly: true,
           }}
@@ -87,9 +93,9 @@ export default function Updateinfo() {
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="ucid"
           label="UCID Number"
-          defaultValue={student.s_ucid || ""}
+          defaultValue={ucid}
           InputProps={{
             readOnly: true,
           }}
@@ -101,7 +107,8 @@ export default function Updateinfo() {
           required
           id="phonenumber"
           label="Telephone Number"
-          defaultValue={student.PhoneNumber || ""}
+          value={student.phone || ""}
+          onChange={(e) => handleChange("phone", e.target.value)}
         />
       </div>
       <div className="m-4">
@@ -110,7 +117,8 @@ export default function Updateinfo() {
           required
           id="address"
           label="Address"
-          defaultValue={student.address || ""}
+          value={student.address || ""}
+          onChange={(e) => handleChange("address", e.target.value)}
         />
       </div>
       <div className="m-4">
@@ -120,7 +128,8 @@ export default function Updateinfo() {
           label="Password"
           type="password"
           autoComplete="current-password"
-          defaultValue={student.passhash || ""}
+          value={student.passhash || ""}
+          onChange={(e) => handleChange("passhash", e.target.value)}
         />
       </div>
       <Button className="m-3" variant="contained" onClick={handleClick}>
