@@ -272,6 +272,36 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+    
+    @app.route('/api/updateinfo', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def update_info():
+        data = request.get_json()
+        print(data)
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "update student set phone = %s, address = %s, passhash = %s where s_ucid = %s"
+            values = (data.get("telephone"), data.get("address"), data.get("password"), data.get("ucid"))
+            print(values)
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+
+            return "True"
+
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+            return "False"
+        
+        finally:
+            cursor.close()
+            connection.close()
+    
             
     # @app.route('/api/enrolledcourses', methods = ['POST'])
     # @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
