@@ -11,7 +11,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -285,7 +285,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "update student set phone = %s, address = %s, passhash = %s where s_ucid = %s"
-            values = (data.get("telephone"), data.get("address"), data.get("password"), data.get("ucid"))
+            values = (data.get("telephone"), data.get("address"), data.get("passhash"), data.get("ucid"))
             print(values)
             cursor.execute(query, values)
             
