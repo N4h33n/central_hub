@@ -47,16 +47,16 @@ export default function Updateinfo() {
   };
 
   const handleClick = async () => {
-    const { password, PhoneNumber, address } = student;
-    console.log(student);
+    const { passhash, phone, address } = student;
+
     const response = await fetch(`${BASE_URL}/api/updateinfo`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        password,
-        telephone: PhoneNumber,
+        passhash,
+        telephone: phone,
         address,
         ucid,
       }),
