@@ -11,7 +11,8 @@ import { useParams } from "react-router-dom";
 const BASE_URL = "http://localhost:5000/";
 
 export default function Coursedetails() {
-  const { courseno } = useParams();
+  const { courseID } = useParams();
+  const courseno = courseID;
 
   const [courseinfo, setCourseInfo] = useState([]);
   const [lectureinfo, setLectureInfo] = useState([]);
@@ -69,6 +70,7 @@ export default function Coursedetails() {
   };
 
   useEffect(() => {
+    console.log(courseno);
     loadCourseInfo();
     loadLectureInfo();
     loadTutorialInfo();

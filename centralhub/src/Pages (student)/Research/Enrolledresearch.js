@@ -38,7 +38,9 @@ export default function Enrolledresearch() {
       <h2 className="title m-5">ENROLLED RESEARCH</h2>
       <Placeholdertable data={research} />
       <Button variant="contained" size="large" className="m-5">
-        Explore Research Opportunities ⌕
+        <Link className="link" to={`/exploreresearch/${studentID}`}>
+          Explore Research Opportunities ⌕
+        </Link>
       </Button>
     </section>
   );
