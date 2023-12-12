@@ -49,7 +49,7 @@ export default function ViewenrolledECA() {
       <ECAtable data={data} />
       <Button variant="contained" size="large" className="m-5">
         <Link className="link" to={`/discoverecas`}>
-          Explore Extracurriculars ⌕
+          Explore Clubs ⌕
         </Link>
       </Button>
     </section>
