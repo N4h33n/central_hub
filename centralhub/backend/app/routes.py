@@ -460,6 +460,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
+            # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
             query = "SELECT c.clubname, group_concat(cf.field separator ', ') as fields, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname group by c.clubname, c.location, c.time, c.description"
             cursor.execute(query)
 
@@ -650,7 +651,8 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
-
+            
+            # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
             query = "select sr.researchid, r.title, group_concat(rf.field separator ', ') as fields, sr.datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid group by sr.researchid, r.title, sr.datejoined, f.name"
             values = (data.get("ucid"),)
             print("research")
@@ -679,6 +681,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
+            # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
             query = "select cr.researchid, r.title, group_concat(rf.field separator ', ') as fields, r.description, f.name from RESEARCH as r, COMPLETED_RESEARCH as cr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where cr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = cr.researchid and rp.r_ucid = f.f_ucid group by cr.researchid, r.title, r.description, f.name"
             cursor.execute(query)
 
@@ -706,6 +709,7 @@ def create_routes(app):
             cursor = connection.cursor()
             
             # reference for "coalesce" used to replace null values with 0: https://365datascience.com/question/sum-for-columns-with-null-values/
+            # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query 
             query = "select sc.courseno, c.coursename, c.description, group_concat(cf.field separator ', ') as fields, (sum(coalesce(sa.grade, 0) * a.weight) + sum(coalesce(se.grade, 0) * e.weight)) as currentgrade from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa, STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e, COURSE_FIELDS as cf where sc.s_ucid = %s and sc.courseno = %s and sc.courseno = c.courseno and sa.courseno = c.courseno and se.courseno = c.courseno and a.courseno = c.courseno and sa.assignmentno = a.assignmentno and e.courseno = c.courseno and se.examno = e.examno and cf.courseno = c.courseno group by sc.courseno, c.coursename, c.description"
             values = (data.get("ucid"), data.get("courseno"))
             cursor.execute(query, values)
