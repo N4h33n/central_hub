@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -726,6 +726,33 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/exploreresearch', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def explore_research():
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
+            query = "SELECT or.researchid, r.title, group_concat(rf.field separator ', ') as fields, f.name from ONGOING_RESEARCH as r, RESEARCH as r, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, RESEARCH_FIELDS as rf FACULTY as f where or.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = r.researchid and rp.r_ucid = f.f_ucid and r.researchid group by or.researchid, r.title, f.name"
+            cursor.execute(query)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+            return jsonify({"error": "bruh"})
+        
+        finally:
+            cursor.close()
+            connection.close()
         
     @app.route('/api/enrolledcoursedetails', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
@@ -904,7 +931,7 @@ def create_routes(app):
             cursor.close()
             connection.close()
             
-    @app.route('/api/coursedetails', methods = ['GET'])
+    @app.route('/api/coursedetails', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def course_details():
         data = request.get_json()
@@ -931,3 +958,60 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/lecturedetails', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def lecture_details():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT l.lectureno, l.location, l.time, l.i_ucid, f.name from COURSE as c, LECTURE as l, FACULTY as f where c.courseno = %s and l.courseno = c.courseno and l.i_ucid = f.f_ucid"
+            values = (data.get("courseno"),)
+            print(values)
+            cursor.execute(query, values)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/tutorialdetails', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def tutorial_details():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT t.tutorialno, t.location, t.time, t.t_ucid, f.name from COURSE as c, TUTORIAL as t, FACULTY as f where c.courseno = %s and t.courseno = c.courseno and t.t_ucid = f.f_ucid"
+            values = (data.get("courseno"),)
+            print(values)
+            cursor.execute(query, values)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+
