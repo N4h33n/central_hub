@@ -127,8 +127,7 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
-            
-    #POST?   
+             
     @app.route('/api/studentlogin', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def student_login():
@@ -303,31 +302,34 @@ def create_routes(app):
             connection.close()
     
             
-    # @app.route('/api/enrolledcourses', methods = ['POST'])
-    # @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
-    # def enrolled_courses():
-    #     data = request.get_json()
+    @app.route('/api/enrolledcourses', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def enrolled_courses():
+        data = request.get_json()
         
-    #     try:
-    #         connection = get_db_connection()
+        try:
+            connection = get_db_connection()
 
-    #         cursor = connection.cursor()
+            cursor = connection.cursor()
 
-    #         query = "select sc.courseno, c.coursename, (sum(sa.grade * a.weight) + sum(se.grade * e.weight)) from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa. STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e where sc"
-    #         values = (data.get("telephonenumber"), data.get("address"), data.get("password"), data.get("ucid"))
-    #         cursor.execute(query, values)
+            query = "select sc.courseno, c.coursename, (sum(sa.grade * a.weight) + sum(se.grade * e.weight)) from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa. STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e where sc.s_ucid = %s sc.courseno = c.courseno and sa.courseno = c.courseno and se.courseno = c.courseno and a.courseno = c.courseno and sa.assignmentno = a.assignmentno and e.courseno = c.courseno and se.examno = e.examno group by sc.courseno, c.coursename"
+            values = (data.get("ucid"),)
+            cursor.execute(query, values)
 
-    #         connection.commit()
-                
-    #         return "True"
             
-    #     except mysql.connector.Error as e:
-    #             print(f"Error: {e}")
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
 
-    #             return "False"
-    #     finally:
-    #         cursor.close()
-    #         connection.close()
+            return jsonify(result)
+            
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
     
     @app.route('/api/explorecourses', methods = ['GET'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
