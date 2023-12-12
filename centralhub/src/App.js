@@ -105,7 +105,10 @@ function App() {
               path="viewcourses/:studentID"
               element={<Viewcourses />}
             ></Route>
-            <Route path="explorecourses/" element={<Explorecourses />}></Route>
+            <Route
+              path="explorecourses/:ucid"
+              element={<Explorecourses />}
+            ></Route>
             <Route
               path="coursedetails/:courseID"
               element={<Coursedetails />}

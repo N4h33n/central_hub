@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -13,6 +13,8 @@ import Paper from "@mui/material/Paper";
 const BASE_URL = "http://localhost:5000/";
 
 export default function Explorecourses() {
+  const { ucid } = useParams();
+
   const [courses, setCourses] = useState([]);
   const [filterValues, setFilterValues] = useState({
     coursename: "",
