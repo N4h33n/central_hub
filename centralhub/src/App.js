@@ -28,6 +28,11 @@ import Filtercourses from "./Pages (student)/Course/Filtercourses";
 import Explorecourses from "./Pages (student)/Course/Explorecourses";
 import DiscoverECA from "./Pages (student)/ECA/DiscoverECA";
 import Exploreresearch from "./Pages (student)/Research/Exploreresearch";
+import Adminlanding from "./Pages (admin)/Adminlanding";
+import Courselist from "./Pages (admin)/Courses/Courselist";
+import Researchlanding from "./Pages (admin)/Research/Researchlanding";
+import Pastresearchlist from "./Pages (admin)/Research/Pastresearchlist";
+import Currentresearchlist from "./Pages (admin)/Research/Currentresearchlist";
 
 function App() {
   return (
@@ -38,6 +43,17 @@ function App() {
           <Route path="/" element={<Landing />}></Route>
           <Route path="studentlogin" element={<Studentlogin />}></Route>
           <Route path="adminlogin" element={<Adminlogin />}></Route>
+          <Route path="adminlanding" element={<Adminlanding />}></Route>
+          <Route path="courselist" element={<Courselist />}></Route>
+          <Route path="researchlanding" element={<Researchlanding />}></Route>
+          <Route
+            path="pastresearchadmin"
+            element={<Pastresearchlist />}
+          ></Route>
+          <Route
+            path="currentresearchadmin"
+            element={<Currentresearchlist />}
+          ></Route>
           <Route
             path="dashboard/:studentID"
             element={<Studentdashboard />}
