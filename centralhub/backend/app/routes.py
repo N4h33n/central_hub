@@ -1132,3 +1132,42 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/addtocourse', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_to_course():
+        
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into STUDENT_ENROLLEDIN_COURSE values (%s, %s, %s)"
+            
+            values = (data.get('ucid'), data.get('courseno'), data.get('aucid'))
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+            query2 = "insert into STUDENT_ENROLLEDIN_LECTURE values (%s, %s, %s, %s)"
+            values2 = (data.get('ucid'), data.get('courseno'), data.get('lecno'), data.get('aucid'))
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+            query2 = "insert into STUDENT_ENROLLEDIN_TUTORIAL values (%s, %s, %s, %s)"
+            values2 = (data.get('ucid'), data.get('courseno'), data.get('tutno'), data.get('aucid'))
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close() 
