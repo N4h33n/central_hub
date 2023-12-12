@@ -846,4 +846,31 @@ def create_routes(app):
             cursor.close()
             connection.close()
 
+    @app.route('/api/facultyimage', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def faculty_image():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
 
+            cursor = connection.cursor()
+
+            query = "select f.image from FACULTY as f where f.f_ucid = %s"
+            values = (data.get("fucid"),)
+            print("facultyimage")
+            print(values)
+            cursor.execute(query, values)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+            return jsonify(result)
+            
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+                return jsonify({"error": "bruh"})
+
+        finally:
+            cursor.close()
+            connection.close()
