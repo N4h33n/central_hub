@@ -77,12 +77,15 @@ export default function DiscoverECA() {
   return (
     <section className="filtercourse mainSection">
       <h1 className="m-5">EXPLORE CLUBS</h1>
-      <div className="d-inline-block">
+      <div
+        className="d-inline-block float-start ms-2"
+        style={{ maxWidth: "75%" }}
+      >
         <ECAtable data={data} ucid={studentID} />
       </div>
       <div
-        className="d-inline-block"
-        style={{ minWidth: "30%", verticalAlign: "top" }}
+        className="d-inline-block position-fixed"
+        style={{ right: "5%", verticalAlign: "top" }}
       >
         <div>
           <TextField

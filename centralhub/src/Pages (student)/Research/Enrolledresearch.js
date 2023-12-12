@@ -36,12 +36,14 @@ export default function Enrolledresearch() {
   return (
     <section className="mainSection">
       <h2 className="title m-5">ENROLLED RESEARCH</h2>
-      <Placeholdertable data={research} />
-      <Button variant="contained" size="large" className="m-5">
-        <Link className="link" to={`/exploreresearch/${studentID}`}>
-          Explore Research Opportunities ⌕
-        </Link>
-      </Button>
+      <section className="m-4">
+        <Placeholdertable data={research} />
+        <Button variant="contained" size="large" className="m-5">
+          <Link className="link" to={`/exploreresearch/${studentID}`}>
+            Explore Research Opportunities ⌕
+          </Link>
+        </Button>
+      </section>
     </section>
   );
 }

@@ -49,6 +49,25 @@ export default function Updateinfo() {
   const handleClick = async () => {
     const { passhash, phone, address } = student;
 
+    // Check conditions before proceeding with fetch
+    if (address.length < 3) {
+      alert("Address must be a minimum of 3 characters.");
+      return;
+    }
+
+    if (passhash.length < 6) {
+      alert("Password must be a minimum of 6 characters.");
+      return;
+    }
+
+    // Check if phone is exactly 10 digits (no strings)
+    const phoneRegex = /^\d{10}$/;
+    if (!phone.match(phoneRegex)) {
+      alert("Phone must be exactly 10 digits (no strings).");
+      return;
+    }
+
+    // Proceed with the fetch if all conditions are met
     const response = await fetch(`${BASE_URL}/api/updateinfo`, {
       method: "POST",
       headers: {
