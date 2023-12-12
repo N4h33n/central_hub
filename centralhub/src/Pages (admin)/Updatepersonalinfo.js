@@ -57,7 +57,7 @@ export default function Updatepersonalinfo() {
         olducid,
         name,
         email,
-        newucid,
+        ucid,
         passhash,
         phone: phone,
         Address: address,
