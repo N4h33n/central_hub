@@ -46,7 +46,7 @@ export default function Viewcourses() {
   return (
     <section className="mainSection">
       <h2 className="title m-5">ENROLLED COURSES</h2>
-      <Coursetable data={courses} />
+      <Coursetable data={courses} ucid={ucid} />
       <Button variant="contained" size="large" className="m-5">
         <Link className="link" to={`/explorecourses`}>
           Explore Courses ⌕
@@ -56,7 +56,7 @@ export default function Viewcourses() {
   );
 }
 
-function Coursetable({ data }) {
+function Coursetable({ data, ucid }) {
   if (!data || data.length === 0) {
     // Handle case where data is empty or undefined
     return <p>No data available</p>;
@@ -89,7 +89,7 @@ function Coursetable({ data }) {
                     <Button variant="outlined">
                       <Link
                         className="link"
-                        // to={`/updatecoursecomp/${row["ucid"]}/${row["Coursenumber"]}`}
+                        to={`/enrolledcoursedetails/${ucid}/${row["courseno"]}`}
                       >
                         View Details
                       </Link>
