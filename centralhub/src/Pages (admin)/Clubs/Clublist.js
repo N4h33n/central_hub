@@ -135,7 +135,7 @@ function AddCourseModal({ open, handleClose, addClub }) {
           onChange={(e) => handleFieldChange(e, "clubFields")}
         />
         <TextField
-          label="Course Fields"
+          label="Club Location"
           fullWidth
           margin="normal"
           value={formData.clubLocation}
