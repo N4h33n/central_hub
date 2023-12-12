@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -615,19 +615,19 @@ def create_routes(app):
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def exam_component():
         data = request.get_json()
-        
+        print(data)
         try:
             connection = get_db_connection()
 
             cursor = connection.cursor()
 
-            query = "SELECT SE.courseno, SE.examno, SE.grade, E.time, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = A.courseno and SE.examno = E.examno and SE.courseno = %s"
+            query = "SELECT SE.courseno, SE.examno, SE.grade, E.time, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and SE.courseno = %s"
             values = (data.get("ucid"), data.get("courseno"))
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
+            print(result)
             return jsonify(result)
         
         except mysql.connector.Error as e:
