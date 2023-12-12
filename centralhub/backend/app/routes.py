@@ -1208,17 +1208,34 @@ def create_routes(app):
             values = (data.get('ucid'), data.get('courseno'), data.get('aucid'))
             cursor.execute(query, values)
             
-            connection.commit()
             
             query2 = "insert into STUDENT_ENROLLEDIN_LECTURE values (%s, %s, %s, %s)"
             values2 = (data.get('ucid'), data.get('courseno'), data.get('lecno'), data.get('aucid'))
-            cursor.execute(query, values)
+            cursor.execute(query2, values2)
             
-            connection.commit()
+            query3 = "insert into STUDENT_ENROLLEDIN_TUTORIAL values (%s, %s, %s, %s)"
+            values3 = (data.get('ucid'), data.get('courseno'), data.get('tutno'), data.get('aucid'))
+            cursor.execute(query3, values3)
             
-            query2 = "insert into STUDENT_ENROLLEDIN_TUTORIAL values (%s, %s, %s, %s)"
-            values2 = (data.get('ucid'), data.get('courseno'), data.get('tutno'), data.get('aucid'))
-            cursor.execute(query, values)
+            query4 = "select assignmentno from assignment where courseno = %s"
+            values4 = (data.get("courseno"),)
+            cursor.execute(query4, values4)
+            assignments = [row[0] for row in cursor.fetchall()]
+            
+            for assignment in assignments:
+                query5 = "insert into student_does_assignment values (%s, %s, %s, NULL, %s)"
+                values5 = (data.get('ucid'), data.get('courseno'), assignment, data.get('aucid'))
+                cursor.execute(query5, values5)
+                
+            query6 = "select examno from exam where courseno = %s"
+            values6 = (data.get("courseno"),)
+            cursor.execute(query6, values6)
+            exams = [row[0] for row in cursor.fetchall()]
+            
+            for exam in exams:
+                query7 = "insert into student_takes_exam values (%s, %s, %s, NULL, %s)"
+                values7 = (data.get('ucid'), data.get('courseno'), exam, data.get('aucid'))
+                cursor.execute(query7, values7)
             
             connection.commit()
             
