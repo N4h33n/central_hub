@@ -48,7 +48,7 @@ export default function Viewcourses() {
       <h2 className="title m-5">ENROLLED COURSES</h2>
       <Coursetable data={courses} ucid={ucid} />
       <Button variant="contained" size="large" className="m-5">
-        <Link className="link" to={`/explorecourses`}>
+        <Link className="link" to={`/explorecourses/${ucid}`}>
           Explore Courses ⌕
         </Link>
       </Button>
