@@ -45,13 +45,15 @@ export default function Studentlist() {
 
   return (
     <section className="mainSection">
-      <h2 className="mt-5 m-3">Current Students</h2>
-      <Button variant="contained" className="position-relative float-end m-3">
-        <Link className="link" to="/addstudent">
-          Add Student
-        </Link>
-      </Button>
-      <Studentlisttable data={data} />
+      <section className="m-3">
+        <h2 className="mt-5 m-2">Current Students</h2>
+        <Button variant="contained" className="position-relative float-end m-3">
+          <Link className="link" to="/addstudent">
+            Add Student
+          </Link>
+        </Button>
+        <Studentlisttable data={data} />
+      </section>
     </section>
   );
 }

@@ -31,10 +31,11 @@ export default function DiscoverECA() {
   const loadECAS = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/discoverecas`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(ucid),
       });
 
       const ecas = await response.json();
@@ -57,7 +58,7 @@ export default function DiscoverECA() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(filterValues),
+        body: JSON.stringify(filterValues, ucid),
       });
 
       const filteredEcas = await response.json();
