@@ -33,6 +33,7 @@ export default function DiscoverECA() {
       const ecas = await response.json();
       console.log("ecas", ecas);
       setData(ecas);
+      console.log(data);
     } catch (error) {
       // console.error("Error loading courses:", error);
     }
