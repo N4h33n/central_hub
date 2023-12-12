@@ -28,8 +28,10 @@ DROP TABLE IF EXISTS `ADMIN`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ADMIN` (
   `a_ucid` varchar(10) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `passhash` varchar(255) NOT NULL,
   PRIMARY KEY (`a_ucid`),
+  UNIQUE KEY `Email_UNIQUE` (`email`),
   CONSTRAINT `a_ucid` FOREIGN KEY (`a_ucid`) REFERENCES `FACULTY` (`f_ucid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +42,7 @@ CREATE TABLE `ADMIN` (
 
 LOCK TABLES `ADMIN` WRITE;
 /*!40000 ALTER TABLE `ADMIN` DISABLE KEYS */;
-INSERT INTO `ADMIN` VALUES ('00000001','password');
+INSERT INTO `ADMIN` VALUES ('100', 'admin@ucalgary.ca', 'password');
 /*!40000 ALTER TABLE `ADMIN` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,7 +301,7 @@ CREATE TABLE `FACULTY` (
 
 LOCK TABLES `FACULTY` WRITE;
 /*!40000 ALTER TABLE `FACULTY` DISABLE KEYS */;
-INSERT INTO `FACULTY` VALUES ('00000001','naheenkabir@gmail.com','Naheen Kabir',NULL),('1','ahmed@ucalgary.ca','Ahmed Al Marouf',NULL),('2','ehud@ucalgary.ca','Ehud Sharlin',NULL),('21','ali@a.com','Ali Ali',NULL),('22','kate@k.com','Kate Kate',NULL),('3','john@gmail.com','John Doe',NULL),('4','jane@gmail.com','Jane Doe',NULL);
+INSERT INTO `FACULTY` VALUES ('00000001','naheenkabir@gmail.com','Naheen Kabir',NULL),('1','ahmed@ucalgary.ca','Ahmed Al Marouf',NULL),('2','ehud@ucalgary.ca','Ehud Sharlin',NULL),('21','ali@a.com','Ali Ali',NULL),('22','kate@k.com','Kate Kate',NULL),('3','john@gmail.com','John Doe',NULL),('4','jane@gmail.com','Jane Doe',NULL),('100', 'admin@ucalgary.ca', 'Admin Ad', NULL);
 /*!40000 ALTER TABLE `FACULTY` ENABLE KEYS */;
 UNLOCK TABLES;
 
