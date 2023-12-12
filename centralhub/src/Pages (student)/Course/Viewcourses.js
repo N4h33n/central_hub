@@ -16,18 +16,19 @@ const BASE_URL = "http://localhost:5000/";
 
 export default function Viewcourses() {
   const { studentID } = useParams();
+  const ucid = studentID;
 
   const [courses, setCourses] = useState([]);
 
   const loadCourses = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/enrolledcourses`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentID,
+          ucid,
         }),
       });
 
