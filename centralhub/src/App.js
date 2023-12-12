@@ -49,7 +49,7 @@ function App() {
             path="viewcourses/:studentID"
             element={<Viewcourses />}
           ></Route>
-          <Route path="explorecourses" element={<Explorecourses />}></Route>
+          <Route path="explorecourses/" element={<Explorecourses />}></Route>
           <Route
             path="enrolledeca/:studentID"
             element={<ViewenrolledECA />}
@@ -74,7 +74,7 @@ function App() {
             path="pastresearchdetails/:researchID"
             element={<Pastresearchdetails />}
           ></Route>
-          <Route path="faculty/:ID" element={<Facultyinfo />}></Route>
+          <Route path="faculty/:facultyID" element={<Facultyinfo />}></Route>
           <Route path="updateinfo/:studentID" element={<Updateinfo />}></Route>
           <Route path="studentlist" element={<Studentlist />}></Route>
           <Route
@@ -103,7 +103,10 @@ function App() {
             element={<Editexamgrade />}
           ></Route>
           <Route path="/filtercourses" element={<Filtercourses />}></Route>
-          <Route path="/discoverecas" element={<DiscoverECA />}></Route>
+          <Route
+            path="/discoverecas/:studentID"
+            element={<DiscoverECA />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>

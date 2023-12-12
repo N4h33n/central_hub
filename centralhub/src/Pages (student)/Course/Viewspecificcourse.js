@@ -1,11 +1,9 @@
 import React from "react";
 import Listedinfo from "../Components/Listedinfo";
 import Placeholdertable from "../Placeholdertable";
-import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
-
-//TODO-add URL param stuff here using CourseID to set the objects appropriately
+import { Button } from "@mui/material";
+import { Link, useParams, useNavigate, redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -19,6 +17,10 @@ export default function Viewspecificcourse() {
   const [tutorial, setTutorial] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [exams, setExams] = useState([]);
+  const [instructor, setInstructor] = useState("");
+  const [ta, setTa] = useState("");
+
+  const navigate = useNavigate();
 
   const loadCourseInfo = async () => {
     try {
@@ -53,6 +55,7 @@ export default function Viewspecificcourse() {
 
       const data = await response.json();
       setLecture(data);
+      console.log(instructor);
     } catch (error) {}
   };
 
@@ -113,6 +116,14 @@ export default function Viewspecificcourse() {
     } catch (error) {}
   };
 
+  function redirect() {
+    window.location.href = `/faculty/${instructor}`;
+  }
+
+  function redirect2() {
+    window.location.href = `/faculty/${ta}`;
+  }
+
   useEffect(() => {
     loadCourseInfo();
     loadLecInfo();
@@ -121,12 +132,42 @@ export default function Viewspecificcourse() {
     loadExams();
   }, []);
 
+  useEffect(() => {
+    // Access instructor info once the lecture state is updated
+    if (lecture.length > 0) {
+      setInstructor(lecture[0].f_ucid);
+    }
+  }, [lecture]); // Run whenever lecture state is updated
+
+  useEffect(() => {
+    // Access instructor info once the lecture state is updated
+    if (tutorial.length > 0) {
+      setTa(tutorial[0].f_ucid);
+    }
+  }, [tutorial]);
+
   return (
     <>
       <section className="mainSection">
-        <Listedinfo information={courseInformation} title={"Course Details"} />
-        <Listedinfo information={lecture} title={"Lecture Details"} />
-        <Listedinfo information={tutorial} title={"Tutorial Details"} />
+        <div className="d-inline-block m-2">
+          <Listedinfo
+            information={courseInformation}
+            title={"Course Details"}
+          />
+        </div>
+        <div className="d-inline-block m-4">
+          <Listedinfo information={lecture} title={"Lecture Details"} />
+          <Button className="d-block" variant="outlined" onClick={redirect}>
+            Instructor Details
+          </Button>
+        </div>
+        <div className="d-inline-block m-4">
+          <Listedinfo information={tutorial} title={"Tutorial Details"} />
+          <Button className="d-block" variant="outlined" onClick={redirect2}>
+            {" "}
+            Teaching Assistant Details
+          </Button>
+        </div>
       </section>
       <section className="mainSection">
         <div className="assEx m-3">

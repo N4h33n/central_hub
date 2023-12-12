@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 //TODO-roles thing
 //TODO-club images
 //TODO-button depends whether you're already in the club or not
+//TODO-remove time from date joined
 
 const clubs = [
   {
