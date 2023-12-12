@@ -57,21 +57,7 @@ export default function Studentlist() {
 }
 
 function Studentlisttable({ data }) {
-  const [selectedStudent, setSelectedStudent] = React.useState(null);
-
-  const handleClick = async (ucid) => {
-    const response = await fetch(`${BASE_URL}/api/removestudent`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ucid,
-      }),
-    });
-
-    const data = await response.json();
-  };
+  const [selectedStudent, setSelectedStudent] = useState("");
 
   if (!data || data.length === 0) {
     return <p>No data available</p>;
@@ -79,8 +65,8 @@ function Studentlisttable({ data }) {
 
   const columns = Object.keys(data[0]);
 
-  const handleRemoveStudent = (student) => {
-    setSelectedStudent(student);
+  const handleRemoveStudent = (ucid) => {
+    setSelectedStudent(ucid);
   };
 
   const handleCloseDialog = () => {
@@ -125,7 +111,7 @@ function Studentlisttable({ data }) {
                     variant="outlined"
                     color="error"
                     onClick={() => {
-                      handleRemoveStudent(row["name"]);
+                      handleRemoveStudent(row["s_ucid"]);
                       setSelectedStudent(row);
                     }}
                   >
@@ -139,7 +125,7 @@ function Studentlisttable({ data }) {
       </TableContainer>
       {selectedStudent && (
         <AlertDialog
-          studentName={selectedStudent && selectedStudent.name}
+          ucid={selectedStudent}
           handleCloseDialog={handleCloseDialog}
         />
       )}
@@ -151,28 +137,41 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function AlertDialog({ studentName, handleCloseDialog }) {
-  const [ucid, setUcid] = React.useState(null);
+export function AlertDialog({ ucid, handleCloseDialog }) {
+  const handleClick = async (ucid) => {
+    const response = await fetch(`${BASE_URL}/api/removestudent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ucid,
+      }),
+    });
+
+    const data = await response.json();
+  };
 
   const handleAgree = () => {
-    console.log("removed", ucid);
+    console.log("removed", ucid.s_ucid);
+    handleClick(ucid.s_ucid);
     handleCloseDialog();
   };
 
-  const setUcidAndHandleClose = () => {
-    setUcid(studentName); // Assuming studentName is the ucid, modify this based on your data structure
-    handleCloseDialog();
-  };
+  // const setUcidAndHandleClose = () => {
+  //   setUcid(studentName); // Assuming studentName is the ucid, modify this based on your data structure
+  //   handleCloseDialog();
+  // };
 
   return (
     <Dialog
-      open={Boolean(studentName)}
+      open={Boolean(ucid)}
       onClose={handleCloseDialog}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {`Are you sure you want to remove ${studentName} from the database?`}
+        {`Are you sure you want to remove from the database?`}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
@@ -182,7 +181,7 @@ export function AlertDialog({ studentName, handleCloseDialog }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseDialog}>Disagree</Button>
-        <Button onClick={setUcidAndHandleClose} autoFocus>
+        <Button onClick={handleAgree} autoFocus>
           Agree
         </Button>
       </DialogActions>

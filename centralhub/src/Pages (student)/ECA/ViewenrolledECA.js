@@ -109,6 +109,7 @@ export function ECAtable({ data, ucid }) {
       });
 
       const data = await response.json();
+      window.location.reload();
 
       // Handle response as needed
     } catch (error) {

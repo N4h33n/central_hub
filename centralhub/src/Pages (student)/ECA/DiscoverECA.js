@@ -105,16 +105,7 @@ export default function DiscoverECA() {
         <div>
           <TextField
             id="filled-basic"
-            label="Club Meeting Day"
-            value={filterValues.meetingday}
-            variant="filled"
-            onChange={(e) => handleFilterChange("meetingday", e.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            id="filled-basic"
-            label="Club Time"
+            label="Meeting Date and Time"
             value={filterValues.meetingtime}
             variant="filled"
             onChange={(e) => handleFilterChange("meetingtime", e.target.value)}
@@ -166,9 +157,10 @@ function ECAtable({ data, ucid }) {
   const handleAgree = async (ucid, clubname) => {
     console.log(ucid);
     console.log("hello");
+    console.log(clubname);
     setDialogOpen(false);
     try {
-      const response = await fetch(`${BASE_URL}/api/leaveclub`, {
+      const response = await fetch(`${BASE_URL}/api/joinclub`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

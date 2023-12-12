@@ -151,6 +151,28 @@ export default function Updatestudentinfo() {
 }
 
 function Studentcoursetable({ data, ucid }) {
+  const removeFromCourse = async (ucid, courseno) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/removefromcourse`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ucid,
+          courseno,
+        }),
+      });
+
+      const data = await response.json();
+
+      // Handle response as needed
+    } catch (error) {
+      // Handle error
+      // console.error("Error leaving club:", error);
+    }
+  };
+
   if (!data || data.length === 0) {
     // Handle case where data is empty or undefined
     return <p>No data available</p>;
@@ -194,8 +216,12 @@ function Studentcoursetable({ data, ucid }) {
                       </Link>
                     </Button>
                   ) : column === "Remove From Course" ? (
-                    <Button variant="outlined" color="error">
-                      {/* Handle removal logic here */}
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={removeFromCourse(ucid, row["courseno"])}
+                    >
+                      Remove from Course
                     </Button>
                   ) : (
                     row[column]
