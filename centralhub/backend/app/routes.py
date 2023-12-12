@@ -203,13 +203,14 @@ def create_routes(app):
             today = datetime.now()
             check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SA.courseno, SA.assignmentno, A.deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno and A.deadline <= (%s)"
+            query = "SELECT SA.courseno, SA.assignmentno, date_format(A.deadline, '%Y-%m-%d %H:%i:%S') as deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno and A.deadline <= (%s)"
             values = (data.get("ucid"), check_date)
+            print(values)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
+            print(result)
             return jsonify(result)
         
         except mysql.connector.Error as e:
@@ -232,7 +233,7 @@ def create_routes(app):
             today = datetime.now()
             check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SE.courseno, SE.examno, E.time, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s)"
+            query = "SELECT SE.courseno, SE.examno, date_format(E.time, '%Y-%m-%d %H:%i:%S') as deadline, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s)"
             values = (data.get("ucid"), check_date)
             cursor.execute(query, values)
 
@@ -464,7 +465,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select sc.clubname, sc.datejoined, group_concat(cf.field separator ', ') as fields, c.description, c.location, c.time from CLUB as c, STUDENT_MEMBEROF_CLUB as sc, CLUB_FIELDS as cf where sc.s_ucid = %s and sc.clubname = c.clubname group by sc.clubname, sc.datejoined, c.description, c.location, c.time"
+            query = "select sc.clubname, date_format(sc.datejoined, '%Y-%m-%d') as datejoined, group_concat(cf.field separator ', ') as fields, c.description, c.location, c.time from CLUB as c, STUDENT_MEMBEROF_CLUB as sc, CLUB_FIELDS as cf where sc.s_ucid = %s and sc.clubname = c.clubname group by sc.clubname, sc.datejoined, c.description, c.location, c.time"
             values = (data.get("ucid"),)
             print("enrolledeca")
             print(values)
@@ -747,7 +748,7 @@ def create_routes(app):
             cursor = connection.cursor()
             
             # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
-            query = "select sr.researchid, r.title, group_concat(rf.field separator ', ') as fields, sr.datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid group by sr.researchid, r.title, sr.datejoined, f.name"
+            query = "select sr.researchid, r.title, group_concat(rf.field separator ', ') as fields, date_format(sr.datejoined, '%Y-%m-%d') as datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid group by sr.researchid, r.title, sr.datejoined, f.name"
             values = (data.get("ucid"),)
             print("research")
             print(values)
@@ -776,7 +777,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
-            query = "select cr.researchid, r.title, group_concat(rf.field separator ', ') as fields, r.description, f.name from RESEARCH as r, COMPLETED_RESEARCH as cr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where cr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = cr.researchid and rp.r_ucid = f.f_ucid group by cr.researchid, r.title, r.description, f.name"
+            query = "select cr.researchid, r.title, date_format(cr.datecompleted, '%Y-%m-%d') as datepublished, group_concat(rf.field separator ', ') as fields, r.description, f.name from RESEARCH as r, COMPLETED_RESEARCH as cr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where cr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = cr.researchid and rp.r_ucid = f.f_ucid group by cr.researchid, r.title, r.description, f.name, datepublished"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
@@ -1332,7 +1333,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT cr.researchid, r.title, r.description, cr.datecompleted, group_concat(rf.field separator ', ') as fields from COMPLETED_RESEARCH as cr, RESEARCH as r, RESEARCH_FIELDS as rf where cr.researchid = r.researchid and rf.researchid = r.researchid group by cr.researchid, r.title, r.description, cr.datecompleted"
+            query = "SELECT cr.researchid, r.title, r.description, date_format(cr.datecompleted, '%Y-%m-%d') as datecompleted, group_concat(rf.field separator ', ') as fields from COMPLETED_RESEARCH as cr, RESEARCH as r, RESEARCH_FIELDS as rf where cr.researchid = r.researchid and rf.researchid = r.researchid group by cr.researchid, r.title, r.description, cr.datecompleted"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
