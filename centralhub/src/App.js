@@ -27,6 +27,7 @@ import Studentdashboard from "./Pages (student)/Studentdashboard";
 import Filtercourses from "./Pages (student)/Course/Filtercourses";
 import Explorecourses from "./Pages (student)/Course/Explorecourses";
 import DiscoverECA from "./Pages (student)/ECA/DiscoverECA";
+import Exploreresearch from "./Pages (student)/Research/Exploreresearch";
 
 function App() {
   return (
@@ -78,6 +79,10 @@ function App() {
           <Route
             path="pastresearchdetails/:researchID"
             element={<Pastresearchdetails />}
+          ></Route>
+          <Route
+            path="exploreresearch/:studentID"
+            element={<Exploreresearch />}
           ></Route>
           <Route path="faculty/:facultyID" element={<Facultyinfo />}></Route>
           <Route path="updateinfo/:studentID" element={<Updateinfo />}></Route>

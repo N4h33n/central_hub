@@ -21,7 +21,9 @@ export default function Research() {
         </Link>
       </Button>
       <Button variant="contained" className="loginButton d-block m-5">
-        Explore Research
+        <Link className="link" to={`/exploreresearch/${studentID}`}>
+          Explore Research
+        </Link>
       </Button>
     </div>
   );
