@@ -339,11 +339,12 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
+            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
 
             return jsonify(result)
         
@@ -356,40 +357,59 @@ def create_routes(app):
             
     @app.route('/api/filtercourses', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
-    def scourses():
+    def filter_courses():
         
         data = request.get_json()
+        
+        conditions = []
+        values = []
         
         try:
             connection = get_db_connection()
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
+            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
             
-            if data.get("coursename"):
-                query += "and c.coursename like %s"
+            if data.get("coursename") and data.get("coursename") != "":
+                conditions.append("c.coursename like %s")
+                values.append("%" + str(data.get("coursename")) + "%")
             
-            if data.get("coursenumber"):
-                query += "and c.courseno like %s"
+            if data.get("coursenumber") and data.get("coursenumber") != "":
+                conditions.append("c.courseno like %s")
+                values.append("%" + str(data.get("coursenumber")) + "%")
             
-            if data.get("field"):
-                query += "and cf.field like %s"
+            if data.get("field") and data.get("field") != "":
+                conditions.append("cf.field like %s")
+                values.append("%" + str(data.get("field")) + "%")
             
-            if data.get("instructor"):
-                query += "and f1.name like %s"
+            if data.get("instructor") and data.get("instructor") != "":
+                conditions.append("f1.name like %s")
+                values.append("%" + str(data.get("instructor")) + "%")
             
-            if data.get("ta"):
-                query += "and f2.name like %s"
+            if data.get("ta") and data.get("ta") != "":
+                conditions.append("f2.name like %s")
+                values.append("%" + str(data.get("ta")) + "%")
+            
+            
+            
+            print(conditions)
+            print(values)
+            
+            if conditions:
+                query += " and " + " and ".join(conditions)
+            
+            print(query)
                 
-            values = (data.get("coursename"), data.get("coursenumber"), data.get("field"), data.get("instructor"), data.get("ta"))
-            
-            cursor.execute(query, values)
+            cursor.execute(query, tuple(values))
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print("filter")
+            print(result)
 
             return jsonify(result)
+            
         
         except mysql.connector.Error as e:
             print(f"Error{e}")
@@ -489,7 +509,7 @@ def create_routes(app):
             print(values)
             
             if conditions:
-                query += " AND " + " AND ".join(conditions)
+                query += " and " + " and ".join(conditions)
                 
             cursor.execute(query, values)
 
