@@ -219,7 +219,7 @@ function Studentcoursetable({ data, ucid }) {
                     <Button
                       variant="outlined"
                       color="error"
-                      onClick={removeFromCourse(ucid, row["courseno"])}
+                      onClick={() => removeFromCourse(ucid, row["courseno"])}
                     >
                       Remove from Course
                     </Button>

@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -1468,3 +1468,32 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close() 
+            
+    @app.route('/api/removefromcourse', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def remove_from_course():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "delete from student_enrolledin_course where s_ucid = %s and courseno = %s"
+            values = (data.get("ucid"), data.get("courseno"))
+            print("rm from course")
+            print(values)
+            cursor.execute(query, values)
+
+            connection.commit()
+            
+
+            return "True"
+            
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+                return "False"
+
+        finally:
+            cursor.close()
+            connection.close()
