@@ -432,7 +432,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select sc.clubname, sc.datejoined, c.description, c.location, c.time from CLUB as c, STUDENT_MEMBEROF_CLUB as sc where sc.s_ucid = %s and sc.clubname = c.clubname"
+            query = "select sc.clubname, sc.datejoined, group_concat(cf.field separator ', ') as fields, c.description, c.location, c.time from CLUB as c, STUDENT_MEMBEROF_CLUB as sc, CLUB_FIELDS as cf where sc.s_ucid = %s and sc.clubname = c.clubname group by sc.clubname, sc.datejoined, c.description, c.location, c.time"
             values = (data.get("ucid"),)
             print("enrolledeca")
             print(values)
@@ -446,6 +446,35 @@ def create_routes(app):
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
                 return jsonify({"error": "bruh"})
+
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/leaveclub', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def leave_club():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "delete from student_memberof_club where s_ucid = %s and clubname = %s"
+            values = (data.get("ucid"), data.get("clubname"))
+            print("leaveclub")
+            print(values)
+            cursor.execute(query, values)
+
+            connection.commit()
+            
+
+            return "True"
+            
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+                return "False"
 
         finally:
             cursor.close()
@@ -871,6 +900,34 @@ def create_routes(app):
                 print(f"Error: {e}")
                 return jsonify({"error": "bruh"})
 
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/coursedetails', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def course_details():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(cf.field separator ', ') as fields, c.description, group_concat(cp.prereq separator ', ') as prerequisite from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
+            values = (data.get("courseno"),)
+            print(values)
+            cursor.execute(query, values)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
         finally:
             cursor.close()
             connection.close()
