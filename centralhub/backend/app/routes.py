@@ -1000,7 +1000,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(cf.field separator ', ') as fields, c.description, group_concat(cp.prereq separator ', ') as prerequisites from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where c.courseno = %s and cf.courseno = c.courseno and cp.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
+            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(distinct cf.field separator ', ') as fields, c.description, group_concat(distinct cp.prereq separator ', ') as prerequisites from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where c.courseno = %s and cf.courseno = c.courseno and cp.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
             values = (data.get("courseno"),)
             print("coursed")
             print(values)
@@ -1182,7 +1182,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.description, c.semester, group_concat(cf.field separator ', ') as fields from COURSE as c, COURSE_FIELDS as cf where cf.courseno = c.courseno group by c.courseno, c.coursename, c.description, c.semester"
+            query = "SELECT c.courseno, c.coursename, c.description, c.semester, group_concat(distinct cf.field separator ', ') as fields, group_concat(distinct cp.prereq separator ', ') as prerequisites from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where cf.courseno = c.courseno and cp.courseno = c.courseno group by c.courseno, c.coursename, c.description, c.semester"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
@@ -1194,6 +1194,51 @@ def create_routes(app):
         except mysql.connector.Error as e:
             print(f"Error{e}")
         
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addcourse', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_course():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into COURSE values (%s, %s, %s, %s, %s)"
+            
+            values = (data.get('courseNumber'), data.get('courseName'), data.get('nextSemesterOffered'), data.get('aucid'), data.get('courseDescription'),)
+            print(values)
+            cursor.execute(query, values)
+            
+            fields = data.get("courseFields").split(', ')
+            print(fields)
+            
+            for field in fields:
+                query2 = "insert into COURSE_FIELDS values (%s, %s, %s)"
+                values2 = (data.get('courseNumber'), field, data.get("aucid"))
+                cursor.execute(query2, values2)
+            
+            prereqs = data.get("coursePrerequisites").split(', ')
+            print(prereqs)
+            
+            for prereq in prereqs:
+                query3 = "insert into COURSE_PREREQS values (%s, %s, %s)"
+                values3 = (data.get('courseNumber'), prereq, data.get("aucid"))
+                cursor.execute(query3, values3)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
         finally:
             cursor.close()
             connection.close()
