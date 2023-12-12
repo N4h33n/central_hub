@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -311,8 +311,10 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
-
-            query = "select sc.courseno, c.coursename, (sum(sa.grade * a.weight) + sum(se.grade * e.weight)) from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa. STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e where sc.s_ucid = %s sc.courseno = c.courseno and sa.courseno = c.courseno and se.courseno = c.courseno and a.courseno = c.courseno and sa.assignmentno = a.assignmentno and e.courseno = c.courseno and se.examno = e.examno group by sc.courseno, c.coursename"
+            
+            
+            # reference for "coalesce" used to replace null values with 0: https://365datascience.com/question/sum-for-columns-with-null-values/
+            query = "select sc.courseno, c.coursename, (sum(coalesce(sa.grade, 0) * a.weight) + sum(coalesce(se.grade, 0) * e.weight)) as currentgrade from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa, STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e where sc.s_ucid = %s and sc.courseno = c.courseno and sa.courseno = c.courseno and se.courseno = c.courseno and a.courseno = c.courseno and sa.assignmentno = a.assignmentno and e.courseno = c.courseno and se.examno = e.examno group by sc.courseno, c.coursename"
             values = (data.get("ucid"),)
             cursor.execute(query, values)
 
@@ -341,7 +343,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
+            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, group_concat(cf.field separator ', ') as fields from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno group by c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
@@ -458,7 +460,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.clubname, cf.field, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
+            query = "SELECT c.clubname, group_concat(cf.field separator ', ') as fields, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname group by c.clubname, c.location, c.time, c.description"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
@@ -649,7 +651,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select sr.researchid, r.title, rf.field, sr.datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid"
+            query = "select sr.researchid, r.title, group_concat(rf.field separator ', ') as fields, sr.datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid group by sr.researchid, r.title, sr.datejoined, f.name"
             values = (data.get("ucid"),)
             print("research")
             print(values)
@@ -677,7 +679,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select cr.researchid, r.title, rf.field, r.description, f.name from RESEARCH as r, COMPLETED_RESEARCH as cr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where cr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = cr.researchid and rp.r_ucid = f.f_ucid"
+            query = "select cr.researchid, r.title, group_concat(rf.field separator ', ') as fields, r.description, f.name from RESEARCH as r, COMPLETED_RESEARCH as cr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where cr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = cr.researchid and rp.r_ucid = f.f_ucid group by cr.researchid, r.title, r.description, f.name"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
@@ -693,33 +695,36 @@ def create_routes(app):
             cursor.close()
             connection.close()
         
-    # @app.route('/api/enrolledcoursedetails', methods = ['POST'])
-    # @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
-    # def enrolled_course_details():
-    #     data = request.get_json()
+    @app.route('/api/enrolledcoursedetails', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def enrolled_course_details():
+        data = request.get_json()
         
-    #     try:
-    #         connection = get_db_connection()
+        try:
+            connection = get_db_connection()
 
-    #         cursor = connection.cursor()
-
-    #         query = "select sr.researchid, r.title, rf.field, sr.datejoined, f.name from RESEARCH as r, STUDENT_PARTICIPATESIN_RESEARCH as sr, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where sr.s_ucid = %s and sr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = sr.researchid and rp.r_ucid = f.f_ucid"
-    #         values = (data.get("ucid"),)
-    #         print(values)
-    #         cursor.execute(query, values)
-
-    #         columns = [column[0] for column in cursor.description]
-    #         result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-    #         print(result)
-    #         return jsonify(result)
+            cursor = connection.cursor()
             
-    #     except mysql.connector.Error as e:
-    #             print(f"Error: {e}")
-    #             return jsonify({"error": "bruh"})
+            # reference for "coalesce" used to replace null values with 0: https://365datascience.com/question/sum-for-columns-with-null-values/
+            query = "select sc.courseno, c.coursename, c.description, group_concat(cf.field separator ', ') as fields, (sum(coalesce(sa.grade, 0) * a.weight) + sum(coalesce(se.grade, 0) * e.weight)) as currentgrade from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa, STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e, COURSE_FIELDS as cf where sc.s_ucid = %s and sc.courseno = %s and sc.courseno = c.courseno and sa.courseno = c.courseno and se.courseno = c.courseno and a.courseno = c.courseno and sa.assignmentno = a.assignmentno and e.courseno = c.courseno and se.examno = e.examno and cf.courseno = c.courseno group by sc.courseno, c.coursename, c.description"
+            values = (data.get("ucid"), data.get("courseno"))
+            cursor.execute(query, values)
 
-    #     finally:
-    #         cursor.close()
-    #         connection.close()
+            
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print("COURSE")
+            print(result)
+
+            return jsonify(result)
+            
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
     
     @app.route('/api/enrolledlecturedetails', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
