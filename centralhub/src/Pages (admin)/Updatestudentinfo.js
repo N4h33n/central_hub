@@ -110,9 +110,7 @@ function Studentcoursetable({ data, ucid }) {
                     <Button variant="outlined">
                       <Link
                         className="link"
-                        to={`/updatecoursecomp/${ucid}/${row[
-                          "courseno"
-                        ].replace(/\s/g, "")}`}
+                        to={`/updatecoursecomp/${ucid}/${row["courseno"]}`}
                       >
                         Update Component
                       </Link>

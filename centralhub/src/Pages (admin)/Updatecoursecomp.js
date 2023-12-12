@@ -8,8 +8,9 @@ import { Button } from "@mui/material";
 const BASE_URL = "http://localhost:5000/";
 
 export default function Updatecoursecomp() {
-  const { studentID, Coursenumber } = useParams();
+  const { studentID, courseID } = useParams();
   const ucid = studentID;
+  const courseno = courseID;
 
   const [assignments, setAssignments] = useState([]);
   const [exams, setExams] = useState([]);
@@ -23,6 +24,7 @@ export default function Updatecoursecomp() {
         },
         body: JSON.stringify({
           ucid,
+          courseno,
         }),
       });
 
@@ -43,6 +45,7 @@ export default function Updatecoursecomp() {
         },
         body: JSON.stringify({
           ucid,
+          courseno,
         }),
       });
 
@@ -53,6 +56,13 @@ export default function Updatecoursecomp() {
       console.error("Error loading exams:", error);
     }
   };
+
+  useEffect(() => {
+    console.log(ucid);
+    console.log(courseno);
+    loadAssignments();
+    loadExams();
+  }, []);
 
   return (
     <section className="mainSection mt-4">
