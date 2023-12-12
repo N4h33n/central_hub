@@ -1802,10 +1802,12 @@ def create_routes(app):
             cursor.close()
             connection.close()
 
-    @app.route('/api/addclub', methods = ['GET'])
+    @app.route('/api/addclub', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def add_club():
         
+        data = request.get_json()
+        print(data)
         try:
             connection = get_db_connection()
 
@@ -1813,7 +1815,7 @@ def create_routes(app):
 
             query = "insert into CLUB values (%s, %s, %s, %s, %s)"
             
-            values = (data.get('clubName'), data.get('clubDescription'), data.get('clubLocation'), data.get('clubTime'), ata.get('aucid'))
+            values = (data.get('clubName'), data.get('clubDescription'), data.get('clubLocation'), data.get('clubTime'), data.get('aucid'))
             print(values)
             cursor.execute(query, values)
             
