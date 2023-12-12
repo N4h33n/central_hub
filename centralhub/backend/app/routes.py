@@ -484,7 +484,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.clubname, cf.field, c.location, c.time from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
+            query = "SELECT c.clubname, cf.field, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
             
             conditions = []
             values = []
