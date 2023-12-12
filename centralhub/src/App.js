@@ -42,7 +42,7 @@ function App() {
             element={<Studentdashboard />}
           ></Route>
           <Route
-            path="enrolledcoursedetails/:courseID"
+            path="enrolledcoursedetails/:studentID/:courseID"
             element={<Viewspecificcourse />}
           ></Route>
           <Route
@@ -55,7 +55,7 @@ function App() {
             element={<ViewenrolledECA />}
           ></Route>
           <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>
-          <Route path="research/:StudentID" element={<Research />}></Route>
+          <Route path="research/:studentID" element={<Research />}></Route>
           <Route
             path="enrolledresearch/:studentID"
             element={<Enrolledresearch />}

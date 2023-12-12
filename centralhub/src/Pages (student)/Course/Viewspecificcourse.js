@@ -11,8 +11,8 @@ const BASE_URL = "http://localhost:5000/";
 
 export default function Viewspecificcourse() {
   const { studentID, courseID } = useParams();
-  const ucid = studentID;
-  const courseno = courseID;
+  const ucid = "30";
+  const courseno = "CPSC 471";
 
   const [courseInformation, setCourseInformation] = useState([]);
   const [lecture, setLecture] = useState([]);
@@ -29,6 +29,7 @@ export default function Viewspecificcourse() {
         },
         body: JSON.stringify({
           courseno,
+          ucid,
         }),
       });
 
