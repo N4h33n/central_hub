@@ -204,7 +204,11 @@ function Studentlisttable({ data }) {
                 ))}
                 <TableCell align="center">
                   <Button variant="outlined">
-                    <Link className="link" to={`/studentlist/${row["S_ucid"]}`}>
+                    <Link
+                      className="link"
+                      to={`/coursedetailsadmin/${row.courseno}`}
+                      onClick={() => console.log(row)}
+                    >
                       More information
                     </Link>
                   </Button>

@@ -33,6 +33,7 @@ import Courselist from "./Pages (admin)/Courses/Courselist";
 import Researchlanding from "./Pages (admin)/Research/Researchlanding";
 import Pastresearchlist from "./Pages (admin)/Research/Pastresearchlist";
 import Currentresearchlist from "./Pages (admin)/Research/Currentresearchlist";
+import Coursedetailsadmin from "./Pages (admin)/Courses/Coursedetailsadmin";
 
 function App() {
   return (
@@ -53,6 +54,10 @@ function App() {
           <Route
             path="currentresearchadmin"
             element={<Currentresearchlist />}
+          ></Route>
+          <Route
+            path="coursedetailsadmin/:courseID"
+            element={<Coursedetailsadmin />}
           ></Route>
           <Route
             path="dashboard/:studentID"
