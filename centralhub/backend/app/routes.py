@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -1171,3 +1171,29 @@ def create_routes(app):
                 return "False"
         finally:
             cursor.close() 
+            
+    @app.route('/api/explorecourses', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def explore_courses():
+        
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, group_concat(cf.field separator ', ') as fields from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno group by c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name"
+            cursor.execute(query)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
