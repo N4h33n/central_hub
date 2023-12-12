@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -538,7 +538,7 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "update student set name = %s, email = %s, s_ucid = %s, phone = %s, address = %s, passhash = %s where s_ucid = %s"
-            values = (data.get("Name"), data.get("Email"), data.get("newucid"), data.get("PhoneNumber"), data.get("Address"), data.get("Password"), data.get("olducid"))
+            values = (data.get("name"), data.get("email"), data.get("newucid"), data.get("PhoneNumber"), data.get("Address"), data.get("Password"), data.get("olducid"))
             print(values)
             cursor.execute(query, values)
             
