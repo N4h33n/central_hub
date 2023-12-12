@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -484,7 +484,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.clubname, cf.field, c.location, c.time from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
+            query = "SELECT c.clubname, cf.field, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
             
             conditions = []
             values = []
@@ -538,26 +538,18 @@ def create_routes(app):
             cursor = connection.cursor()
 
             query = "update student set name = %s, email = %s, s_ucid = %s, phone = %s, address = %s, passhash = %s where s_ucid = %s"
-            values = (data.get("Name"), data.get("Email"), data.get("newucid"), data.get("PhoneNumber"), data.get("Address"), data.get("Password"), data.get("olducid"))
+            values = (data.get("name"), data.get("email"), data.get("ucid"), data.get("phone"), data.get("Address"), data.get("passhash"), data.get("olducid"))
             print(values)
             cursor.execute(query, values)
             
             connection.commit()
             
-            query2 = "select s.name, s.email, s.s_ucid, s.phone, s.address, s.passhash from STUDENT as s where s.s_ucid = %s"
-            values2 = (data.get("newucid"),)
-            
-            cursor.execute(query2, values2)
 
-            columns = [column[0] for column in cursor.description]
-            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-            print(result)
-
-            return jsonify(result)
+            return "True"
         
         except mysql.connector.Error as e:
             print(f"Error{e}")
-            return jsonify({"error": "bruh"})
+            return "False"
         
         finally:
             cursor.close()
