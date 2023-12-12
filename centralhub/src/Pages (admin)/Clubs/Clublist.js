@@ -37,7 +37,7 @@ export default function Clublist() {
     } catch (error) {}
   };
 
-  const handleAddCourse = () => {
+  const handleaddClub = () => {
     setModalOpen(true);
   };
 
