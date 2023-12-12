@@ -118,6 +118,8 @@ export default function Coursedetailsadmin() {
         assNo,
         assdeadline,
         assweight,
+        aucid,
+        courseno,
       }),
     });
     const data = await response.json();
@@ -218,7 +220,7 @@ export default function Coursedetailsadmin() {
         <Placeholdertable data={tutorials} />
         <CustomizedTutorial
           title="Add Tutorial"
-          updateFunction={addTutorial()}
+          updateFunction={addTutorial}
           courseno={courseno}
         />
       </div>

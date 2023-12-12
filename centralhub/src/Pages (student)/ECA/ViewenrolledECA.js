@@ -119,7 +119,7 @@ export function ECAtable({ data, ucid }) {
   };
 
   return (
-    <>
+    <section className="m-3">
       <TableContainer component={Paper} id="table" className="p-3">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -169,7 +169,7 @@ export function ECAtable({ data, ucid }) {
           club={selectedClub}
         />
       )}
-    </>
+    </section>
   );
 }
 
