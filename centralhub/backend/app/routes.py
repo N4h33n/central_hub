@@ -975,7 +975,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select sa.assignmentno, a.deadline, a.weight, sa.grade from STUDENT_DOES_ASSIGNMENT as sa, ASSIGNMENT as a where sa.s_ucid = %s and sa.courseno = %s and sa.courseno = a.courseno"
+            query = "select sa.assignmentno, a.deadline, a.weight, sa.grade from STUDENT_DOES_ASSIGNMENT as sa, ASSIGNMENT as a where sa.s_ucid = %s and sa.courseno = %s and sa.courseno = a.courseno and sa.assignmentno = a.assignmentno"
             values = (data.get("ucid"), data.get("courseno"))
             print("assignment")
             print(values)
@@ -1004,7 +1004,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select se.examno, e.time, e.location, e.weight, se.grade from STUDENT_TAKES_EXAM as se, EXAM as e where se.s_ucid = %s and se.courseno = %s and se.courseno = e.courseno"
+            query = "select se.examno, e.time, e.location, e.weight, se.grade from STUDENT_TAKES_EXAM as se, EXAM as e where se.s_ucid = %s and se.courseno = %s and se.courseno = e.courseno and se.examno = e.examno"
             values = (data.get("ucid"), data.get("courseno"))
             print("exam")
             print(values)
