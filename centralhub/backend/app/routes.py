@@ -5,13 +5,13 @@ import mysql.connector
 from datetime import datetime, timedelta
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3002'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -436,7 +436,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.clubname, cf.field, c.location, c.time from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
+            query = "SELECT c.clubname, cf.field, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
