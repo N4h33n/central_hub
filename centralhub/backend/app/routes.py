@@ -373,7 +373,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, cf.field from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
+            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, group_concat(cf.field separator ', ') as fields from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno"
             
             if data.get("coursename") and data.get("coursename") != "":
                 conditions.append("c.coursename like %s")
@@ -402,10 +402,12 @@ def create_routes(app):
             
             if conditions:
                 query += " and " + " and ".join(conditions)
+                
+            query += " group by c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name"
             
             print(query)
                 
-            cursor.execute(query, tuple(values))
+            cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
@@ -518,7 +520,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.clubname, cf.field, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
+            query = "SELECT c.clubname, group_concat(cf.field separator ', ') as fields, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname"
             
             conditions = []
             values = []
@@ -544,6 +546,8 @@ def create_routes(app):
             
             if conditions:
                 query += " and " + " and ".join(conditions)
+            
+            query += " group by c.clubname, c.location, c.time, c.description"
                 
             cursor.execute(query, values)
 
@@ -737,13 +741,68 @@ def create_routes(app):
             cursor = connection.cursor()
 
             # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
-            query = "SELECT or.researchid, r.title, group_concat(rf.field separator ', ') as fields, f.name from ONGOING_RESEARCH as r, RESEARCH as r, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, RESEARCH_FIELDS as rf FACULTY as f where or.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = r.researchid and rp.r_ucid = f.f_ucid and r.researchid group by or.researchid, r.title, f.name"
+            query = "SELECT onr.researchid, r.title, group_concat(rf.field separator ', ') as fields, f.name from ONGOING_RESEARCH as onr, RESEARCH as r, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, RESEARCH_FIELDS as rf, FACULTY as f where onr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = r.researchid and rp.r_ucid = f.f_ucid and r.researchid group by onr.researchid, r.title, f.name"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
             print(result)
 
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+            return jsonify({"error": "bruh"})
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/filterresearch', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def filter_research():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT onr.researchid, r.title, group_concat(rf.field separator ', ') as fields, f.name from ONGOING_RESEARCH as onr, RESEARCH as r, RESEARCH_FIELDS as rf, RESEARCH_CONDUCTEDBY_PROFESSOR as rp, FACULTY as f where onr.researchid = r.researchid and rf.researchid = r.researchid and rp.researchid = r.researchid and rp.r_ucid = f.f_ucid"
+            
+            conditions = []
+            values = []
+
+            if data.get("researchid") and data.get("researchid") != "":
+                conditions.append("r.researchid LIKE %s")
+                values.append("%" + str(data.get("researchid")) + "%",)
+
+            if data.get("field") and data.get("field") != "":
+                conditions.append("rf.field LIKE %s")
+                values.append("%" + str(data.get("field")) + "%",)
+
+            if data.get("researchtitle") and data.get("researchtitle") != "":
+                conditions.append("r.researchtitle LIKE %s")
+                values.append("%" + str(data.get("researchtitle")) + "%",)
+
+            if data.get("researchername") and data.get("researchername") != "":
+                conditions.append("f.name LIKE %s")
+                values.append("%" + str(data.get("researchername")) + "%")
+                
+            print(conditions)
+            print(values)
+            
+            if conditions:
+                query += " and " + " and ".join(conditions)
+                
+            query += " group by onr.researchid, r.title, f.name"
+                
+            cursor.execute(query, values)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
             return jsonify(result)
         
         except mysql.connector.Error as e:
@@ -941,8 +1000,9 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(cf.field separator ', ') as fields, c.description, group_concat(cp.prereq separator ', ') as prerequisite from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
+            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(cf.field separator ', ') as fields, c.description, group_concat(cp.prereq separator ', ') as prerequisites from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where c.courseno = %s and cf.courseno = c.courseno and cp.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
             values = (data.get("courseno"),)
+            print("coursed")
             print(values)
             cursor.execute(query, values)
 
@@ -1014,4 +1074,61 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/updateassignment', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def update_assignment():
+        data = request.get_json()
+        print(data)
+        
+        try:
+            connection = get_db_connection()
 
+            cursor = connection.cursor()
+
+            query = "update student_does_assignment set grade = %s where s_ucid = %s and courseno = %s and assignmentno = %s"
+            values = (data.get("grade"), data.get("ucid"), data.get("courseno"), data.get("assNo"))
+            print(values)
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+
+            return "True"
+
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+            return "False"
+        
+        finally:
+            cursor.close()
+            connection.close()
+
+    @app.route('/api/updateexam', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def update_exam():
+        data = request.get_json()
+        print(data)
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "update student_takes_exam set grade = %s where s_ucid = %s and courseno = %s and examno = %s"
+            values = (data.get("grade"), data.get("ucid"), data.get("courseno"), data.get("examNo"))
+            print(values)
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+
+            return "True"
+
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+            return "False"
+        
+        finally:
+            cursor.close()
+            connection.close()
