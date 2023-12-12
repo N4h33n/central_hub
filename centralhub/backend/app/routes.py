@@ -1182,7 +1182,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, l.lectureno, f1.name as instructor, t.tutorialno, f2.name as ta, group_concat(cf.field separator ', ') as fields from COURSE as c, LECTURE as l, TUTORIAL as t, FACULTY as f1, FACULTY as f2, COURSE_FIELDS as cf where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno group by c.courseno, c.coursename, c.semester, l.lectureno, f1.name, t.tutorialno, f2.name"
+            query = "SELECT c.courseno, c.coursename, c.description, c.semester, group_concat(cf.field separator ', ') as fields from COURSE as c, COURSE_FIELDS as cf where cf.courseno = c.courseno group by c.courseno, c.coursename, c.description, c.semester"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
