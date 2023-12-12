@@ -1000,8 +1000,9 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(cf.field separator ', ') as fields, c.description, group_concat(cp.prereq separator ', ') as prerequisite from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where l.courseno = c.courseno and t.courseno = c.courseno and l.i_ucid = f1.f_ucid and t.t_ucid = f2.f_ucid and cf.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
+            query = "SELECT c.courseno, c.coursename, c.semester, group_concat(cf.field separator ', ') as fields, c.description, group_concat(cp.prereq separator ', ') as prerequisites from COURSE as c, COURSE_FIELDS as cf, COURSE_PREREQS as cp where c.courseno = %s and cf.courseno = c.courseno and cp.courseno = c.courseno group by c.courseno, c.coursename, c.semester, c.description"
             values = (data.get("courseno"),)
+            print("coursed")
             print(values)
             cursor.execute(query, values)
 
