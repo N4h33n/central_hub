@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Button, TextField } from "@mui/material";
 import { Redirect } from "react-router-dom";
 
-
-
 const BASE_URL = "http://localhost:5000/";
 
 export default class Adminlogin extends Component {
@@ -22,7 +20,7 @@ export default class Adminlogin extends Component {
     const data = await response.json();
 
     if (data.success) {
-      window.location.href = "/studentlist";
+      window.location.href = "/adminlanding";
     } else {
       document.getElementById("outlined-email").value = "";
       document.getElementById("outlined-password").value = "";
