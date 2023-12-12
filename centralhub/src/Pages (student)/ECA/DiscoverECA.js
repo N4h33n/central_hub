@@ -19,6 +19,7 @@ const BASE_URL = "http://localhost:5000/";
 
 export default function DiscoverECA() {
   const { studentID } = useParams();
+  const ucid = studentID;
 
   const [data, setData] = useState([]);
   const [filterValues, setFilterValues] = useState({
