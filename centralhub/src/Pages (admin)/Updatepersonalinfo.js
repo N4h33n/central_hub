@@ -44,7 +44,9 @@ export default function Updatepersonalinfo() {
   };
 
   const handleClick = async () => {
-    const { name, email, ucid, password, telephone, address } = student;
+    const { name, email, passhash, phone, address } = student;
+    const ucid = document.getElementById("ucid").value;
+    console.log(ucid);
 
     const response = await fetch(`${BASE_URL}/api/updatepersonalinfo`, {
       method: "POST",
@@ -55,9 +57,9 @@ export default function Updatepersonalinfo() {
         olducid,
         name,
         email,
-        newucid: ucid,
-        password,
-        PhoneNumber: telephone,
+        newucid,
+        passhash,
+        phone: phone,
         Address: address,
       }),
     });
