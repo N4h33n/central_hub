@@ -1172,9 +1172,9 @@ def create_routes(app):
         finally:
             cursor.close() 
             
-    @app.route('/api/explorecourses', methods = ['GET'])
+    @app.route('/api/courselist', methods = ['GET'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
-    def explore_courses():
+    def course_list():
         
         
         try:
