@@ -45,7 +45,7 @@ export default function ViewenrolledECA() {
   }, []);
   return (
     <section className="mainSection">
-      <h2 className="title m-5">ENROLLED EXTRACURRICULAR ACTIVITIES</h2>
+      <h2 className="title m-5">ENROLLED CLUBS</h2>
       <ECAtable data={data} />
       <Button variant="contained" size="large" className="m-5">
         <Link className="link" to={`/discoverecas`}>
