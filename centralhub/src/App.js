@@ -51,6 +51,11 @@ function App() {
           ></Route>
           <Route path="explorecourses/" element={<Explorecourses />}></Route>
           <Route
+            path="coursedetails/:courseID"
+            element={<Coursedetails />}
+          ></Route>
+
+          <Route
             path="enrolledeca/:studentID"
             element={<ViewenrolledECA />}
           ></Route>
