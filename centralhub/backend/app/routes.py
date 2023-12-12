@@ -533,9 +533,9 @@ def create_routes(app):
                 conditions.append("cf.field LIKE %s")
                 values.append("%" + str(data.get("field")) + "%",)
 
-            if data.get("time") and data.get("time") != "":
+            if data.get("meetingtime") and data.get("meetingtime") != "":
                 conditions.append("c.time LIKE %s")
-                values.append("%" + str(data.get("time")) + "%",)
+                values.append("%" + str(data.get("meetingtime")) + "%",)
 
             if data.get("location") and data.get("location") != "":
                 conditions.append("c.location LIKE %s")
