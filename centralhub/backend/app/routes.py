@@ -100,6 +100,34 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/removestudent', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def remove_student():
+        
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "delete from student where s_ucid = %s"
+            
+            values = (data.get('ucid'),)
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
     
     @app.route('/api/studentinfo', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
@@ -452,6 +480,37 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/joinclub', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def join_club():
+        data = request.get_json()
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+            
+            today = datetime.now()
+
+            query = "insert into student_memberof_club values (%s, %s, %s)"
+            values = (data.get("ucid"), data.get("clubname"), today)
+            print("joinclub")
+            print(values)
+            cursor.execute(query, values)
+
+            connection.commit()
+            
+
+            return "True"
+            
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+                return "False"
+
+        finally:
+            cursor.close()
+            connection.close()  
             
     @app.route('/api/leaveclub', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
@@ -1170,7 +1229,8 @@ def create_routes(app):
 
                 return "False"
         finally:
-            cursor.close() 
+            cursor.close()
+            connection.close() 
             
     @app.route('/api/courselist', methods = ['GET'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
@@ -1242,3 +1302,169 @@ def create_routes(app):
         finally:
             cursor.close()
             connection.close()
+            
+    @app.route('/api/pastresearchlist', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def past_research_list():
+        
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT cr.researchid, r.title, r.description, cr.datecompleted, group_concat(rf.field separator ', ') as fields from COMPLETED_RESEARCH as cr, RESEARCH as r, RESEARCH_FIELDS as rf where cr.researchid = r.researchid and rf.researchid = r.researchid group by cr.researchid, r.title, r.description, cr.datecompleted"
+            cursor.execute(query)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addpastresearch', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_past_research():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into RESEARCH values (%s, %s, %s, %s)"
+            
+            values = (data.get('ResearchID'), data.get('Title'), data.get('Description'), data.get('aucid'))
+            print(values)
+            cursor.execute(query, values)
+            
+            fields = data.get("ResearchFields").split(', ')
+            print(fields)
+            
+            for field in fields:
+                query2 = "insert into RESEARCH_FIELDS values (%s, %s, %s)"
+                values2 = (data.get('ResearchID'), field, data.get("aucid"))
+                cursor.execute(query2, values2)
+            
+            query3 = "insert into COMPLETED_RESEARCH values (%s, %s)"
+            values3 = (data.get("ResearchID"), data.get("DateCompleted"))
+            cursor.execute(query3, values3)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/currentresearchlist', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def current_research_list():
+        
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT onr.researchid, r.title, r.description, group_concat(rf.field separator ', ') as fields from ONGOING_RESEARCH as onr, RESEARCH as r, RESEARCH_FIELDS as rf where onr.researchid = r.researchid and rf.researchid = r.researchid group by onr.researchid, r.title, r.description"
+            cursor.execute(query)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addcurrentresearch', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_current_research():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into RESEARCH values (%s, %s, %s, %s)"
+            
+            values = (data.get('ResearchID'), data.get('Title'), data.get('Description'), data.get('aucid'))
+            print(values)
+            cursor.execute(query, values)
+            
+            fields = data.get("ResearchFields").split(', ')
+            print(fields)
+            
+            for field in fields:
+                query2 = "insert into RESEARCH_FIELDS values (%s, %s, %s)"
+                values2 = (data.get('ResearchID'), field, data.get("aucid"))
+                cursor.execute(query2, values2)
+            
+            query3 = "insert into ONGOING_RESEARCH values (%s)"
+            values3 = (data.get("ResearchID"),)
+            cursor.execute(query3, values3)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addtoresearch', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_to_research():
+        
+        data = request.get_json()
+        print(data)
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+            
+            today = datetime.now()
+
+            query = "insert into STUDENT_PARTICIPATESIN_RESEARCH values (%s, %s, %s)"
+            
+            values = (data.get('ucid'), data.get('rid'), today)
+            print(values)
+            cursor.execute(query, values)
+            
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close() 
