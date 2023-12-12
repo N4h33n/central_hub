@@ -544,18 +544,20 @@ def create_routes(app):
             cursor.close()
             connection.close()
             
-    @app.route('/api/discoverecas', methods = ['GET'])
+    @app.route('/api/discoverecas', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def discover_ecas():
-        
+        data = request.get_json()
+        print(data)
         try:
             connection = get_db_connection()
 
             cursor = connection.cursor()
 
             # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query
-            query = "SELECT c.clubname, group_concat(cf.field separator ', ') as fields, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname group by c.clubname, c.location, c.time, c.description"
-            cursor.execute(query)
+            query = "SELECT c.clubname, group_concat(cf.field separator ', ') as fields, c.location, c.time, c.description from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname and c.clubname not in (select sc.clubname from STUDENT_MEMBEROF_CLUB as sc where sc.s_ucid = %s) group by c.clubname, c.location, c.time, c.description"
+            values = (data.get("ucid"),)
+            cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
@@ -975,7 +977,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select sa.assignmentno, a.deadline, a.weight, sa.grade from STUDENT_DOES_ASSIGNMENT as sa, ASSIGNMENT as a where sa.s_ucid = %s and sa.courseno = %s and sa.courseno = a.courseno and sa.assignmentno = a.assignmentno"
+            query = "select sa.assignmentno, date_format(A.deadline, '%Y-%m-%d %H:%i:%S') as deadline, a.weight, sa.grade from STUDENT_DOES_ASSIGNMENT as sa, ASSIGNMENT as a where sa.s_ucid = %s and sa.courseno = %s and sa.courseno = a.courseno and sa.assignmentno = a.assignmentno"
             values = (data.get("ucid"), data.get("courseno"))
             print("assignment")
             print(values)
@@ -1004,7 +1006,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select se.examno, e.time, e.location, e.weight, se.grade from STUDENT_TAKES_EXAM as se, EXAM as e where se.s_ucid = %s and se.courseno = %s and se.courseno = e.courseno and se.examno = e.examno"
+            query = "select se.examno, date_format(e.time, '%Y-%m-%d %H:%i:%S') as datetime, e.location, e.weight, se.grade from STUDENT_TAKES_EXAM as se, EXAM as e where se.s_ucid = %s and se.courseno = %s and se.courseno = e.courseno and se.examno = e.examno"
             values = (data.get("ucid"), data.get("courseno"))
             print("exam")
             print(values)
