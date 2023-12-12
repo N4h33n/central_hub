@@ -79,18 +79,23 @@ export default function Coursedetails() {
   return (
     <section className="mainSection">
       <div
-        className="d-inline-block mt-5 mx-3"
+        className="d-inline-block mt-5 mx-3 courseDetails"
         style={{ verticalAlign: "top", textAlign: "center" }}
       >
-        <Listedinfo information={courseinfo} title={"Course Details"} />
-        <span className="d-block" style={{ textAlign: "center" }}>
-          <Button className="mt-5" variant="contained">
-            Request to Enroll
-          </Button>
-        </span>
+        <Listedinfo information={courseinfo} title={"📓 Course Details"} />
       </div>
-      <Listedinfo information={lectureinfo} title={"Lectures"} />
-      <Listedinfo information={tutorialinfo} title={"Tutorials"} />
+      <div
+        className="courseDetails d-inline-block mt-5 mx-3"
+        style={{ verticalAlign: "top", textAlign: "center" }}
+      >
+        <Listedinfo information={lectureinfo} title={"🏫 Lectures"} />
+      </div>
+      <div
+        className="courseDetails d-inline-block mt-5 mx-3"
+        style={{ verticalAlign: "top", textAlign: "center" }}
+      >
+        <Listedinfo information={tutorialinfo} title={"✎ Tutorials"} />
+      </div>
     </section>
   );
 }

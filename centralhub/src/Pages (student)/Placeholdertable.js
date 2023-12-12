@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,15 +12,18 @@ export default function Placeholdertable({ data }) {
     return <p>No data available</p>;
   }
 
-  // Extract unique column names from all objects in data
-  const columns = Array.from(
-    data.reduce((columnSet, row) => {
-      Object.keys(row).forEach((column) => {
-        columnSet.add(column);
-      });
-      return columnSet;
-    }, new Set())
-  );
+  const columns = Object.keys(data[0]);
+
+  // Function to format a cell value based on its type
+  const formatCellValue = (key, value) => {
+    // Check if the key is 'weight'
+    if (String(key).toLowerCase() === "weight" && typeof value === "number") {
+      // If the key is 'weight' and the value is a number, multiply by 100 and append '%'
+      return `${(value * 100).toFixed(0)}%`;
+    }
+    // Return the original value for other cases
+    return value;
+  };
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
@@ -37,12 +40,12 @@ export default function Placeholdertable({ data }) {
         <TableBody>
           {data.map((row, index) => (
             <TableRow
-              key={index} // Assuming each row has a unique identifier
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (
                 <TableCell key={column} align="center">
-                  {row[column]}
+                  {formatCellValue(column, row[column])}
                 </TableCell>
               ))}
             </TableRow>

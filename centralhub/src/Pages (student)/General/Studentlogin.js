@@ -1,31 +1,45 @@
 import { Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 const BASE_URL = "http://localhost:5000/";
 
 export default function Studentlogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+
   const handleClick = async () => {
     const shutup = "12345678";
 
-    const email = document.getElementById("outlined-email").value;
-    const password = document.getElementById("outlined-password").value;
+    try {
+      const response = await fetch(`${BASE_URL}/api/studentlogin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const response = await fetch(`${BASE_URL}/api/studentlogin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+      if (!response.ok) {
+        throw new Error("Failed to log in");
+      }
 
-    let data = await response.json();
-    console.log("Received data:", data);
+      let data = await response.json();
+      console.log("Received data:", data);
 
-    if (data.success) {
-      window.location.href = `/dashboard/${data.ucid}`;
-    } else {
-      document.getElementById("outlined-email").value = "";
-      document.getElementById("outlined-password").value = "";
+      if (data.success) {
+        window.location.href = `/dashboard/${data.ucid}`;
+      } else {
+        setEmail(""); // Clear email input
+        setPassword(""); // Clear password input
+        setPasswordError(true); // Show error signal
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setEmail(""); // Clear email input
+      setPassword("");
+      alert("Login failed! Please check your username and password.");
+      // Handle the error gracefully, e.g., show a generic error message
     }
   };
 
@@ -38,12 +52,21 @@ export default function Studentlogin() {
           id="outlined-email"
           label="Email"
           variant="outlined"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           className="loginput d-block m-5"
           id="outlined-password"
           label="Password"
           variant="outlined"
+          type="password" // Hide password
+          value={password}
+          error={passwordError} // Add error signal
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setPasswordError(false); // Hide error signal on password change
+          }}
         />
         <Button
           onClick={handleClick}

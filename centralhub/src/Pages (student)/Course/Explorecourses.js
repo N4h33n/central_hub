@@ -50,6 +50,15 @@ export default function Explorecourses() {
 
       const filteredCourses = await response.json();
       setCourses(filteredCourses);
+
+      // Reset filterValues after filtering
+      setFilterValues({
+        coursename: "",
+        coursenumber: "",
+        field: "",
+        instructor: "",
+        ta: "",
+      });
     } catch (error) {
       console.error("Error loading courses:", error);
     }
@@ -62,12 +71,15 @@ export default function Explorecourses() {
   return (
     <section className="filtercourse mainSection">
       <h1 className="m-5">EXPLORE COURSES</h1>
-      <div className="d-inline-block">
+      <div
+        className="d-inline-block float-start ms-2"
+        style={{ maxWidth: "75%" }}
+      >
         <Coursetable data={courses} />
       </div>
       <div
-        className="d-inline-block"
-        style={{ minWidth: "30%", verticalAlign: "top" }}
+        className="d-inline-block position-fixed"
+        style={{ verticalAlign: "top", right: "5%" }}
       >
         <div>
           <TextField
