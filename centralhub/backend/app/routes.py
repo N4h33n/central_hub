@@ -60,7 +60,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = f"SELECT s_ucid, name, email, phone, address from STUDENT"
+            query = "SELECT s_ucid, name, email, phone, address from STUDENT"
             cursor.execute(query)
 
             columns = [column[0] for column in cursor.description]
@@ -233,7 +233,7 @@ def create_routes(app):
             today = datetime.now()
             check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SE.courseno, SE.examno, date_format(E.time, '%Y-%m-%d %H:%i:%S') as deadline, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s)"
+            query = "SELECT SE.courseno, SE.examno, date_format(E.time, '%Y-%m-%d %H:%i:%S') as datetime, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s)"
             values = (data.get("ucid"), check_date)
             cursor.execute(query, values)
 
@@ -1518,3 +1518,321 @@ def create_routes(app):
             cursor.close()
             connection.close()
             
+    @app.route('/api/addassignment', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_assignment():
+        
+        data = request.get_json()
+        print("ADDASS")
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into ASSIGNMENT values (%s, %s, %s, %s, %s)"
+            
+            values = (data.get('courseno'), data.get('assNo'), data.get('assdeadline'), data.get('assweight'), data.get('aucid'),)
+            print(values)
+            cursor.execute(query, values)
+            
+            query2 = "select s_ucid from student_enrolledin_course where courseno = %s"
+            values2 = (data.get("courseno"),)
+            cursor.execute(query2, values2)
+            students = [row[0] for row in cursor.fetchall()]
+            
+            for student in students:
+                query3 = "insert into student_does_assignment values (%s, %s, %s, NULL, %s)"
+                values3 = (student, data.get('courseno'), data.get('assNo'), data.get('aucid'))
+                cursor.execute(query3, values3)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addexam', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_exam():
+        
+        data = request.get_json()
+        print("ADDEX")
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into EXAM values (%s, %s, %s, %s, %s, %s, %s)"
+            
+            values = (data.get('courseno'), data.get('examNo'), data.get('examlocation'), data.get('examdate'), data.get('examduration'), data.get('examweight'), data.get('aucid'))
+            print(values)
+            cursor.execute(query, values)
+            
+            query2 = "select s_ucid from student_enrolledin_course where courseno = %s"
+            values2 = (data.get("courseno"),)
+            cursor.execute(query2, values2)
+            students = [row[0] for row in cursor.fetchall()]
+            
+            for student in students:
+                query3 = "insert into student_takes_exam values (%s, %s, %s, NULL, %s)"
+                values3 = (student, data.get('courseno'), data.get('examNo'), data.get('aucid'))
+                cursor.execute(query3, values3)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addlecture', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_lecture():
+        
+        data = request.get_json()
+        print("ADDLEC")
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into LECTURE values (%s, %s, %s, %s, %s, %s)"
+            
+            values = (data.get('courseno'), data.get('lecno'), data.get('leclocation'), data.get('lecdate'), data.get('instucid'), data.get('aucid'))
+            print(values)
+            cursor.execute(query, values)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/addtutorial', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_tutorial():
+        
+        data = request.get_json()
+        print("ADDTUT")
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into TUTORIAL values (%s, %s, %s, %s, %s, %s)"
+            
+            values = (data.get('courseno'), data.get('tutno'), data.get('tutlocation'), data.get('tutdate'), data.get('taucid'), data.get('aucid'))
+            print(values)
+            cursor.execute(query, values)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
+
+    @app.route('/api/adminlectures', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def admin_lectures():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "select l.courseno, l.lectureno, l.location, l.time, f.name from LECTURE as l, FACULTY as f where courseno = %s and l.i_ucid = f.f_ucid"
+            
+            values = (data.get('courseno'),)
+            print(values)
+            cursor.execute(query, values)
+            
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/admintutorials', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def admin_tutorials():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "select t.courseno, t.tutorialno, t.location, t.time, f.name from TUTORIAL as t, FACULTY as f where courseno = %s and t.t_ucid = f.f_ucid"
+            
+            values = (data.get('courseno'),)
+            print(values)
+            cursor.execute(query, values)
+            
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/adminassignments', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def admin_assignments():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "select courseno, assignmentno, date_format(deadline, '%Y-%m-%d %H:%i:%S') as deadline, weight from ASSIGNMENT where courseno = %s"
+            
+            values = (data.get('courseno'),)
+            print(values)
+            cursor.execute(query, values)
+            
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/adminexams', methods = ['POST'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def admin_exam():
+        
+        data = request.get_json()
+        print(data)
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "select courseno, examno, location, date_format(time, '%Y-%m-%d %H:%i:%S') as datetime, time_format(duration, '%H:%i:%S') as duration, weight from EXAM where courseno = %s"
+            
+            values = (data.get('courseno'),)
+            print(values)
+            cursor.execute(query, values)
+            
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print(result)
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+            
+    @app.route('/api/clublist', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def club_list():
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "SELECT c.clubname, c.description, c.location, group_concat(cf.field separator ', ') as fields, c.time from CLUB as c, CLUB_FIELDS as cf where cf.clubname = c.clubname group by c.clubname, c.description, c.location, c.time"
+            cursor.execute(query)
+
+            columns = [column[0] for column in cursor.description]
+            result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+            return jsonify(result)
+        
+        except mysql.connector.Error as e:
+            print(f"Error{e}")
+        
+        finally:
+            cursor.close()
+            connection.close()
+
+    @app.route('/api/addclub', methods = ['GET'])
+    @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
+    def add_club():
+        
+        try:
+            connection = get_db_connection()
+
+            cursor = connection.cursor()
+
+            query = "insert into CLUB values (%s, %s, %s, %s, %s)"
+            
+            values = (data.get('clubName'), data.get('clubDescription'), data.get('clubLocation'), data.get('clubTime'), ata.get('aucid'))
+            print(values)
+            cursor.execute(query, values)
+            
+            fields = data.get("clubFields").split(', ')
+            print(fields)
+            
+            for field in fields:
+                query2 = "insert into CLUB_FIELDS values (%s, %s, %s)"
+                values2 = (data.get('clubName'), field, data.get("aucid"))
+                cursor.execute(query2, values2)
+                           
+            connection.commit()
+            
+            return "True"
+        
+        except mysql.connector.Error as e:
+                print(f"Error: {e}")
+
+                return "False"
+        finally:
+            cursor.close()
+            connection.close()
