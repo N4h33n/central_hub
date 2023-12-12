@@ -7,13 +7,13 @@ from datetime import datetime, timedelta
 # reference for using parametrized queries (query, values) to prevent sql injections in flask: https://www.reddit.com/r/flask/comments/zr9148/question_about_protecting_against_sql_injections/
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3000'
+host_url = 'http://localhost:3003'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="sQlprequelwoohoo7676",
+        password="*PASSworld*123",
         database='centralhub'
     )
     
