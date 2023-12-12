@@ -60,6 +60,13 @@ export default function DiscoverECA() {
     }
   };
 
+  const handleFilterChange = (field, value) => {
+    setFilterValues((prevFilterValues) => ({
+      ...prevFilterValues,
+      [field]: value,
+    }));
+  };
+
   return (
     <section className="filtercourse mainSection">
       <h1 className="m-5">EXPLORE CLUBS</h1>
@@ -76,6 +83,7 @@ export default function DiscoverECA() {
             label="Club Name"
             value={filterValues.clubname}
             variant="filled"
+            onChange={(e) => handleFilterChange("clubname", e.target.value)}
           />
         </div>
         <div>
@@ -84,6 +92,7 @@ export default function DiscoverECA() {
             label="Club Location"
             value={filterValues.location}
             variant="filled"
+            onChange={(e) => handleFilterChange("location", e.target.value)}
           />
         </div>
         <div>
@@ -92,6 +101,7 @@ export default function DiscoverECA() {
             label="Club Meeting Day"
             value={filterValues.meetingday}
             variant="filled"
+            onChange={(e) => handleFilterChange("meetingday", e.target.value)}
           />
         </div>
         <div>
@@ -100,6 +110,7 @@ export default function DiscoverECA() {
             label="Club Time"
             value={filterValues.meetingtime}
             variant="filled"
+            onChange={(e) => handleFilterChange("meetingtime", e.target.value)}
           />
         </div>
         <div>
@@ -108,8 +119,8 @@ export default function DiscoverECA() {
             label="Club Field"
             value={filterValues.field}
             variant="filled"
+            onChange={(e) => handleFilterChange("field", e.target.value)}
           />
-
           <div>
             <Button className="mt-3" variant="contained" onClick={filterEcas}>
               Filter
