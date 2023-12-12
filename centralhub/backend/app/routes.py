@@ -1513,7 +1513,8 @@ def create_routes(app):
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
                 return "False"
-
+            
         finally:
             cursor.close()
             connection.close()
+            
