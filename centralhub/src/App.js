@@ -51,7 +51,7 @@ function App() {
           ></Route>
           <Route path="explorecourses" element={<Explorecourses />}></Route>
           <Route
-            path="enrolledeca/:StudentID"
+            path="enrolledeca/:studentID"
             element={<ViewenrolledECA />}
           ></Route>
           <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>

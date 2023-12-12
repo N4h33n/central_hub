@@ -29,7 +29,7 @@ export default function ViewenrolledECA() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(ucid),
+        body: JSON.stringify({ ucid }),
       });
 
       const ecas = await response.json();
@@ -41,6 +41,7 @@ export default function ViewenrolledECA() {
   };
 
   useEffect(() => {
+    console.log(studentID);
     loadECAs();
   }, []);
   return (
