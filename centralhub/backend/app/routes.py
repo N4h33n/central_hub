@@ -45,6 +45,7 @@ def create_routes(app):
             
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
+                return jsonify({'success': False})
         
         finally:
             cursor.close()
@@ -93,12 +94,12 @@ def create_routes(app):
             
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1273,12 +1274,12 @@ def create_routes(app):
             
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close() 
@@ -1344,12 +1345,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1411,12 +1412,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1478,12 +1479,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1510,12 +1511,12 @@ def create_routes(app):
             
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close() 
@@ -1579,12 +1580,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1619,12 +1620,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1649,12 +1650,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1679,12 +1680,12 @@ def create_routes(app):
                            
             connection.commit()
             
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
@@ -1859,13 +1860,12 @@ def create_routes(app):
                 cursor.execute(query2, values2)
                            
             connection.commit()
-            
-            return "True"
+            return jsonify({'success': True})
         
         except mysql.connector.Error as e:
                 print(f"Error: {e}")
 
-                return "False"
+                return jsonify({'success': False})
         finally:
             cursor.close()
             connection.close()
