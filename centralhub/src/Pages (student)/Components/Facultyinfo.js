@@ -47,6 +47,7 @@ export default function Facultyinfo() {
 
       const image = await response.json();
       setImage(image);
+      console.log(image[0].image)
       console.log(image);
     } catch (error) {}
   };
