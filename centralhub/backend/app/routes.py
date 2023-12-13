@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, Blueprint
 from flask_cors import cross_origin
 import mysql.connector
 from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # reference for using parametrized queries (query, values) to prevent sql injections in flask: https://www.reddit.com/r/flask/comments/zr9148/question_about_protecting_against_sql_injections/
 
@@ -31,15 +32,12 @@ def create_routes(app):
             cursor = connection.cursor()
 
 
-            query = "SELECT * from admin as A, faculty as F Where F.f_ucid = A.a_ucid and F.email = %s and A.passhash = %s"
-            values = (data.get('email'), data.get('password'))
+            query = "SELECT * from admin as A, faculty as F Where F.f_ucid = A.a_ucid and F.email = %s"
+            values = (data.get('email'),)
             cursor.execute(query, values)
-
             result = cursor.fetchone()
-
-            if result:
+            if result and check_password_hash(result[1], data.get('password')):
                 return jsonify({'success': True})
-        
             else:
                 return jsonify({'success': False})
             
@@ -86,10 +84,12 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
+            
+            hashed = generate_password_hash(data.get('password'), method='sha256')
 
             query = "insert into STUDENT values (%s, %s, %s, %s, %s, %s, %s)"
             
-            values = (data.get('ucid'), data.get('email'), data.get('telephone'), data.get('name'), data.get('address'), data.get('password'), data.get('a_ucid'))
+            values = (data.get('ucid'), data.get('email'), data.get('telephone'), data.get('name'), data.get('address'), hashed, data.get('a_ucid'))
             cursor.execute(query, values)
             
             connection.commit()
@@ -169,23 +169,22 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "SELECT * from STUDENT as S where S.email = (%s) and S.passhash = (%s)"
-            values = (data.get("email"), data.get("password"))
+            query = "SELECT * from STUDENT as S where S.email = (%s)"
+            values = (data.get("email"),)
             cursor.execute(query, values)
 
-            
             result = cursor.fetchone()
 
             s_ucid = result[0]
             
-            if result:
+            if result and check_password_hash(result[5], data.get('password')):
                 return jsonify({'success': True, 'ucid': s_ucid})
-        
             else:
                 return jsonify({'success': False})
         
         except mysql.connector.Error as e:
             print(f"Error{e}")
+            return jsonify({'success': False})
         
         finally:
             cursor.close()
@@ -314,9 +313,11 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
+            
+            hashed = generate_password_hash(data.get('passhash'), method='sha256')
 
             query = "update student set phone = %s, address = %s, passhash = %s where s_ucid = %s"
-            values = (data.get("telephone"), data.get("address"), data.get("passhash"), data.get("ucid"))
+            values = (data.get("telephone"), data.get("address"), hashed, data.get("ucid"))
             print(values)
             cursor.execute(query, values)
             
@@ -639,9 +640,11 @@ def create_routes(app):
             connection = get_db_connection()
 
             cursor = connection.cursor()
+            
+            hashed = generate_password_hash(data.get('passhash'), method='sha256')
 
             query = "update student set name = %s, email = %s, s_ucid = %s, phone = %s, address = %s, passhash = %s where s_ucid = %s"
-            values = (data.get("name"), data.get("email"), data.get("ucid"), data.get("phone"), data.get("Address"), data.get("passhash"), data.get("olducid"))
+            values = (data.get("name"), data.get("email"), data.get("ucid"), data.get("phone"), data.get("Address"), hashed, data.get("olducid"))
             print(values)
             cursor.execute(query, values)
             
