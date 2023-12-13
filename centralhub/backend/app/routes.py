@@ -700,7 +700,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
             
-            query = "select f.name, f.email, group_concat(pf.field separator ', ') as fields, f.webpage, f.teachingsince from FACULTY as f, PROF_FIELDS as pf where f.f_ucid = %s and pf.p_ucid = f.f_ucid group by f.name, f.email, f.webpage, f.teachingsince"
+            query = "select f.name, f.email, group_concat(pf.field separator ', ') as fields, f.webpage, f.teachingsince from FACULTY as f left join PROF_FIELDS as pf on pf.p_ucid = f.f_ucid where f.f_ucid = %s group by f.name, f.email, f.webpage, f.teachingsince"
             values = (data.get("fucid"),)
             print("valinfo")
             print(values)
