@@ -416,7 +416,7 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
     setOpen(false);
   };
 
-  const handlefChanges = () => {
+  const handleChanges = () => {
     updateFunction(lecno, leclocation, lecdate, instucid);
     setOpen(false);
   };
