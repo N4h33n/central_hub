@@ -924,7 +924,7 @@ def create_routes(app):
             
             # reference for "coalesce" used to replace null values with 0: https://365datascience.com/question/sum-for-columns-with-null-values/
             # reference for not duplicating rows for multivalued attribute field using group_concat: https://stackoverflow.com/questions/12095450/how-to-put-a-multivalued-attribute-in-one-column-in-a-query 
-            query = "select sc.courseno, c.coursename, c.description, group_concat(cf.field separator ', ') as fields, (sum(coalesce(sa.grade, 0) * a.weight) + sum(coalesce(se.grade, 0) * e.weight)) as currentgrade from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa, STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e, COURSE_FIELDS as cf where sc.s_ucid = %s and sc.courseno = %s and sc.courseno = c.courseno and sa.courseno = c.courseno and se.courseno = c.courseno and a.courseno = c.courseno and sa.assignmentno = a.assignmentno and e.courseno = c.courseno and se.examno = e.examno and cf.courseno = c.courseno group by sc.courseno, c.coursename, c.description"
+            query = "select sc.courseno, c.coursename, c.description, group_concat(distinct cf.field separator ', ') as fields, (sum(coalesce(sa.grade, 0) * a.weight) + sum(coalesce(se.grade, 0) * e.weight)) as currentgrade from COURSE as c, STUDENT_ENROLLEDIN_COURSE as sc, STUDENT_DOES_ASSIGNMENT as sa, STUDENT_TAKES_EXAM as se, ASSIGNMENT as a, EXAM as e, COURSE_FIELDS as cf where sc.s_ucid = %s and sc.courseno = %s and sc.courseno = c.courseno and sa.courseno = sc.courseno and se.courseno = sc.courseno and a.courseno = sc.courseno and sa.assignmentno = a.assignmentno and e.courseno = sc.courseno and se.examno = e.examno and cf.courseno = sc.courseno group by sc.courseno, c.coursename, c.description"
             values = (data.get("ucid"), data.get("courseno"))
             cursor.execute(query, values)
 
@@ -1041,7 +1041,7 @@ def create_routes(app):
 
             cursor = connection.cursor()
 
-            query = "select se.examno, date_format(e.time, '%Y-%m-%d %H:%i:%S') as datetime, e.location, e.weight, se.grade from STUDENT_TAKES_EXAM as se, EXAM as e where se.s_ucid = %s and se.courseno = %s and se.courseno = e.courseno and se.examno = e.examno"
+            query = "select se.examno, date_format(e.time, '%Y-%m-%d %H:%i:%S') as datetime, time_format(e.duration, '%H:%i:%S') as duration, e.location, e.weight, se.grade from STUDENT_TAKES_EXAM as se, EXAM as e where se.s_ucid = %s and se.courseno = %s and se.courseno = e.courseno and se.examno = e.examno"
             values = (data.get("ucid"), data.get("courseno"))
             print("exam")
             print(values)
