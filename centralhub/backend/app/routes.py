@@ -691,6 +691,7 @@ def create_routes(app):
     @app.route('/api/facultyinfo', methods = ['POST'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def faculty_info():
+        print("finfo")
         data = request.get_json()
         
         try:
@@ -698,8 +699,10 @@ def create_routes(app):
 
             cursor = connection.cursor()
             
-            query = "select f.name, f.email, group_concat(pf.field separator ', ') as fields, f.webpage, f.teachingsince from FACULTY as f, PROF_FIELDS as pf where f.f_ucid = %s and pf.p_ucid = f.f_ucid"
+            query = "select f.name, f.email, group_concat(pf.field separator ', ') as fields, f.webpage, f.teachingsince from FACULTY as f, PROF_FIELDS as pf where f.f_ucid = %s and pf.p_ucid = f.f_ucid group by f.name, f.email, f.webpage, f.teachingsince"
             values = (data.get("fucid"),)
+            print("valinfo")
+            print(values)
             
             cursor.execute(query, values)
 
@@ -773,6 +776,8 @@ def create_routes(app):
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def enrolled_research():
         data = request.get_json()
+        print("enr")
+        print(data)
         
         try:
             connection = get_db_connection()
