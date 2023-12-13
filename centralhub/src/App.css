@@ -43,7 +43,7 @@ body {
 .link {
   text-decoration: none;
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 section.filtercourse div {
@@ -53,4 +53,17 @@ section.filtercourse div {
 .courseDetails {
   border: 2px solid rgb(146, 114, 11);
   padding: 6%;
+}
+
+Button {
+  color: rgb(246, 154, 43);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #e4c7b7;
 }
