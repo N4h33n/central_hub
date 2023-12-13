@@ -75,9 +75,8 @@ export default function Studentdashboard() {
 
       const nameData = await response.json();
 
-      // Check if the nameData is an array and not empty
       if (Array.isArray(nameData) && nameData.length > 0) {
-        const name = nameData[0].name; // Access the 'name' property
+        const name = nameData[0].name;
         setName(name);
         console.log(name);
       } else {

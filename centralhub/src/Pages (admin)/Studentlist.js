@@ -41,7 +41,7 @@ export default function Studentlist() {
 
   useEffect(() => {
     loadStudents();
-  }, []); // Load students on component mount
+  }, []);
 
   return (
     <section className="mainSection">
@@ -159,11 +159,6 @@ export function AlertDialog({ ucid, handleCloseDialog }) {
     handleClick(ucid.s_ucid);
     handleCloseDialog();
   };
-
-  // const setUcidAndHandleClose = () => {
-  //   setUcid(studentName); // Assuming studentName is the ucid, modify this based on your data structure
-  //   handleCloseDialog();
-  // };
 
   return (
     <Dialog

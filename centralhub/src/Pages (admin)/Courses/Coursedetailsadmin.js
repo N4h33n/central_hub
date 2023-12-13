@@ -252,8 +252,6 @@ export function CustomizedAssignment({ title, updateFunction, courseno }) {
   };
 
   const handleChanges = () => {
-    // Perform any desired logic when 'Save changes' is clicked
-    // For now, let's just close the dialog
     updateFunction(assNo, assdeadline, assweight);
     setOpen(false);
   };
@@ -330,8 +328,6 @@ export function CustomizedExam({ title, updateFunction, courseno }) {
   };
 
   const handleChanges = () => {
-    // Perform any desired logic when 'Save changes' is clicked
-    // For now, let's just close the dialog
     updateFunction(examNo, examweight, examdate, examduration, examlocation);
     setOpen(false);
   };
@@ -420,9 +416,7 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
     setOpen(false);
   };
 
-  const handleChanges = () => {
-    // Perform any desired logic when 'Save changes' is clicked
-    // For now, let's just close the dialog
+  const handlefChanges = () => {
     updateFunction(lecno, leclocation, lecdate, instucid);
     setOpen(false);
   };
@@ -506,8 +500,6 @@ export function CustomizedTutorial({ title, updateFunction, courseno }) {
   };
 
   const handleChanges = () => {
-    // Perform any desired logic when 'Save changes' is clicked
-    // For now, let's just close the dialog
     updateFunction(tutno, tutdate, tutlocation, taucid);
     setOpen(false);
   };

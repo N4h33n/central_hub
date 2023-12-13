@@ -50,7 +50,7 @@ export default function Courselist() {
 
   useEffect(() => {
     loadCourses();
-  }, []); // Load students on component mount
+  }, []);
 
   const addCourse = async (formData) => {
     const response = await fetch(`${BASE_URL}/api/addcourse`, {
@@ -60,12 +60,12 @@ export default function Courselist() {
       },
       body: JSON.stringify({
         aucid,
-        ...formData, // Spread all formData values
+        ...formData,
       }),
     });
 
     const responseData = await response.json();
-    console.log("Added Course:", responseData); // Log the response from the server
+    console.log("Added Course:", responseData);
   };
 
   return (
@@ -92,7 +92,6 @@ export default function Courselist() {
 }
 
 function AddCourseModal({ open, handleClose, addCourse }) {
-  // Sample values for placeholders
   const sampleValues = {
     courseNumber: "CPSC 481",
     courseName: "Human Computer Interaction",
@@ -112,7 +111,6 @@ function AddCourseModal({ open, handleClose, addCourse }) {
     coursePrerequisites: "",
   });
 
-  // Function to handle changes in form fields
   const handleFieldChange = (event, field) => {
     setFormData({
       ...formData,
@@ -120,9 +118,7 @@ function AddCourseModal({ open, handleClose, addCourse }) {
     });
   };
 
-  // Function to handle form submission (you can add your logic here)
   const handleSubmit = () => {
-    // Pass formData to the addCourse function
     addCourse(formData);
     handleClose();
   };

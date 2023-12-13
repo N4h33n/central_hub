@@ -34,9 +34,7 @@ export default function Exploreresearch() {
       const research = await response.json();
       setData(research);
       console.log(data);
-    } catch (error) {
-      // console.error("Error loading courses:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -55,9 +53,7 @@ export default function Exploreresearch() {
 
       const filteredResearch = await response.json();
       setData(filteredResearch);
-    } catch (error) {
-      // console.error("Error loading courses:", error);
-    }
+    } catch (error) {}
   };
 
   const handleFilterChange = (field, value) => {
@@ -142,11 +138,9 @@ export default function Exploreresearch() {
 
 function Coursetable({ data }) {
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 
-  // Add "Course Details" to the columns array
   const columns = [...Object.keys(data[0]), "Course Details"];
 
   return (
@@ -164,7 +158,7 @@ function Coursetable({ data }) {
         <TableBody>
           {data.map((row, index) => (
             <TableRow
-              key={index} // Assuming each row has a unique identifier
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (

@@ -30,16 +30,15 @@ export default function Studentlogin() {
       if (data.success) {
         window.location.href = `/dashboard/${data.ucid}`;
       } else {
-        setEmail(""); // Clear email input
-        setPassword(""); // Clear password input
-        setPasswordError(true); // Show error signal
+        setEmail("");
+        setPassword("");
+        setPasswordError(true);
       }
     } catch (error) {
       console.error("Error during login:", error);
-      setEmail(""); // Clear email input
+      setEmail("");
       setPassword("");
       alert("Login failed! Please check your username and password.");
-      // Handle the error gracefully, e.g., show a generic error message
     }
   };
 
@@ -60,12 +59,12 @@ export default function Studentlogin() {
           id="outlined-password"
           label="Password"
           variant="outlined"
-          type="password" // Hide password
+          type="password"
           value={password}
-          error={passwordError} // Add error signal
+          error={passwordError}
           onChange={(e) => {
             setPassword(e.target.value);
-            setPasswordError(false); // Hide error signal on password change
+            setPasswordError(false);
           }}
         />
         <Button

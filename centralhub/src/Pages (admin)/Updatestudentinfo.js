@@ -185,16 +185,10 @@ function Studentcoursetable({ data, ucid }) {
       });
 
       const data = await response.json();
-
-      // Handle response as needed
-    } catch (error) {
-      // Handle error
-      // console.error("Error leaving club:", error);
-    }
+    } catch (error) {}
   };
 
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 

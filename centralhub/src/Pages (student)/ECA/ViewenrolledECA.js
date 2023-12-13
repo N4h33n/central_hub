@@ -62,34 +62,22 @@ export default function ViewenrolledECA() {
   );
 }
 
-// ... (Previous code)
-
-// ... (Previous code)
-
-// Export the ECAtable component separately
 export function ECAtable({ data, ucid }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // State to manage the selected club information for the dialog
   const [selectedClub, setSelectedClub] = useState(null);
 
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 
-  // Remove "Club Details" from the columns array
   const columns = Object.keys(data[0]);
 
-  // State to manage the open state of the dialog
-
-  // Function to handle opening the dialog
   const handleDialogOpen = (club) => {
     setSelectedClub(club);
     setDialogOpen(true);
   };
 
-  // Function to handle closing the dialog
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
@@ -110,10 +98,7 @@ export function ECAtable({ data, ucid }) {
 
       const data = await response.json();
       window.location.reload();
-
-      // Handle response as needed
     } catch (error) {
-      // Handle error
       console.error("Error leaving club:", error);
     }
   };
@@ -136,7 +121,7 @@ export function ECAtable({ data, ucid }) {
           <TableBody>
             {data.map((row, index) => (
               <TableRow
-                key={index} // Assuming each row has a unique identifier
+                key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 {columns.map((column) => (
@@ -161,7 +146,6 @@ export function ECAtable({ data, ucid }) {
       </TableContainer>
       {/* Render the AlertDialog component */}
       {selectedClub && (
-        // Pass both ucid and clubname to handleAgree
         <AlertDialog
           open={dialogOpen}
           handleClose={handleDialogClose}
@@ -173,9 +157,6 @@ export function ECAtable({ data, ucid }) {
   );
 }
 
-// ... (Remaining code)
-
-// Export the AlertDialog component separately
 export function AlertDialog({ open, handleClose, handleAgree, club }) {
   return (
     <Dialog

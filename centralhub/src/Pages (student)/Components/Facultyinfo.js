@@ -47,7 +47,7 @@ export default function Facultyinfo() {
 
       const image = await response.json();
       setImage(image);
-      console.log(image[0].image)
+      console.log(image[0].image);
       console.log(image);
     } catch (error) {}
   };
@@ -66,7 +66,7 @@ export default function Facultyinfo() {
         style={{ verticalAlign: "top" }}
         id="facultyImage"
         className="m-5 border border-black border-5"
-        src={image['image']} // Access the image property of the first (and only) object
+        src={image["image"]}
         alt="Faculty Member"
       />
     </section>

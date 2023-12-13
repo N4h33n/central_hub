@@ -39,7 +39,6 @@ export default function Updateinfo() {
   }, [ucid]);
 
   const handleChange = (field, value) => {
-    // Update the corresponding field in the state
     setStudent((prevStudent) => ({
       ...prevStudent,
       [field]: value,
@@ -49,7 +48,6 @@ export default function Updateinfo() {
   const handleClick = async () => {
     const { passhash, phone, address } = student;
 
-    // Check conditions before proceeding with fetch
     if (address.length < 3) {
       alert("Address must be a minimum of 3 characters.");
       return;
@@ -60,14 +58,12 @@ export default function Updateinfo() {
       return;
     }
 
-    // Check if phone is exactly 10 digits (no strings)
     const phoneRegex = /^\d{10}$/;
     if (!phone.match(phoneRegex)) {
       alert("Phone must be exactly 10 digits (no strings).");
       return;
     }
 
-    // Proceed with the fetch if all conditions are met
     const response = await fetch(`${BASE_URL}/api/updateinfo`, {
       method: "POST",
       headers: {
@@ -82,7 +78,6 @@ export default function Updateinfo() {
     });
 
     const data = await response.json();
-    // Handle response data as needed
   };
 
   return (
