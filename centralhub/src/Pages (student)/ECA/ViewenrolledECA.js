@@ -30,10 +30,11 @@ export default function ViewenrolledECA() {
   const loadECAs = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/enrolledecas`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ ucid }),
       });
 
       const ecas = await response.json();
@@ -53,7 +54,7 @@ export default function ViewenrolledECA() {
       <h2 className="title m-5">ENROLLED CLUBS</h2>
       <ECAtable data={data} ucid={ucid} />
       <Button variant="contained" size="large" className="m-5">
-        <Link className="link" to={`/discoverecas/${studentID}`}>
+        <Link className="link" to={`/discoverecas`}>
           Explore Clubs ⌕
         </Link>
       </Button>
