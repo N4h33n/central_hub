@@ -490,7 +490,7 @@ def create_routes(app):
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def join_club():
         data = request.get_json()
-        
+        print(data)
         try:
             connection = get_db_connection()
 
