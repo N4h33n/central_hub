@@ -240,9 +240,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export function CustomizedAssignment({ title, updateFunction, courseno }) {
   const [open, setOpen] = useState(false);
 
-  const [assNo, setAssNo] = useState("");
-  const [assdeadline, setAssdeadline] = useState("");
-  const [assweight, setAssweight] = useState("");
+  const [assNo, setAssNo] = useState("1");
+  const [assdeadline, setAssdeadline] = useState("2023-12-31 23:59:59");
+  const [assweight, setAssweight] = useState("40%");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -286,18 +286,21 @@ export function CustomizedAssignment({ title, updateFunction, courseno }) {
             label="Assignment No."
             fullWidth
             margin="normal"
+            placeholder={assNo}
             onChange={(e) => setAssNo(e.target.value)}
           />
           <TextField
             label="Assignment Deadline"
             fullWidth
             margin="normal"
+            placeholder={assdeadline}
             onChange={(e) => setAssdeadline(e.target.value)}
           />
           <TextField
             label="Assignment Weight"
             fullWidth
             margin="normal"
+            placeholder={assweight}
             onChange={(e) => setAssweight(e.target.value)}
           />
         </DialogContent>
@@ -314,12 +317,11 @@ export function CustomizedAssignment({ title, updateFunction, courseno }) {
 export function CustomizedExam({ title, updateFunction, courseno }) {
   const [open, setOpen] = useState(false);
 
-  const [examNo, setExamNo] = useState("");
-  const [examweight, setExamweight] = useState("");
-  const [examdate, setExamDate] = useState("");
-  const [examduration, setExamDuration] = useState("");
-  const [examlocation, setExamLocation] = useState("");
-
+  const [examNo, setExamNo] = useState("1");
+  const [examweight, setExamweight] = useState("30%");
+  const [examdate, setExamDate] = useState("2023-12-31 23:59:59");
+  const [examduration, setExamDuration] = useState("01:30:00");
+  const [examlocation, setExamLocation] = useState("ICT 212");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -362,29 +364,34 @@ export function CustomizedExam({ title, updateFunction, courseno }) {
             label="Exam No."
             fullWidth
             margin="normal"
+            placeholder={examNo}
             onChange={(e) => setExamNo(e.target.value)}
           />
           <TextField
             label="Exam Weight"
             fullWidth
             margin="normal"
+            placeholder={examweight}
             onChange={(e) => setExamweight(e.target.value)}
           />
           <TextField
             label="Exam Date"
             fullWidth
             margin="normal"
+            placeholder={examdate}
             onChange={(e) => setExamDate(e.target.value)}
           />
           <TextField
             label="Exam Duration"
             fullWidth
             margin="normal"
+            placeholder={examduration}
             onChange={(e) => setExamDuration(e.target.value)}
           />
           <TextField
             label="Exam Location"
             fullWidth
+            placeholder={examlocation}
             margin="normal"
             onChange={(e) => setExamLocation(e.target.value)}
           />
@@ -402,11 +409,10 @@ export function CustomizedExam({ title, updateFunction, courseno }) {
 export function CustomizedLecture({ title, updateFunction, courseno }) {
   const [open, setOpen] = useState(false);
 
-  const [lecno, setLecno] = useState("");
-  const [leclocation, setLecLocation] = useState("");
-  const [lecdate, setLecDate] = useState("");
-  const [instucid, setInstucid] = useState("");
-
+  const [lecno, setLecno] = useState("3");
+  const [leclocation, setLecLocation] = useState("MS 160");
+  const [lecdate, setLecDate] = useState("MWF 08:15");
+  const [instucid, setInstucid] = useState("12345678");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -449,24 +455,28 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
             label="Lecture No."
             fullWidth
             margin="normal"
+            placeholder={lecno}
             onChange={(e) => setLecno(e.target.value)}
           />
           <TextField
             label="Lecture Date"
             fullWidth
             margin="normal"
+            placeholder={lecdate}
             onChange={(e) => setLecDate(e.target.value)}
           />
           <TextField
             label="Lecture Location"
             fullWidth
             margin="normal"
+            placeholder={leclocation}
             onChange={(e) => setLecLocation(e.target.value)}
           />
           <TextField
             label="Instructor UCID"
             fullWidth
             margin="normal"
+            placeholder={instucid}
             onChange={(e) => setInstucid(e.target.value)}
           />
         </DialogContent>
@@ -483,10 +493,10 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
 export function CustomizedTutorial({ title, updateFunction, courseno }) {
   const [open, setOpen] = useState(false);
 
-  const [tutno, setTutno] = useState("");
-  const [tutlocation, setTutLocation] = useState("");
-  const [tutdate, setTutDate] = useState("");
-  const [taucid, setTaucid] = useState("");
+  const [tutno, setTutno] = useState("3");
+  const [tutlocation, setTutLocation] = useState("MWF 08:15");
+  const [tutdate, setTutDate] = useState("MS 160");
+  const [taucid, setTaucid] = useState("12345678");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -530,24 +540,28 @@ export function CustomizedTutorial({ title, updateFunction, courseno }) {
             label="Tutorial No."
             fullWidth
             margin="normal"
+            placeholder={tutno}
             onChange={(e) => setTutno(e.target.value)}
           />
           <TextField
             label="Tutorial Date"
             fullWidth
             margin="normal"
+            placeholder={tutdate}
             onChange={(e) => setTutDate(e.target.value)}
           />
           <TextField
             label="Tutorial Location"
             fullWidth
             margin="normal"
+            placeholder={tutlocation}
             onChange={(e) => setTutLocation(e.target.value)}
           />
           <TextField
             label="Tutorial UCID"
             fullWidth
             margin="normal"
+            placeholder={taucid}
             onChange={(e) => setTaucid(e.target.value)}
           />
         </DialogContent>

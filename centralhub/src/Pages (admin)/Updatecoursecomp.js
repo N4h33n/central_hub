@@ -64,11 +64,13 @@ export default function Updatecoursecomp() {
   useEffect(() => {
     console.log(ucid);
     console.log(courseno);
+    console.log(assignments);
     loadAssignments();
     loadExams();
   }, []);
 
   const updateAssignment = async (assNo, grade) => {
+    const normalizedGrade = parseFloat(grade) / 100;
     const response = await fetch(`${BASE_URL}/api/updateassignment`, {
       method: "POST",
       headers: {
@@ -78,7 +80,7 @@ export default function Updatecoursecomp() {
         ucid,
         courseno,
         assNo,
-        grade,
+        grade: normalizedGrade,
       }),
     });
 
@@ -87,6 +89,7 @@ export default function Updatecoursecomp() {
   };
 
   const updateExam = async (examNo, grade) => {
+    const normalizedGrade = parseFloat(grade) / 100;
     const response = await fetch(`${BASE_URL}/api/updateexam`, {
       method: "POST",
       headers: {
@@ -96,7 +99,7 @@ export default function Updatecoursecomp() {
         ucid,
         courseno,
         examNo,
-        grade,
+        grade: normalizedGrade,
       }),
     });
 
@@ -188,6 +191,7 @@ export function CustomizedDialogs({ title, updateFunction }) {
             label="Grade (%)"
             fullWidth
             margin="normal"
+            value={grade} // Display the original value
             onChange={(e) => setGrade(e.target.value)}
           />
         </DialogContent>
