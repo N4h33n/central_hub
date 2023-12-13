@@ -166,7 +166,6 @@ function Studentlisttable({ data }) {
                 </TableCell>
               ))}
               <TableCell align="center"></TableCell>
-              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -189,18 +188,6 @@ function Studentlisttable({ data }) {
                     >
                       More information
                     </Link>
-                  </Button>
-                </TableCell>
-                <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    // onClick={() => {
-                    //   handleRemoveStudent("row[S_ucid]");
-                    //   setSelectedCourse(row);
-                    // }}
-                  >
-                    Remove Course
                   </Button>
                 </TableCell>
               </TableRow>

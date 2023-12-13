@@ -13,9 +13,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-//TODO-Change phone to phone#
-//TODO-Fix order
-
 const BASE_URL = "http://localhost:5000/";
 
 export default function Pastresearchlist() {
@@ -175,8 +172,6 @@ function Studentlisttable({ data }) {
                   {capitalizeFirstLetter(column)}
                 </TableCell>
               ))}
-              <TableCell align="center"></TableCell>
-              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -190,19 +185,6 @@ function Studentlisttable({ data }) {
                     {row[column]}
                   </TableCell>
                 ))}
-
-                <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    // onClick={() => {
-                    //   handleRemoveStudent("row[S_ucid]");
-                    //   setSelectedCourse(row);
-                    // }}
-                  >
-                    Remove Research
-                  </Button>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

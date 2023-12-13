@@ -141,7 +141,7 @@ function Coursetable({ data }) {
     return <p>No data available</p>;
   }
 
-  const columns = [...Object.keys(data[0]), "Course Details"];
+  const columns = Object.keys(data[0]);
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
@@ -163,18 +163,7 @@ function Coursetable({ data }) {
             >
               {columns.map((column) => (
                 <TableCell key={column} align={"center"}>
-                  {column === "Course Details" ? (
-                    <Button variant="outlined">
-                      <Link
-                        className="link"
-                        to={`/courseDetails/${row["courseno"]}`}
-                      >
-                        Research Details
-                      </Link>
-                    </Button>
-                  ) : (
-                    row[column]
-                  )}
+                  {row[column]}
                 </TableCell>
               ))}
             </TableRow>
