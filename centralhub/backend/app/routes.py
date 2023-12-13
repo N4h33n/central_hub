@@ -1831,7 +1831,7 @@ def create_routes(app):
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
+            print(result)
             return jsonify(result)
         
         except mysql.connector.Error as e:
