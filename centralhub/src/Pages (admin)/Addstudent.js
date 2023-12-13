@@ -17,7 +17,6 @@ export default function Addstudent() {
     const address = document.getElementById("address").value;
     const password = document.getElementById("password").value;
 
-    // Validation checks
     if (!name.trim()) {
       setValidationError("Name cannot be empty");
       return false;
@@ -48,18 +47,15 @@ export default function Addstudent() {
       return false;
     }
 
-    // All checks passed
     setValidationError("");
     return true;
   };
 
   const handleClick = async () => {
     if (!validateInputs()) {
-      // Validation failed, don't proceed with the fetch
       return;
     }
 
-    // Validation passed, proceed with the fetch
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const ucid = document.getElementById("ucid").value;
@@ -85,7 +81,6 @@ export default function Addstudent() {
     });
 
     const data = await response.json();
-    // Handle response data as needed
   };
 
   return (

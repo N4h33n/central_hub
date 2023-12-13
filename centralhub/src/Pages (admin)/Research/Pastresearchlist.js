@@ -50,7 +50,7 @@ export default function Pastresearchlist() {
 
   useEffect(() => {
     loadResearch();
-  }, []); // Load students on component mount
+  }, []);
 
   const addResearch = async (formData) => {
     const response = await fetch(`${BASE_URL}/api/addpastresearch`, {
@@ -60,12 +60,12 @@ export default function Pastresearchlist() {
       },
       body: JSON.stringify({
         aucid,
-        ...formData, // Spread all formData values
+        ...formData,
       }),
     });
 
     const responseData = await response.json();
-    console.log("Added Research:", responseData); // Log the response from the server
+    console.log("Added Research:", responseData);
   };
 
   return (
@@ -89,7 +89,6 @@ export default function Pastresearchlist() {
 }
 
 function AddCourseModal({ open, handleClose, addResearch }) {
-  // State for form data
   const [formData, setFormData] = useState({
     ResearchID: "",
     Title: "",
@@ -98,7 +97,6 @@ function AddCourseModal({ open, handleClose, addResearch }) {
     ResearchFields: "",
   });
 
-  // Function to handle changes in form fields
   const handleFieldChange = (event, field) => {
     setFormData({
       ...formData,
@@ -106,9 +104,7 @@ function AddCourseModal({ open, handleClose, addResearch }) {
     });
   };
 
-  // Function to handle form submission (you can add your logic here)
   const handleSubmit = () => {
-    // Pass formData to the addCourse function
     addResearch(formData);
     handleClose();
   };

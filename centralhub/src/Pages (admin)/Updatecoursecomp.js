@@ -151,8 +151,6 @@ export function CustomizedDialogs({ title, updateFunction }) {
   };
 
   const handleChanges = () => {
-    // Perform any desired logic when 'Save changes' is clicked
-    // For now, let's just close the dialog
     updateFunction(assNo, grade);
     setOpen(false);
   };
@@ -191,7 +189,7 @@ export function CustomizedDialogs({ title, updateFunction }) {
             label="Grade (%)"
             fullWidth
             margin="normal"
-            value={grade} // Display the original value
+            value={grade}
             onChange={(e) => setGrade(e.target.value)}
           />
         </DialogContent>

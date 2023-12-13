@@ -14,18 +14,14 @@ export default function Placeholdertable({ data }) {
 
   const columns = Object.keys(data[0]);
 
-  // Function to format a cell value based on its type
   const formatCellValue = (key, value) => {
-    // Check if the key is 'weight'
     if (
       (String(key).toLowerCase() === "weight" ||
         String(key).toLowerCase() === "grade") &&
       typeof value === "number"
     ) {
-      // If the key is 'weight' and the value is a number, multiply by 100 and append '%'
       return `${(value * 100).toFixed(0)}%`;
     }
-    // Return the original value for other cases
     return value;
   };
 

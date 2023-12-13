@@ -53,7 +53,6 @@ export default function Explorecourses() {
       const filteredCourses = await response.json();
       setCourses(filteredCourses);
 
-      // Reset filterValues after filtering
       setFilterValues({
         coursename: "",
         coursenumber: "",
@@ -154,11 +153,9 @@ export default function Explorecourses() {
 
 function Coursetable({ data }) {
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 
-  // Add "Course Details" to the columns array
   const columns = [...Object.keys(data[0]), "Course Details"];
 
   return (
@@ -176,7 +173,7 @@ function Coursetable({ data }) {
         <TableBody>
           {data.map((row, index) => (
             <TableRow
-              key={index} // Assuming each row has a unique identifier
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (

@@ -23,7 +23,7 @@ export default function Updatepersonalinfo() {
       });
 
       const studentData = await response.json();
-      const studentObject = studentData[0] || {}; // Get the first object from the array
+      const studentObject = studentData[0] || {};
       setStudent(studentObject);
       console.log(studentObject);
     } catch (error) {
@@ -36,7 +36,6 @@ export default function Updatepersonalinfo() {
   }, []);
 
   const handleChange = (field, value) => {
-    // Update the corresponding field in the state
     setStudent((prevStudent) => ({
       ...prevStudent,
       [field]: value,
@@ -64,7 +63,6 @@ export default function Updatepersonalinfo() {
       }),
     });
     const data = await response.json();
-    // Handle response data as needed
   };
 
   return (

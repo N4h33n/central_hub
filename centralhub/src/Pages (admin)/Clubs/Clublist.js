@@ -47,7 +47,7 @@ export default function Clublist() {
 
   useEffect(() => {
     loadClubs();
-  }, []); // Load students on component mount
+  }, []);
 
   const addClub = async (formData) => {
     const response = await fetch(`${BASE_URL}/api/addclub`, {
@@ -57,7 +57,7 @@ export default function Clublist() {
       },
       body: JSON.stringify({
         aucid,
-        ...formData, // Spread all formData values
+        ...formData,
       }),
     });
 
@@ -87,7 +87,6 @@ export default function Clublist() {
 }
 
 function AddCourseModal({ open, handleClose, addClub }) {
-  // State for form data
   const [formData, setFormData] = useState({
     clubName: "",
     clubDescription: "",
@@ -96,7 +95,6 @@ function AddCourseModal({ open, handleClose, addClub }) {
     clubTime: "",
   });
 
-  // Function to handle changes in form fields
   const handleFieldChange = (event, field) => {
     setFormData({
       ...formData,
@@ -104,9 +102,7 @@ function AddCourseModal({ open, handleClose, addClub }) {
     });
   };
 
-  // Function to handle form submission (you can add your logic here)
   const handleSubmit = () => {
-    // Pass formData to the addCourse function
     addClub(formData);
     handleClose();
   };

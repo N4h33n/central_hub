@@ -60,7 +60,6 @@ export default function Viewcourses() {
 
 function Coursetable({ data, ucid }) {
   if (!data || data.length === 0) {
-    // Handle case where data is empty or undefined
     return <p>No data available</p>;
   }
 
@@ -86,9 +85,9 @@ function Coursetable({ data, ucid }) {
             >
               {columns.map((column) => (
                 <TableCell key={column} align={"center"}>
-                  {column === "currentgrade" ? ( // Check if it's the "currentgrade" column
+                  {column === "currentgrade" ? (
                     `${Math.round(parseFloat(row[column]) * 100)}%`
-                  ) : column === "actions" ? ( // Check if it's the "actions" column
+                  ) : column === "actions" ? (
                     <Button variant="outlined">
                       <Link
                         className="link"

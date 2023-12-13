@@ -134,14 +134,12 @@ export default function Viewspecificcourse() {
   }, []);
 
   useEffect(() => {
-    // Access instructor info once the lecture state is updated
     if (lecture.length > 0) {
       setInstructor(lecture[0].f_ucid);
     }
-  }, [lecture]); // Run whenever lecture state is updated
+  }, [lecture]);
 
   useEffect(() => {
-    // Access instructor info once the lecture state is updated
     if (tutorial.length > 0) {
       setTa(tutorial[0].f_ucid);
     }
