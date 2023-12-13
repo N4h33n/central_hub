@@ -23,7 +23,11 @@ which is currently stored in the database folder.
    Admin login is to make manipulating the database for the admins much easier and faster and nicer to visualize.
 5) currently, (for your convinence we are mentioning this) admin email is set to admin@ucalgary.ca and password is set to password.
    If you want to log in as a student, an example valid student login is naheen.kabir@ucalgary.ca and password is password
-6) enjoy :)
+6) As an admin, you can view all the current research, course, club and student info and add new values accordingly. Our system       assumes any new data to be added would e sent to the admin via email requests in a real-life scenario, upon which if the           admin approves it they can add it to the database.
+7) As a student, there is mostly only priviledge to view what is common sense to be public information for a university student
+   plus the student's own personal details. The student can only manipulate their own password and fields such as address or phpne    which wouldnt affect anything else in the database. They can also self-enroll and leave clubs, which we thought would be pretty    harmless.
+8) SQL injections have been taken care of by using parametrized input to all queries in the flask app.
+9) enjoy :)
    
    
    
