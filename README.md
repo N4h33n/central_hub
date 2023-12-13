@@ -27,7 +27,5 @@ which is currently stored in the database folder.
 7) As a student, there is mostly only priviledge to view what is common sense to be public information for a university student
    plus the student's own personal details. The student can only manipulate their own password and fields such as address or phpne    which wouldnt affect anything else in the database. They can also self-enroll and leave clubs, which we thought would be pretty    harmless.
 8) SQL injections have been taken care of by using parametrized input to all queries in the flask app.
-9) enjoy :)
-   
-   
-   
+9) NOTE!!!!! in case you are viewing the github, the latest final branch is 'combined', not main
+10) enjoy :)   
