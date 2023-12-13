@@ -65,5 +65,9 @@ h3,
 h4,
 h5,
 h6 {
-  color: #e4c7b7;
+  color: #c8a694;
+}
+
+* {
+  font-family: Georgia, "Times New Roman", Times, serif;
 }

@@ -28,7 +28,7 @@ export default function Facultyinfo() {
       });
 
       const faculty = await response.json();
-      console.log("facultyinfo")
+      console.log("facultyinfo");
       console.log(faculty);
       setFaculty(faculty);
     } catch (error) {}
