@@ -549,7 +549,6 @@ def create_routes(app):
     @app.route('/api/discoverecas', methods = ['GET'])
     @cross_origin(origin=host_url, headers=['Content-Type', 'Authorization'])
     def discover_ecas():
-        print(data)
         try:
             connection = get_db_connection()
 
