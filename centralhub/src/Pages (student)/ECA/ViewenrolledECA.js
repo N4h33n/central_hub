@@ -30,11 +30,10 @@ export default function ViewenrolledECA() {
   const loadECAs = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/enrolledecas`, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ucid }),
       });
 
       const ecas = await response.json();

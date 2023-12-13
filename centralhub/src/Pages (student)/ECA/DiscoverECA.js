@@ -32,11 +32,10 @@ export default function DiscoverECA() {
   const loadECAS = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/discoverecas`, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(ucid),
       });
 
       const ecas = await response.json();
