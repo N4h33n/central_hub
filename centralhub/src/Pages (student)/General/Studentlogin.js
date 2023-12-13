@@ -45,7 +45,7 @@ export default function Studentlogin() {
   return (
     <div className="loginContainer">
       <div className="loginInfo">
-        <h1 style={{ color: "#1976d2" }}>Student Login</h1>
+        <h1 style={{}}>Student Login</h1>
         <TextField
           className="loginput d-block m-5"
           id="outlined-email"
