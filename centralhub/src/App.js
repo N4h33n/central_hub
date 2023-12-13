@@ -147,7 +147,10 @@ function App() {
               element={<Updateinfo />}
             ></Route>
             <Route path="/filtercourses" element={<Filtercourses />}></Route>
-            <Route path="/discoverecas" element={<DiscoverECA />}></Route>
+            <Route
+              path="/discoverecas/:studentID"
+              element={<DiscoverECA />}
+            ></Route>
           </Route>
         </Routes>
       </BrowserRouter>
