@@ -1,8 +1,4 @@
-import React from "react";
-import { Button } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,9 +10,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Link, useParams } from "react-router-dom";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -30,6 +26,7 @@ export default function Updatestudentinfo() {
   const [modalTitle, setModalTitle] = useState("");
   const [modalFields, setModalFields] = useState([]);
   const [formData, setFormData] = useState({});
+  const [notification, setNotification] = useState("");
 
   const loadCourses = async () => {
     try {
@@ -42,7 +39,6 @@ export default function Updatestudentinfo() {
       });
 
       const courses = await response.json();
-      console.log("course", courses);
       setData(courses);
     } catch (error) {
       console.error("Error loading courses:", error);
@@ -52,16 +48,22 @@ export default function Updatestudentinfo() {
   const handleAddToCourse = () => {
     setModalTitle("Add to Course");
     setModalFields([
-      { label: "Course Number", stateKey: "courseno" },
-      { label: "Lecture Number", stateKey: "lecno" },
-      { label: "Tutorial Number", stateKey: "tutno" },
+      { label: "Course Number", stateKey: "courseno", placeholder: "CPSC 413" },
+      { label: "Lecture Number", stateKey: "lecno", placeholder: "1" },
+      { label: "Tutorial Number", stateKey: "tutno", placeholder: "2" },
     ]);
     setModalOpen(true);
   };
 
   const handleAddToResearch = () => {
     setModalTitle("Add to Research");
-    setModalFields([{ label: "Research ID", stateKey: "rid" }]);
+    setModalFields([
+      {
+        label: "Research ID",
+        stateKey: "rid",
+        placeholder: "Enter Research ID",
+      },
+    ]);
     setModalOpen(true);
   };
 
@@ -79,6 +81,14 @@ export default function Updatestudentinfo() {
     });
 
     const data = await response.json();
+
+    if (data === "false") {
+      setNotification(
+        "Error: The course doesn't exist or there is an issue with the information provided."
+      );
+    } else {
+      setNotification("");
+    }
   };
 
   const addtoResearch = async () => {
@@ -95,6 +105,14 @@ export default function Updatestudentinfo() {
     });
 
     const data = await response.json();
+
+    if (data === "false") {
+      setNotification(
+        "Error: There is an issue with the information provided."
+      );
+    } else {
+      setNotification("");
+    }
   };
 
   const handleFieldChange = (event, stateKey) => {
@@ -134,6 +152,8 @@ export default function Updatestudentinfo() {
         Add to Research
       </Button>
       <Studentcoursetable data={data} ucid={studentID} />
+
+      {notification && <p style={{ color: "red" }}>{notification}</p>}
 
       <AddToCourseResearchModal
         open={modalOpen}
@@ -187,52 +207,54 @@ function Studentcoursetable({ data, ucid }) {
   ];
 
   return (
-    <TableContainer component={Paper} id="table" className="p-3">
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {columns.map((column) => (
-              <TableCell key={column} align="center">
-                {column}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row, index) => (
-            <TableRow
-              key={index}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
+    <section className="m-5">
+      <TableContainer component={Paper} id="table" className="p-3">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
               {columns.map((column) => (
                 <TableCell key={column} align="center">
-                  {column === "Update Grades" ? (
-                    <Button variant="outlined">
-                      <Link
-                        className="link"
-                        to={`/updatecoursecomp/${ucid}/${row["courseno"]}`}
-                      >
-                        Update Component
-                      </Link>
-                    </Button>
-                  ) : column === "Remove From Course" ? (
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => removeFromCourse(ucid, row["courseno"])}
-                    >
-                      Remove from Course
-                    </Button>
-                  ) : (
-                    row[column]
-                  )}
+                  {column}
                 </TableCell>
               ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.map((row, index) => (
+              <TableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                {columns.map((column) => (
+                  <TableCell key={column} align="center">
+                    {column === "Update Grades" ? (
+                      <Button variant="outlined">
+                        <Link
+                          className="link"
+                          to={`/updatecoursecomp/${ucid}/${row["courseno"]}`}
+                        >
+                          Update Component
+                        </Link>
+                      </Button>
+                    ) : column === "Remove From Course" ? (
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => removeFromCourse(ucid, row["courseno"])}
+                      >
+                        Remove from Course
+                      </Button>
+                    ) : (
+                      row[column]
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </section>
   );
 }
 
@@ -260,6 +282,7 @@ function AddToCourseResearchModal({
             label={field.label}
             type="text"
             fullWidth
+            placeholder={field.placeholder}
             onChange={(event) => handleFieldChange(event, field.stateKey)}
           />
         ))}
