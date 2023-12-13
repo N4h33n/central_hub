@@ -126,6 +126,7 @@ export default function Viewspecificcourse() {
 
   useEffect(() => {
     loadCourseInfo();
+    loadCourseInfo();
     loadLecInfo();
     loadAssignments();
     loadTutInfo();
@@ -165,7 +166,7 @@ export default function Viewspecificcourse() {
           </Button>
         </div>
         <div className="courseDetails d-inline-block m-4">
-          <Listedinfo information={tutorial} title={"✎ Tutorial Details"} />
+          <Listedinfo information={tutorial} title={"✎Tutorial Details"} />
           <Button className="d-block" variant="outlined" onClick={redirect2}>
             {" "}
             Teaching Assistant Details
