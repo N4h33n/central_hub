@@ -70,25 +70,38 @@ export default function Courselist() {
 
   return (
     <section className="mainSection">
-      <h2 className="mt-5 m-3">Current Courses</h2>
-      <Button
-        variant="contained"
-        className="position-relative float-end m-3"
-        onClick={handleAddCourse}
-      >
-        Add Course
-      </Button>
-      <Studentlisttable data={data} />
-      <AddCourseModal
-        open={modalOpen}
-        handleClose={handleModalClose}
-        addCourse={addCourse}
-      />
+      <section className="m-5">
+        {" "}
+        <h2 className="mt-5 ">Current Courses</h2>
+        <Button
+          variant="contained"
+          className="position-relative float-end m-3"
+          onClick={handleAddCourse}
+        >
+          Add Course
+        </Button>
+        <Studentlisttable data={data} />
+        <AddCourseModal
+          open={modalOpen}
+          handleClose={handleModalClose}
+          addCourse={addCourse}
+        />
+      </section>
     </section>
   );
 }
 
 function AddCourseModal({ open, handleClose, addCourse }) {
+  // Sample values for placeholders
+  const sampleValues = {
+    courseNumber: "CPSC 481",
+    courseName: "Human Computer Interaction",
+    courseDescription: "This course focuses on...",
+    courseFields: "Humans, Robots, Design",
+    nextSemesterOffered: "FALL 2023",
+    coursePrerequisites: "CPSC 331, CPSC 471",
+  };
+
   // State for form data
   const [formData, setFormData] = useState({
     courseNumber: "",
@@ -118,48 +131,17 @@ function AddCourseModal({ open, handleClose, addCourse }) {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Add Course</DialogTitle>
       <DialogContent>
-        <TextField
-          label="Course Number"
-          fullWidth
-          margin="normal"
-          value={formData.courseNumber}
-          onChange={(e) => handleFieldChange(e, "courseNumber")}
-        />
-        <TextField
-          label="Course Name"
-          fullWidth
-          margin="normal"
-          value={formData.courseName}
-          onChange={(e) => handleFieldChange(e, "courseName")}
-        />
-        <TextField
-          label="Course Description"
-          fullWidth
-          margin="normal"
-          value={formData.courseDescription}
-          onChange={(e) => handleFieldChange(e, "courseDescription")}
-        />
-        <TextField
-          label="Course Fields"
-          fullWidth
-          margin="normal"
-          value={formData.courseFields}
-          onChange={(e) => handleFieldChange(e, "courseFields")}
-        />
-        <TextField
-          label="Next Semester Offered"
-          fullWidth
-          margin="normal"
-          value={formData.nextSemesterOffered}
-          onChange={(e) => handleFieldChange(e, "nextSemesterOffered")}
-        />
-        <TextField
-          label="Course Prerequisites"
-          fullWidth
-          margin="normal"
-          value={formData.coursePrerequisites}
-          onChange={(e) => handleFieldChange(e, "coursePrerequisites")}
-        />
+        {Object.keys(formData).map((field) => (
+          <TextField
+            key={field}
+            label={capitalizeFirstLetter(field)}
+            fullWidth
+            margin="normal"
+            placeholder={sampleValues[field]}
+            value={formData[field]}
+            onChange={(e) => handleFieldChange(e, field)}
+          />
+        ))}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>

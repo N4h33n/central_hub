@@ -17,7 +17,7 @@ export default function Adminlanding() {
         </Link>
       </Button>
       <Button variant="contained" className="loginButton d-block m-5">
-        <Link className="link" to={`/exploreresearch/`}>
+        <Link className="link" to={`/clublist/`}>
           Clubs
         </Link>
       </Button>

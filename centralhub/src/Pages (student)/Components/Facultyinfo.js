@@ -13,7 +13,7 @@ export default function Facultyinfo() {
   const fucid = facultyID;
 
   const [faculty, setFaculty] = useState([]);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
 
   const loadFaculty = async () => {
     try {

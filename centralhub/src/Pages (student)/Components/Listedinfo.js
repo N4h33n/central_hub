@@ -4,35 +4,28 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 
-export default function Listedinfo({
-  title,
-  information,
-  linkTitle,
-  facultyUrl,
-}) {
+// Listedinfo component
+export default function Listedinfo({ information, title }) {
+  // Check if information is an array
+  if (!Array.isArray(information)) {
+    return <p>No information available</p>;
+  }
+
   return (
-    <div
-      style={{ textAlign: "center", verticalAlign: "top" }}
-      className="d-inline-block"
-    >
-      <h4> {title} </h4>
-      <List
-        style={{ backgroundColor: "rgb(230, 227, 206)" }}
-        sx={{ width: "100%", maxWidth: 360 }}
-      >
+    <div>
+      <h2>{title}</h2>
+      <ul>
         {information.map((info, index) => (
-          <ListItem key={index} style={{ display: "block" }}>
-            {Object.keys(info).map((field) => (
-              <ListItemText
-                key={field}
-                primary={field}
-                secondary={info[field]}
-              />
+          <li key={index}>
+            {/* Display properties of each faculty object */}
+            {Object.entries(info).map(([key, value]) => (
+              <div key={key}>
+                <strong>{key}:</strong> {value}
+              </div>
             ))}
-          </ListItem>
+          </li>
         ))}
-      </List>
-      <Link href={facultyUrl}>{linkTitle}</Link>
+      </ul>
     </div>
   );
 }

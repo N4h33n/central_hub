@@ -45,13 +45,15 @@ export default function Viewcourses() {
 
   return (
     <section className="mainSection">
-      <h2 className="title m-5">ENROLLED COURSES</h2>
-      <Coursetable data={courses} ucid={ucid} />
-      <Button variant="contained" size="large" className="m-5">
-        <Link className="link" to={`/explorecourses/${ucid}`}>
-          Explore Courses ⌕
-        </Link>
-      </Button>
+      <section className="m-5">
+        <h2 className="title m-5">ENROLLED COURSES</h2>
+        <Coursetable data={courses} ucid={ucid} />
+        <Button variant="contained" size="large" className="m-5">
+          <Link className="link" to={`/explorecourses/${ucid}`}>
+            Explore Courses ⌕
+          </Link>
+        </Button>
+      </section>
     </section>
   );
 }
@@ -62,7 +64,7 @@ function Coursetable({ data, ucid }) {
     return <p>No data available</p>;
   }
 
-  const columns = ["courseno", "coursename", "currentgrade", "actions"]; // Added "actions" column
+  const columns = ["courseno", "coursename", "currentgrade", "actions"];
 
   return (
     <TableContainer component={Paper} id="table" className="p-3">
@@ -71,8 +73,7 @@ function Coursetable({ data, ucid }) {
           <TableRow>
             {columns.map((column) => (
               <TableCell key={column} align="center">
-                {column === "actions" ? null : column}{" "}
-                {/* Don't display column name for "actions" */}
+                {column === "actions" ? null : column}
               </TableCell>
             ))}
           </TableRow>
@@ -80,12 +81,14 @@ function Coursetable({ data, ucid }) {
         <TableBody>
           {data.map((row, index) => (
             <TableRow
-              key={index} // Assuming each row has a unique identifier
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {columns.map((column) => (
                 <TableCell key={column} align={"center"}>
-                  {column === "actions" ? ( // Check if it's the "actions" column
+                  {column === "currentgrade" ? ( // Check if it's the "currentgrade" column
+                    `${Math.round(parseFloat(row[column]) * 100)}%`
+                  ) : column === "actions" ? ( // Check if it's the "actions" column
                     <Button variant="outlined">
                       <Link
                         className="link"

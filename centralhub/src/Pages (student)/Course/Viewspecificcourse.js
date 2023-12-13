@@ -149,20 +149,23 @@ export default function Viewspecificcourse() {
   return (
     <>
       <section className="mainSection">
-        <div className="d-inline-block m-2">
+        <div
+          className="courseDetails d-inline-block m-4"
+          style={{ verticalAlign: "top" }}
+        >
           <Listedinfo
             information={courseInformation}
-            title={"Course Details"}
+            title={"🏫 Course Details"}
           />
         </div>
-        <div className="d-inline-block m-4">
-          <Listedinfo information={lecture} title={"Lecture Details"} />
+        <div className="courseDetails d-inline-block m-4">
+          <Listedinfo information={lecture} title={"📓 Lecture Details"} />
           <Button className="d-block" variant="outlined" onClick={redirect}>
             Instructor Details
           </Button>
         </div>
-        <div className="d-inline-block m-4">
-          <Listedinfo information={tutorial} title={"Tutorial Details"} />
+        <div className="courseDetails d-inline-block m-4">
+          <Listedinfo information={tutorial} title={"✎ Tutorial Details"} />
           <Button className="d-block" variant="outlined" onClick={redirect2}>
             {" "}
             Teaching Assistant Details
@@ -170,11 +173,11 @@ export default function Viewspecificcourse() {
         </div>
       </section>
       <section className="mainSection">
-        <div className="assEx m-3">
+        <div className="m-5">
           <h4 className="mb-4">Assignments</h4>
           <Placeholdertable data={assignments} />
         </div>
-        <div className="assEx m-3">
+        <div className="m-5">
           <h4 className="mb-4">Exams</h4>
           <Placeholdertable data={exams} />
         </div>
