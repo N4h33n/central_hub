@@ -8,13 +8,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # reference for using parametrized queries (query, values) to prevent sql injections in flask: https://www.reddit.com/r/flask/comments/zr9148/question_about_protecting_against_sql_injections/
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3003'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -693,6 +693,7 @@ def create_routes(app):
     def faculty_info():
         print("finfo")
         data = request.get_json()
+        print(data)
         
         try:
             connection = get_db_connection()
@@ -708,6 +709,7 @@ def create_routes(app):
 
             columns = [column[0] for column in cursor.description]
             result = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            print("finfor")
             print(result)
 
             return jsonify(result)
