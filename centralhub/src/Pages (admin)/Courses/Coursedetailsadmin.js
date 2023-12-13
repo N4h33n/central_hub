@@ -453,7 +453,7 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
             onChange={(e) => setLecno(e.target.value)}
           />
           <TextField
-            label="Lecture Date"
+            label="Lecture Date and Time"
             fullWidth
             margin="normal"
             placeholder={lecdate}
@@ -488,8 +488,8 @@ export function CustomizedTutorial({ title, updateFunction, courseno }) {
   const [open, setOpen] = useState(false);
 
   const [tutno, setTutno] = useState("3");
-  const [tutlocation, setTutLocation] = useState("MWF 08:15");
-  const [tutdate, setTutDate] = useState("MS 160");
+  const [tutlocation, setTutLocation] = useState("MS 160");
+  const [tutdate, setTutDate] = useState("MWF 08:15");
   const [taucid, setTaucid] = useState("12345678");
 
   const handleClickOpen = () => {
@@ -536,7 +536,7 @@ export function CustomizedTutorial({ title, updateFunction, courseno }) {
             onChange={(e) => setTutno(e.target.value)}
           />
           <TextField
-            label="Tutorial Date"
+            label="Tutorial Date and Time"
             fullWidth
             margin="normal"
             placeholder={tutdate}
@@ -550,7 +550,7 @@ export function CustomizedTutorial({ title, updateFunction, courseno }) {
             onChange={(e) => setTutLocation(e.target.value)}
           />
           <TextField
-            label="Tutorial UCID"
+            label="TA UCID"
             fullWidth
             margin="normal"
             placeholder={taucid}
