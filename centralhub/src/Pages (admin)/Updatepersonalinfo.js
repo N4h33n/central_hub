@@ -1,75 +1,131 @@
-import React from "react";
-import Box from "@mui/material/Box";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-//TODO-Grab UCID from navbar and set object
-
-const student = {
-  name: "Abigia Debebe",
-  email: "Abigia.debebe@ucalgary.ca",
-  UCID: "30134608",
-  PhoneNumber: "5878346929",
-  Address: "UniCalgary",
-  DefaultPassword: "yourmom",
-};
+const BASE_URL = "http://localhost:5000/";
 
 export default function Updatepersonalinfo() {
+  const { studentID } = useParams();
+  const olducid = studentID;
+  const [student, setStudent] = useState({});
+
+  const loadPersonalInfo = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/loadpersonalinfo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          olducid,
+        }),
+      });
+
+      const studentData = await response.json();
+      const studentObject = studentData[0] || {};
+      setStudent(studentObject);
+      console.log(studentObject);
+    } catch (error) {
+      console.error("Error loading personal info:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadPersonalInfo();
+  }, []);
+
+  const handleChange = (field, value) => {
+    setStudent((prevStudent) => ({
+      ...prevStudent,
+      [field]: value,
+    }));
+  };
+
+  const handleClick = async () => {
+    const { name, email, passhash, phone, address } = student;
+    const ucid = document.getElementById("ucid").value;
+    console.log(ucid);
+
+    const response = await fetch(`${BASE_URL}/api/updatepersonalinfo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        olducid,
+        name,
+        email,
+        ucid,
+        passhash,
+        phone: phone,
+        Address: address,
+      }),
+    });
+    const data = await response.json();
+  };
+
   return (
     <section className="mainSection">
       <h2 className="m-5">Update Information</h2>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="name"
           label="Name"
-          defaultValue={student.name}
+          value={student.name || ""}
+          onChange={(e) => handleChange("name", e.target.value)}
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="email"
           label="Email"
-          defaultValue={student.email}
+          value={student.email || ""}
+          onChange={(e) => handleChange("email", e.target.value)}
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="ucid"
           label="UCID Number"
-          defaultValue={student.UCID}
+          value={studentID}
+          onChange={(e) => handleChange("ucid", e.target.value)}
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
           required
-          id="outlined-required"
+          id="telephone"
           label="Telephone Number"
-          defaultValue={student.PhoneNumber}
+          value={student.phone || ""}
+          onChange={(e) => handleChange("phone", e.target.value)}
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-read-only-input"
+          id="address"
           label="Address"
-          defaultValue={student.Address}
+          value={student.address || ""}
+          onChange={(e) => handleChange("address", e.target.value)}
         />
       </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
-          id="outlined-password-input"
+          id="password"
           label="Password"
           type="password"
           autoComplete="current-password"
-          defaultValue={student.Password}
+          value={student.passhash || ""}
+          onChange={(e) => handleChange("passhash", e.target.value)}
         />
       </div>
-      <Button className="m-3" variant="contained">
+      <Button className="m-3" variant="contained" onClick={handleClick}>
         Update
       </Button>
     </section>

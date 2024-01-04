@@ -6,17 +6,20 @@ import { Button } from "@mui/material";
 //TODO-roles thing
 //TODO-club images
 //TODO-button depends whether you're already in the club or not
+//TODO-remove time from date joined
 
-const courseInformation = [
+const clubs = [
   {
-    label: "Introduction to Web Development",
-    details: "lorem ipsum smn smn smn",
-  },
-  {
-    label: "Introduction to Web Development",
-    details: "lorem ipsum smn smn smn",
+    clubname: "WICS",
+    field: "Computer Science",
+    Description: "lorem ipsum",
+    Meetingdays: "Monday",
+    Meetinglocation: "ScienceB",
+    Meetingtime: "20:00",
   },
 ];
+
+const inclub = { success: true };
 
 // const imgList = [
 //   "https://csweb.rice.edu/sites/g/files/bxs4941/files/2020-08/yatesHSweb.jpg",
@@ -28,7 +31,7 @@ export default function ECAdetails() {
   return (
     <section>
       <div className="d-inline-block m-5" style={{ textAlign: "center" }}>
-        <Listedinfo information={courseInformation} title={"Club Details"} />
+        <Listedinfo information={clubs} title={"Club Details"} />
         <div style={{ textAlign: "center" }}>
           <Button variant="contained">Join Club</Button>
         </div>

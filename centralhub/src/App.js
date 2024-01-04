@@ -25,72 +25,133 @@ import Editassignmentgrade from "./Pages (admin)/Editassignmentgrade";
 import Editexamgrade from "./Pages (admin)/Editexamgrade";
 import Studentdashboard from "./Pages (student)/Studentdashboard";
 import Filtercourses from "./Pages (student)/Course/Filtercourses";
+import Explorecourses from "./Pages (student)/Course/Explorecourses";
+import DiscoverECA from "./Pages (student)/ECA/DiscoverECA";
+import Exploreresearch from "./Pages (student)/Research/Exploreresearch";
+import Adminlanding from "./Pages (admin)/Adminlanding";
+import Courselist from "./Pages (admin)/Courses/Courselist";
+import Researchlanding from "./Pages (admin)/Research/Researchlanding";
+import Pastresearchlist from "./Pages (admin)/Research/Pastresearchlist";
+import Currentresearchlist from "./Pages (admin)/Research/Currentresearchlist";
+import Coursedetailsadmin from "./Pages (admin)/Courses/Coursedetailsadmin";
+import Adminnavbar from "./Pages (admin)/Adminnavbar";
+import Studentnavbar from "./Pages (student)/Studentnavbar";
+import Clublist from "./Pages (admin)/Clubs/Clublist";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />}></Route>
-          <Route path="/" element={<Landing />}></Route>
           <Route path="studentlogin" element={<Studentlogin />}></Route>
           <Route path="adminlogin" element={<Adminlogin />}></Route>
-          <Route path="/dashboard" element={<Studentdashboard />}></Route>
-          <Route path="viewcourses" element={<Viewcourses />}></Route>
-          <Route
-            path="viewcourses/:courseID"
-            element={<Viewspecificcourse />}
-          ></Route>
-          <Route
-            path="explorecourses/:courseID"
-            element={<Coursedetails />}
-          ></Route>
-          <Route path="enrolledeca" element={<ViewenrolledECA />}></Route>
-          <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>
-          <Route path="research" element={<Research />}></Route>
-          <Route path="enrolledresearch" element={<Enrolledresearch />}></Route>
-          <Route path="pastresearch" element={<Pastresearch />}></Route>
-          <Route
-            path="currentresearchdetails/:researchID"
-            element={<Researchdetails />}
-          ></Route>
-          <Route
-            path="currentresearchdetails/:researchID"
-            element={<Researchdetails />}
-          ></Route>
-          <Route
-            path="pastresearchdetails/:researchID"
-            element={<Pastresearchdetails />}
-          ></Route>
-          <Route path="faculty/:ID" element={<Facultyinfo />}></Route>
-          <Route path="updateinfo" element={<Updateinfo />}></Route>
-          <Route path="studentlist" element={<Studentlist />}></Route>
-          <Route
-            path="studentlist/:studentID"
-            element={<Updatestudentinfo />}
-          ></Route>
-          <Route
-            path="updatecoursecomp/:studentID/:courseID"
-            element={<Updatecoursecomp />}
-          ></Route>
-          <Route path="/addstudent" element={<Addstudent />}></Route>
-          <Route
-            path="/updatepersonalinfo/:studentID"
-            element={<Updatepersonalinfo />}
-          ></Route>
-          <Route
-            path="/addtocourse/:studentID"
-            element={<Addtocourse />}
-          ></Route>
-          <Route
-            path="/editassignmentgrade/:studentID/:courseID"
-            element={<Editassignmentgrade />}
-          ></Route>
-          <Route
-            path="/editexamgrade/:studentID/:courseID"
-            element={<Editexamgrade />}
-          ></Route>
-          <Route path="/filtercourses" element={<Filtercourses />}></Route>
+          <Route index element={<Landing />}></Route>
+          <Route path="/" element={<Adminnavbar />}>
+            <Route path="adminlanding" element={<Adminlanding />}></Route>
+            <Route path="courselist" element={<Courselist />}></Route>
+            <Route path="researchlanding" element={<Researchlanding />}></Route>
+            <Route
+              path="pastresearchadmin"
+              element={<Pastresearchlist />}
+            ></Route>
+            <Route
+              path="currentresearchadmin"
+              element={<Currentresearchlist />}
+            ></Route>
+            <Route
+              path="coursedetailsadmin/:courseID"
+              element={<Coursedetailsadmin />}
+            ></Route>
+
+            <Route path="studentlist" element={<Studentlist />}></Route>
+            <Route
+              path="studentlist/:studentID"
+              element={<Updatestudentinfo />}
+            ></Route>
+            <Route
+              path="updatecoursecomp/:studentID/:courseID"
+              element={<Updatecoursecomp />}
+            ></Route>
+            <Route path="/addstudent" element={<Addstudent />}></Route>
+            <Route
+              path="/updatepersonalinfo/:studentID"
+              element={<Updatepersonalinfo />}
+            ></Route>
+            <Route
+              path="/addtocourse/:studentID"
+              element={<Addtocourse />}
+            ></Route>
+            <Route
+              path="/editassignmentgrade/:studentID/:courseID"
+              element={<Editassignmentgrade />}
+            ></Route>
+            <Route
+              path="/editexamgrade/:studentID/:courseID"
+              element={<Editexamgrade />}
+            ></Route>
+            <Route path="/clublist" element={<Clublist />}></Route>
+          </Route>
+
+          <Route path="/" element={<Studentnavbar />}>
+            <Route
+              path="dashboard/:studentID"
+              element={<Studentdashboard />}
+            ></Route>
+            <Route
+              path="enrolledcoursedetails/:studentID/:courseID"
+              element={<Viewspecificcourse />}
+            ></Route>
+            <Route
+              path="viewcourses/:studentID"
+              element={<Viewcourses />}
+            ></Route>
+            <Route
+              path="explorecourses/:ucid"
+              element={<Explorecourses />}
+            ></Route>
+            <Route
+              path="coursedetails/:courseID"
+              element={<Coursedetails />}
+            ></Route>
+
+            <Route
+              path="enrolledeca/:studentID"
+              element={<ViewenrolledECA />}
+            ></Route>
+            <Route path="viewecas/:ecaname" element={<ECAdetails />}></Route>
+            <Route path="research/:studentID" element={<Research />}></Route>
+            <Route
+              path="enrolledresearch/:studentID"
+              element={<Enrolledresearch />}
+            ></Route>
+            <Route path="pastresearch" element={<Pastresearch />} />
+            <Route
+              path="currentresearchdetails/:researchID"
+              element={<Researchdetails />}
+            ></Route>
+            <Route
+              path="currentresearchdetails/:researchID"
+              element={<Researchdetails />}
+            ></Route>
+            <Route
+              path="pastresearchdetails/:researchID"
+              element={<Pastresearchdetails />}
+            ></Route>
+            <Route
+              path="exploreresearch/:studentID"
+              element={<Exploreresearch />}
+            ></Route>
+            <Route path="faculty/:facultyID" element={<Facultyinfo />}></Route>
+            <Route
+              path="updateinfo/:studentID"
+              element={<Updateinfo />}
+            ></Route>
+            <Route path="/filtercourses" element={<Filtercourses />}></Route>
+            <Route
+              path="/discoverecas/:studentID"
+              element={<DiscoverECA />}
+            ></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

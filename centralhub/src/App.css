@@ -43,5 +43,31 @@ body {
 .link {
   text-decoration: none;
   text-decoration: none;
-  color: #ffffed;
+  color: black;
+}
+
+section.filtercourse div {
+  margin-bottom: 2%;
+}
+
+.courseDetails {
+  border: 2px solid rgb(146, 114, 11);
+  padding: 6%;
+}
+
+Button {
+  color: rgb(246, 154, 43);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #c8a694;
+}
+
+* {
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
