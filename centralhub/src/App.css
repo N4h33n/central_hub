@@ -1,5 +1,6 @@
 body {
-  background-color: rgb(230, 227, 206);
+  background: url("Back3.png");
+  background-color: #fffa5a26;
 }
 
 .loginContainer {
