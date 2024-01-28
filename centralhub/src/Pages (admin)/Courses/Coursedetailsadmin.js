@@ -109,6 +109,7 @@ export default function Coursedetailsadmin() {
   }, []);
 
   const addAssignment = async (assNo, assdeadline, assweight) => {
+    const normalizedWeight2 = parseFloat(assweight) / 100;
     const response = await fetch(`${BASE_URL}/api/addassignment`, {
       method: "POST",
       headers: {
@@ -117,7 +118,7 @@ export default function Coursedetailsadmin() {
       body: JSON.stringify({
         assNo,
         assdeadline,
-        assweight,
+        assweight: normalizedWeight2,
         aucid,
         courseno,
       }),
@@ -132,6 +133,8 @@ export default function Coursedetailsadmin() {
     examduration,
     examlocation
   ) => {
+    const normalizedWeight = parseFloat(examweight) / 100;
+
     const response = await fetch(`${BASE_URL}/api/addexam`, {
       method: "POST",
       headers: {
@@ -139,7 +142,7 @@ export default function Coursedetailsadmin() {
       },
       body: JSON.stringify({
         examNo,
-        examweight,
+        examweight: normalizedWeight,
         examdate,
         examduration,
         examlocation,
