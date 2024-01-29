@@ -150,7 +150,7 @@ export function AlertDialog({ ucid, handleCloseDialog }) {
         ucid,
       }),
     });
-
+    window.location.reload();
     const data = await response.json();
   };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -9,6 +10,7 @@ export default function Updatepersonalinfo() {
   const { studentID } = useParams();
   const olducid = studentID;
   const [student, setStudent] = useState({});
+  const navigate = useNavigate();
 
   const loadPersonalInfo = async () => {
     try {
@@ -63,6 +65,7 @@ export default function Updatepersonalinfo() {
       }),
     });
     const data = await response.json();
+    navigate(`/studentlist/${studentID}`);
   };
 
   return (
@@ -112,17 +115,6 @@ export default function Updatepersonalinfo() {
           label="Address"
           value={student.address || ""}
           onChange={(e) => handleChange("address", e.target.value)}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          value={student.passhash || ""}
-          onChange={(e) => handleChange("passhash", e.target.value)}
         />
       </div>
       <Button className="m-3" variant="contained" onClick={handleClick}>

@@ -3,11 +3,14 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:5000/";
 
 export default function Addstudent() {
   const [validationError, setValidationError] = useState("");
+
+  const navigate = useNavigate();
 
   const validateInputs = () => {
     const name = document.getElementById("name").value;
@@ -81,6 +84,7 @@ export default function Addstudent() {
     });
 
     const data = await response.json();
+    navigate("/studentlist/");
   };
 
   return (

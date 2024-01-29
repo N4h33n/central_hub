@@ -1,13 +1,20 @@
 import { React, useState, useEffect } from "react";
 import Placeholdertable from "../Pages (student)/Placeholdertable";
 import { Link, useParams } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -17,6 +24,8 @@ export default function Updatecoursecomp() {
   const courseno = courseID;
 
   const [assignments, setAssignments] = useState([]);
+  const [assignmentNos, setAssignmentNos] = useState([]);
+  const [examNos, setExamNos] = useState([]);
   const [exams, setExams] = useState([]);
 
   const loadAssignments = async () => {
@@ -32,9 +41,16 @@ export default function Updatecoursecomp() {
         }),
       });
 
-      const assignments = await response.json();
-      setAssignments(assignments);
-      console.log(assignments);
+      const assignmentsData = await response.json();
+      setAssignments(assignmentsData);
+
+      // Extract assignment numbers and set state
+      const assignmentNumbers = assignmentsData.map(
+        (assignment) => assignment.assignmentno
+      );
+      setAssignmentNos(assignmentNumbers);
+
+      console.log(assignmentsData);
     } catch (error) {
       console.error("Error loading assignments:", error);
     }
@@ -53,9 +69,15 @@ export default function Updatecoursecomp() {
         }),
       });
 
-      const exams = await response.json();
-      setExams(exams);
-      console.log(exams);
+      const examsData = await response.json();
+      setExams(examsData);
+
+      // Extract exam numbers and set state
+      const examNumbers = examsData.map((exam) => exam.examno);
+      setExamNos(examNumbers);
+
+      console.log(examsData);
+      console.log("HELLO", examNos);
     } catch (error) {
       console.error("Error loading exams:", error);
     }
@@ -67,6 +89,7 @@ export default function Updatecoursecomp() {
     console.log(assignments);
     loadAssignments();
     loadExams();
+    console.log("HELLO", examNos);
   }, []);
 
   const updateAssignment = async (assNo, grade) => {
@@ -115,6 +138,7 @@ export default function Updatecoursecomp() {
         <CustomizedDialogs
           title="Update Assignment Grade"
           updateFunction={updateAssignment}
+          list={assignmentNos}
         />
       </div>
       <div className="d-inline-block m-2">
@@ -123,6 +147,7 @@ export default function Updatecoursecomp() {
         <CustomizedDialogs
           title="Update Exam Grade"
           updateFunction={updateExam}
+          list={examNos}
         />
       </div>
     </section>
@@ -138,7 +163,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export function CustomizedDialogs({ title, updateFunction }) {
+export function CustomizedDialogs({ title, updateFunction, list }) {
   const [open, setOpen] = useState(false);
   const [assNo, setAssNo] = useState("");
   const [grade, setGrade] = useState("");
@@ -146,6 +171,7 @@ export function CustomizedDialogs({ title, updateFunction }) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -179,12 +205,21 @@ export function CustomizedDialogs({ title, updateFunction }) {
           }}
         ></IconButton>
         <DialogContent dividers>
-          <TextField
-            label="Assignment/Exam No."
-            fullWidth
-            margin="normal"
-            onChange={(e) => setAssNo(e.target.value)}
-          />
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="list-select-label">{title} No.</InputLabel>
+            <Select
+              label="Assignment/Exam No."
+              fullWidth
+              margin="normal"
+              onChange={(e) => setAssNo(e.target.value)}
+            >
+              {list.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Grade (%)"
             fullWidth

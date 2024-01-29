@@ -8,6 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -20,6 +22,10 @@ export default function Coursedetailsadmin() {
   const [exams, setExams] = useState([]);
   const [lectures, setLectures] = useState([]);
   const [tutorials, setTutorials] = useState([]);
+  const [lastAss, setLastAss] = useState("");
+  const [lastExam, setLastExam] = useState("");
+  const [lastLecture, setLastLecture] = useState("");
+  const [lastTutorial, setLastTutorial] = useState("");
 
   const loadAssignments = async () => {
     try {
@@ -35,6 +41,12 @@ export default function Coursedetailsadmin() {
 
       const assignments = await response.json();
       setAssignments(assignments);
+
+      // Extract assignment numbers and set state
+      const assignmentNumbers = assignments.map(
+        (assignment) => assignment.assignmentno
+      );
+      setLastAss(assignmentNumbers[assignmentNumbers.length - 1]);
       console.log(assignments);
     } catch (error) {
       console.error("Error loading assignments:", error);
@@ -55,6 +67,10 @@ export default function Coursedetailsadmin() {
 
       const exams = await response.json();
       setExams(exams);
+
+      // Extract assignment numbers and set state
+      const examNumbers = exams.map((exam) => exam.examno);
+      setLastExam(examNumbers[examNumbers.length - 1]);
       console.log(exams);
     } catch (error) {
       console.error("Error loading exams:", error);
@@ -75,7 +91,9 @@ export default function Coursedetailsadmin() {
 
       const lectures = await response.json();
       setLectures(lectures);
-      console.log(exams);
+      const lecNumbers = lectures.map((lecture) => lecture.lectureno);
+      setLastLecture(lecNumbers[lecNumbers.length - 1]);
+      console.log(lectures);
     } catch (error) {
       console.error("Error loading lectures:", error);
     }
@@ -95,6 +113,8 @@ export default function Coursedetailsadmin() {
 
       const tutorials = await response.json();
       setTutorials(tutorials);
+      const tutorialNumbers = tutorials.map((tutorial) => tutorial.tutorialno);
+      setLastTutorial(tutorialNumbers[tutorialNumbers.length - 1]);
       console.log(tutorials);
     } catch (error) {
       console.error("Error loading tutorials:", error);
@@ -106,10 +126,15 @@ export default function Coursedetailsadmin() {
     loadExams();
     loadLectures();
     loadTutorials();
+    console.log(assignments);
+    console.log(exams);
+    console.log(tutorials);
+    console.log(lectures);
   }, []);
 
   const addAssignment = async (assNo, assdeadline, assweight) => {
     const normalizedWeight2 = parseFloat(assweight) / 100;
+    assNo = lastAss + 1;
     const response = await fetch(`${BASE_URL}/api/addassignment`, {
       method: "POST",
       headers: {
@@ -134,7 +159,7 @@ export default function Coursedetailsadmin() {
     examlocation
   ) => {
     const normalizedWeight = parseFloat(examweight) / 100;
-
+    examNo = lastExam + 1;
     const response = await fetch(`${BASE_URL}/api/addexam`, {
       method: "POST",
       headers: {
@@ -154,6 +179,7 @@ export default function Coursedetailsadmin() {
   };
 
   const addLecture = async (lecno, leclocation, lecdate, instucid) => {
+    lecno = lastLecture + 1;
     const response = await fetch(`${BASE_URL}/api/addlecture`, {
       method: "POST",
       headers: {
@@ -172,6 +198,7 @@ export default function Coursedetailsadmin() {
   };
 
   const addTutorial = async (tutno, tutdate, tutlocation, taucid) => {
+    tutno = lastTutorial + 1;
     const response = await fetch(`${BASE_URL}/api/addtutorial`, {
       method: "POST",
       headers: {
@@ -198,6 +225,7 @@ export default function Coursedetailsadmin() {
           title="Add Assignment"
           updateFunction={addAssignment}
           courseno={courseno}
+          next={lastAss + 1}
         />
       </div>
       <div className="d-inline-block m-2">
@@ -207,6 +235,7 @@ export default function Coursedetailsadmin() {
           title="Add Exam"
           updateFunction={addExam}
           courseno={courseno}
+          next={lastExam + 1}
         />
       </div>
       <div className="d-inline-block m-2">
@@ -216,6 +245,7 @@ export default function Coursedetailsadmin() {
           title="Add Lecture"
           updateFunction={addLecture}
           courseno={courseno}
+          next={Number(lastLecture) + 1}
         />
       </div>
       <div className="d-inline-block m-2">
@@ -225,11 +255,16 @@ export default function Coursedetailsadmin() {
           title="Add Tutorial"
           updateFunction={addTutorial}
           courseno={courseno}
+          next={Number(lastTutorial) + 1}
         />
       </div>
     </section>
   );
 }
+
+// function datePicker(){
+//   const [selectedDate, setSelectedDate] =
+// }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -240,7 +275,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export function CustomizedAssignment({ title, updateFunction, courseno }) {
+export function CustomizedAssignment({
+  title,
+  updateFunction,
+  courseno,
+  next,
+}) {
   const [open, setOpen] = useState(false);
 
   const [assNo, setAssNo] = useState("1");
@@ -287,8 +327,10 @@ export function CustomizedAssignment({ title, updateFunction, courseno }) {
             label="Assignment No."
             fullWidth
             margin="normal"
-            placeholder={assNo}
-            onChange={(e) => setAssNo(e.target.value)}
+            value={next}
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             label="Assignment Deadline"
@@ -315,7 +357,7 @@ export function CustomizedAssignment({ title, updateFunction, courseno }) {
   );
 }
 
-export function CustomizedExam({ title, updateFunction, courseno }) {
+export function CustomizedExam({ title, updateFunction, courseno, next }) {
   const [open, setOpen] = useState(false);
 
   const [examNo, setExamNo] = useState("1");
@@ -363,8 +405,10 @@ export function CustomizedExam({ title, updateFunction, courseno }) {
             label="Exam No."
             fullWidth
             margin="normal"
-            placeholder={examNo}
-            onChange={(e) => setExamNo(e.target.value)}
+            value={next}
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             label="Exam Weight"
@@ -405,7 +449,7 @@ export function CustomizedExam({ title, updateFunction, courseno }) {
   );
 }
 
-export function CustomizedLecture({ title, updateFunction, courseno }) {
+export function CustomizedLecture({ title, updateFunction, courseno, next }) {
   const [open, setOpen] = useState(false);
 
   const [lecno, setLecno] = useState("3");
@@ -452,8 +496,10 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
             label="Lecture No."
             fullWidth
             margin="normal"
-            placeholder={lecno}
-            onChange={(e) => setLecno(e.target.value)}
+            value={next}
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             label="Lecture Date and Time"
@@ -487,7 +533,7 @@ export function CustomizedLecture({ title, updateFunction, courseno }) {
   );
 }
 
-export function CustomizedTutorial({ title, updateFunction, courseno }) {
+export function CustomizedTutorial({ title, updateFunction, courseno, next }) {
   const [open, setOpen] = useState(false);
 
   const [tutno, setTutno] = useState("3");
@@ -535,8 +581,10 @@ export function CustomizedTutorial({ title, updateFunction, courseno }) {
             label="Tutorial No."
             fullWidth
             margin="normal"
-            placeholder={tutno}
-            onChange={(e) => setTutno(e.target.value)}
+            value={next}
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             label="Tutorial Date and Time"
