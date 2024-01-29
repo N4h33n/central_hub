@@ -3,7 +3,8 @@
 The database is in the form of a mysqldump which is currently stored in the database folder.
 
 ### Steps
-1) Mount the finaldbdump.sql schema in mySql (from the database folder) and run it. This should automatically create the centralhub
+1) After cloning the repository to your local computer, mount the finaldbdump.sql schema in mySql (from the database folder) and run it. This should automatically create the 
+   centralhub
    database. Every table has been populated with some values, but further work can be done through our frontend.
 2) Ensure flask is installed along with all the dependencies listed in the import statements inside routes.py.
    Also, make sure that in the get_db_connection() function at the top of routes.py, the password is set to the password you set up
