@@ -8,13 +8,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # reference for using parametrized queries (query, values) to prevent sql injections in flask: https://www.reddit.com/r/flask/comments/zr9148/question_about_protecting_against_sql_injections/
 
 routes = Blueprint('routes', __name__)
-host_url = 'http://localhost:3001'
+host_url = 'http://localhost:3000'
 
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="*PASSworld*123",
+        password="sQlprequelwoohoo7676",
         database='centralhub'
     )
     
@@ -203,8 +203,8 @@ def create_routes(app):
             today = datetime.now()
             check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SA.courseno, SA.assignmentno, date_format(A.deadline, '%Y-%m-%d %H:%i:%S') as deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno and A.deadline <= (%s)"
-            values = (data.get("ucid"), check_date)
+            query = "SELECT SA.courseno, SA.assignmentno, date_format(A.deadline, '%Y-%m-%d %H:%i:%S') as deadline, A.weight from STUDENT_DOES_ASSIGNMENT as SA, ASSIGNMENT as A where SA.s_ucid = (%s) and SA.courseno = A.courseno and SA.assignmentno = A.assignmentno and A.deadline <= (%s) and A.deadline >= (%s)"
+            values = (data.get("ucid"), check_date, today)
             print(values)
             cursor.execute(query, values)
 
@@ -233,8 +233,8 @@ def create_routes(app):
             today = datetime.now()
             check_date = today + timedelta(weeks=2)
 
-            query = "SELECT SE.courseno, SE.examno, date_format(E.time, '%Y-%m-%d %H:%i:%S') as datetime, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s)"
-            values = (data.get("ucid"), check_date)
+            query = "SELECT SE.courseno, SE.examno, date_format(E.time, '%Y-%m-%d %H:%i:%S') as datetime, E.location, E.weight from STUDENT_TAKES_EXAM as SE, EXAM as E where SE.s_ucid = (%s) and SE.courseno = E.courseno and SE.examno = E.examno and E.time <= (%s) and E.time >= (%s)"
+            values = (data.get("ucid"), check_date, today)
             cursor.execute(query, values)
 
             columns = [column[0] for column in cursor.description]
