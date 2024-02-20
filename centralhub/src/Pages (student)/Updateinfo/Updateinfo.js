@@ -13,6 +13,10 @@ export default function Updateinfo() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  const [editNumber, setEditNumber] = useState(false);
+  const [editAddy, setEditAddy] = useState(false);
+  const [editPassword, setEditPassword] = useState(false);
+
   useEffect(() => {
     const loadStudent = async () => {
       try {
@@ -43,6 +47,22 @@ export default function Updateinfo() {
       ...prevStudent,
       [field]: value,
     }));
+  };
+
+  const handleToggleEdit = (field) => {
+    switch (field) {
+      case "phone":
+        setEditNumber(!editNumber);
+        break;
+      case "address":
+        setEditAddy(!editAddy);
+        break;
+      case "passhash":
+        setEditPassword(!editPassword);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleClick = async () => {
@@ -83,6 +103,14 @@ export default function Updateinfo() {
   return (
     <section className="mainSection">
       <h2 className="m-5">Update Information</h2>
+      <div id="imContainer" className="mb-5">
+        <div id="profImage" className=" d-inline-block"></div>
+        <div>
+          <Button className="" variant="contained">
+            Edit Image
+          </Button>
+        </div>
+      </div>
       <div className="m-4">
         <TextField
           style={{ width: "20%" }}
@@ -116,7 +144,7 @@ export default function Updateinfo() {
           }}
         />
       </div>
-      <div className="m-4">
+      <div className="m-4 editable">
         <TextField
           style={{ width: "20%" }}
           required
@@ -124,9 +152,22 @@ export default function Updateinfo() {
           label="Telephone Number"
           value={student.phone || ""}
           onChange={(e) => handleChange("phone", e.target.value)}
+          InputProps={{
+            readOnly: !editNumber,
+          }}
         />
+        <div
+          className="d-inline-block"
+          style={{ verticalAlign: "bottom", cursor: "pointer" }}
+          onClick={() => handleToggleEdit("phone")}
+        >
+          <button className="editPen d-inline-block">
+            {editNumber ? "✅" : "✎"}
+          </button>
+        </div>
       </div>
-      <div className="m-4">
+
+      <div className="m-4 editable">
         <TextField
           style={{ width: "20%" }}
           required
@@ -134,9 +175,22 @@ export default function Updateinfo() {
           label="Address"
           value={student.address || ""}
           onChange={(e) => handleChange("address", e.target.value)}
+          InputProps={{
+            readOnly: !editAddy,
+          }}
         />
+        <div
+          className="d-inline-block"
+          style={{ verticalAlign: "bottom", cursor: "pointer" }}
+          onClick={() => handleToggleEdit("address")}
+        >
+          <button className="editPen d-inline-block">
+            {editAddy ? "✅" : "✎"}
+          </button>
+        </div>
       </div>
-      <div className="m-4">
+
+      <div className="m-4 editable">
         <TextField
           style={{ width: "20%" }}
           id="password"
@@ -145,7 +199,19 @@ export default function Updateinfo() {
           autoComplete="current-password"
           value={student.passhash || ""}
           onChange={(e) => handleChange("passhash", e.target.value)}
+          InputProps={{
+            readOnly: !editPassword,
+          }}
         />
+        <div
+          className="d-inline-block"
+          style={{ verticalAlign: "bottom", cursor: "pointer" }}
+          onClick={() => handleToggleEdit("passhash")}
+        >
+          <button className="editPen d-inline-block">
+            {editPassword ? "✅" : "✎"}
+          </button>
+        </div>
       </div>
       <Button className="m-3" variant="contained" onClick={handleClick}>
         Update

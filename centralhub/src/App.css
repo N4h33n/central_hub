@@ -72,3 +72,33 @@ h6 {
 * {
   font-family: Georgia, "Times New Roman", Times, serif;
 }
+
+#profImage {
+  background-image: url(Profile.png);
+  background-size: cover;
+  width: 120px;
+  height: 120px;
+  display: inline-block;
+  border-radius: 100% 100% 100% 100%;
+  padding: 5%;
+}
+
+#imContainer {
+  justify-content: center;
+  align-items: center;
+}
+
+.editPen {
+  height: 200%;
+  background-color: transparent;
+  border: none;
+}
+
+.editPen:hover {
+  background-color: beige;
+}
+
+.editable {
+  position: relative;
+  right: -1.2%;
+}
