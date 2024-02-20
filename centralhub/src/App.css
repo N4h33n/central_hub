@@ -102,3 +102,9 @@ h6 {
   position: relative;
   right: -1.2%;
 }
+
+.sumError {
+  color: rgba(223, 15, 15, 0.73);
+  font-weight: bold;
+  font-size: 20px;
+}

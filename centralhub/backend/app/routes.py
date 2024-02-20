@@ -14,7 +14,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password="sQlprequelwoohoo7676",
+        password="*PASSworld*123",
         database='centralhub'
     )
     

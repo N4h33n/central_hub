@@ -26,6 +26,8 @@ export default function Coursedetailsadmin() {
   const [lastExam, setLastExam] = useState("");
   const [lastLecture, setLastLecture] = useState("");
   const [lastTutorial, setLastTutorial] = useState("");
+  const [compSum, setCompSum] = useState(80);
+  const [compSumUnder, setCompSumUnder] = useState(true);
 
   const loadAssignments = async () => {
     try {
@@ -41,6 +43,10 @@ export default function Coursedetailsadmin() {
 
       const assignments = await response.json();
       setAssignments(assignments);
+      // setCompSum(compSum + assignments.weightSum);
+      // if (compSum >= 100) {
+      //   setCompSumUnder(true);
+      // }
 
       // Extract assignment numbers and set state
       const assignmentNumbers = assignments.map(
@@ -67,6 +73,10 @@ export default function Coursedetailsadmin() {
 
       const exams = await response.json();
       setExams(exams);
+      // setCompSum(compSum + assignments.weightSum);
+      // if (compSum >= 100) {
+      //   setCompSumUnder(true);
+      // }
 
       // Extract assignment numbers and set state
       const examNumbers = exams.map((exam) => exam.examno);
@@ -220,22 +230,34 @@ export default function Coursedetailsadmin() {
     <section className="mainSection mt-4">
       <div className="d-inline-block m-2">
         <h3 className="mb-4">Assignments</h3>
+        {compSumUnder && (
+          <h5 className="sumError">
+            Components do not currently add up to 100%!
+          </h5>
+        )}
         <Placeholdertable data={assignments} />
         <CustomizedAssignment
           title="Add Assignment"
           updateFunction={addAssignment}
           courseno={courseno}
           next={lastAss + 1}
+          compSum={compSum}
         />
       </div>
       <div className="d-inline-block m-2">
         <h3 className="mb-4">Exams</h3>
+        {compSumUnder && (
+          <h5 className="sumError">
+            Components do not currently add up to 100%!
+          </h5>
+        )}
         <Placeholdertable data={exams} />
         <CustomizedExam
           title="Add Exam"
           updateFunction={addExam}
           courseno={courseno}
           next={lastExam + 1}
+          compSum={compSum}
         />
       </div>
       <div className="d-inline-block m-2">
@@ -280,12 +302,13 @@ export function CustomizedAssignment({
   updateFunction,
   courseno,
   next,
+  compSum,
 }) {
   const [open, setOpen] = useState(false);
 
   const [assNo, setAssNo] = useState("1");
   const [assdeadline, setAssdeadline] = useState("2023-12-31 23:59:59");
-  const [assweight, setAssweight] = useState("40%");
+  const [assweight, setAssweight] = useState("40");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -295,8 +318,12 @@ export function CustomizedAssignment({
   };
 
   const handleChanges = () => {
-    updateFunction(assNo, assdeadline, assweight);
-    setOpen(false);
+    if (compSum + Number(assweight) > 100) {
+      alert("Sum of component weights exceeds 100! Please reduce the weight.");
+    } else {
+      updateFunction(assNo, assdeadline, assweight);
+      setOpen(false);
+    }
   };
 
   return (
@@ -357,11 +384,17 @@ export function CustomizedAssignment({
   );
 }
 
-export function CustomizedExam({ title, updateFunction, courseno, next }) {
+export function CustomizedExam({
+  title,
+  updateFunction,
+  courseno,
+  next,
+  compSum,
+}) {
   const [open, setOpen] = useState(false);
 
   const [examNo, setExamNo] = useState("1");
-  const [examweight, setExamweight] = useState("30%");
+  const [examweight, setExamweight] = useState("30");
   const [examdate, setExamDate] = useState("2023-12-31 23:59:59");
   const [examduration, setExamDuration] = useState("01:30:00");
   const [examlocation, setExamLocation] = useState("ICT 212");
@@ -373,8 +406,12 @@ export function CustomizedExam({ title, updateFunction, courseno, next }) {
   };
 
   const handleChanges = () => {
-    updateFunction(examNo, examweight, examdate, examduration, examlocation);
-    setOpen(false);
+    if (compSum + Number(examweight) > 100) {
+      alert("Sum of component weights exceeds 100! Please reduce the weight.");
+    } else {
+      updateFunction(examNo, examweight, examdate, examduration, examlocation);
+      setOpen(false);
+    }
   };
 
   return (
