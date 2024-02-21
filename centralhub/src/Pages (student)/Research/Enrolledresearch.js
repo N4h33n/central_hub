@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Placeholdertable from "../Placeholdertable";
 import { useParams, Link } from "react-router-dom";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -34,16 +35,19 @@ export default function Enrolledresearch() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <h2 className="title m-5">ENROLLED RESEARCH</h2>
-      <section className="m-4">
-        <Placeholdertable data={research} />
-        <Button variant="contained" size="large" className="m-5">
-          <Link className="link" to={`/exploreresearch/${studentID}`}>
-            Explore Research Opportunities ⌕
-          </Link>
-        </Button>
+    <>
+      <GoBack text={"🢀 Research Homepage"} link={`/research/${ucid}`} />
+      <section className="mainSection">
+        <h2 className="title m-5">ENROLLED RESEARCH</h2>
+        <section className="m-4">
+          <Placeholdertable data={research} />
+          <Button variant="contained" size="large" className="m-5">
+            <Link className="link" to={`/exploreresearch/${studentID}`}>
+              Explore Research Opportunities ⌕
+            </Link>
+          </Button>
+        </section>
       </section>
-    </section>
+    </>
   );
 }

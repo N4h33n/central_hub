@@ -3,6 +3,7 @@ import Courseinfo from "../Components/Listedinfo";
 import Listedinfo from "../Components/Listedinfo";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
+import GoBack from "../../GoBack";
 
 //TODO-add URL param stuff here using CourseID to set the objects appropriately in a fn.
 //TODO-add feature that checks if all prereques satisfied and either greys out the button
@@ -77,25 +78,28 @@ export default function Coursedetails() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <div
-        className="d-inline-block mt-5 mx-3 courseDetails"
-        style={{ verticalAlign: "top", textAlign: "center" }}
-      >
-        <Listedinfo information={courseinfo} title={"📓 Course Details"} />
-      </div>
-      <div
-        className="courseDetails d-inline-block mt-5 mx-3"
-        style={{ verticalAlign: "top", textAlign: "center" }}
-      >
-        <Listedinfo information={lectureinfo} title={"🏫 Lectures"} />
-      </div>
-      <div
-        className="courseDetails d-inline-block mt-5 mx-3"
-        style={{ verticalAlign: "top", textAlign: "center" }}
-      >
-        <Listedinfo information={tutorialinfo} title={"✎ Tutorials"} />
-      </div>
-    </section>
+    <>
+      {/* <GoBack text={"🢀 Enrolled Courses"} link={`/viewcourses/${studentID}`}/> */}
+      <section className="mainSection">
+        <div
+          className="d-inline-block mt-5 mx-3 courseDetails"
+          style={{ verticalAlign: "top", textAlign: "center" }}
+        >
+          <Listedinfo information={courseinfo} title={"📓 Course Details"} />
+        </div>
+        <div
+          className="courseDetails d-inline-block mt-5 mx-3"
+          style={{ verticalAlign: "top", textAlign: "center" }}
+        >
+          <Listedinfo information={lectureinfo} title={"🏫 Lectures"} />
+        </div>
+        <div
+          className="courseDetails d-inline-block mt-5 mx-3"
+          style={{ verticalAlign: "top", textAlign: "center" }}
+        >
+          <Listedinfo information={tutorialinfo} title={"✎ Tutorials"} />
+        </div>
+      </section>
+    </>
   );
 }

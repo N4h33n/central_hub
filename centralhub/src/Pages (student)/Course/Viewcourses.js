@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import GoBack from "../../GoBack";
 
 //TODO-derive course grade?
 
@@ -44,17 +45,20 @@ export default function Viewcourses() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <section className="m-5">
-        <h2 className="title m-5">ENROLLED COURSES</h2>
-        <Coursetable data={courses} ucid={ucid} />
-        <Button variant="contained" size="large" className="m-5">
-          <Link className="link" to={`/explorecourses/${ucid}`}>
-            Explore Courses ⌕
-          </Link>
-        </Button>
+    <>
+      <GoBack text={"🢀 Dashboard"} link={`/dashboard/${ucid}`} />
+      <section className="mainSection">
+        <section className="m-5">
+          <h2 className="title m-5">ENROLLED COURSES</h2>
+          <Coursetable data={courses} ucid={ucid} />
+          <Button variant="contained" size="large" className="m-5">
+            <Link className="link" to={`/explorecourses/${ucid}`}>
+              Explore Courses ⌕
+            </Link>
+          </Button>
+        </section>
       </section>
-    </section>
+    </>
   );
 }
 

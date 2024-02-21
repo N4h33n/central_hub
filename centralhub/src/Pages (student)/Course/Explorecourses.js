@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -70,84 +71,90 @@ export default function Explorecourses() {
   }, []);
 
   return (
-    <section className="filtercourse mainSection">
-      <h1 className="m-5">EXPLORE COURSES</h1>
-      <div
-        className="d-inline-block float-start ms-2"
-        style={{ maxWidth: "75%" }}
-      >
-        <Coursetable data={courses} />
-      </div>
-      <div
-        className="d-inline-block position-fixed"
-        style={{ verticalAlign: "top", right: "5%" }}
-      >
-        <div>
-          <TextField
-            id="coursename"
-            label="Course Name"
-            variant="filled"
-            value={filterValues.coursename}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, coursename: e.target.value })
-            }
-          />
+    <>
+      <GoBack text={"🢀 Enrolled Courses"} link={`/viewcourses/${ucid}`} />
+      <section className="filtercourse mainSection">
+        <h1 className="m-5">EXPLORE COURSES</h1>
+        <div
+          className="d-inline-block float-start ms-2"
+          style={{ maxWidth: "75%" }}
+        >
+          <Coursetable data={courses} />
         </div>
-        <div>
-          <TextField
-            id="coursenumber"
-            label="Course Number"
-            variant="filled"
-            value={filterValues.coursenumber}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, coursenumber: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            id="field"
-            label="Field"
-            variant="filled"
-            value={filterValues.field}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, field: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            id="instructor"
-            label="Instructor"
-            variant="filled"
-            value={filterValues.instructor}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, instructor: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            id="ta"
-            label="Teaching Assistant"
-            variant="filled"
-            value={filterValues.ta}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, ta: e.target.value })
-            }
-          />
+        <div
+          className="d-inline-block position-fixed"
+          style={{ verticalAlign: "top", right: "5%", bottom: "1%" }}
+        >
           <div>
-            <Button
-              className="mt-3"
-              variant="contained"
-              onClick={filterCourses}
-            >
-              Filter
-            </Button>
+            <TextField
+              id="coursename"
+              label="Course Name"
+              variant="filled"
+              value={filterValues.coursename}
+              onChange={(e) =>
+                setFilterValues({ ...filterValues, coursename: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="coursenumber"
+              label="Course Number"
+              variant="filled"
+              value={filterValues.coursenumber}
+              onChange={(e) =>
+                setFilterValues({
+                  ...filterValues,
+                  coursenumber: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="field"
+              label="Field"
+              variant="filled"
+              value={filterValues.field}
+              onChange={(e) =>
+                setFilterValues({ ...filterValues, field: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="instructor"
+              label="Instructor"
+              variant="filled"
+              value={filterValues.instructor}
+              onChange={(e) =>
+                setFilterValues({ ...filterValues, instructor: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="ta"
+              label="Teaching Assistant"
+              variant="filled"
+              value={filterValues.ta}
+              onChange={(e) =>
+                setFilterValues({ ...filterValues, ta: e.target.value })
+              }
+            />
+            <div>
+              <Button
+                className="mt-3"
+                variant="contained"
+                onClick={filterCourses}
+              >
+                Filter
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

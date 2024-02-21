@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import GoBack from "../GoBack";
 
 //TODO-setstudentname
 //TODO-sort by date AND THEN by weight?
@@ -94,53 +95,56 @@ export default function Studentdashboard() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <h1 style={{ fontSize: "700%" }} className="m-4">
-        Welcome, {name}!
-      </h1>
-      <div className="d-inline-block">
-        <div className="m-4">
-          <h4 className="mb-4">Upcoming Assignments</h4>
-          <Placeholdertable data={assignment} />
-        </div>
-        <div className="m-4">
-          <h4 className="mb-4">Upcoming Exams</h4>
+    <>
+      <GoBack text={"🢀 Logout"} link={`/studentlogin`} />
+      <section className="mainSection">
+        <h1 style={{ fontSize: "700%" }} className="m-4">
+          Welcome, {name}!
+        </h1>
+        <div className="d-inline-block">
+          <div className="m-4">
+            <h4 className="mb-4">Upcoming Assignments</h4>
+            <Placeholdertable data={assignment} />
+          </div>
+          <div className="m-4">
+            <h4 className="mb-4">Upcoming Exams</h4>
 
-          <Placeholdertable data={exams} />
+            <Placeholdertable data={exams} />
+          </div>
         </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          textAlign: "center",
-          verticalAlign: "top",
-          justifyContent: "center",
-          alignItems: "center",
-          minWidth: "25%",
-        }}
-        className="d-inline-block w-25"
-      >
-        <Button className="m-3 d-block float-end" variant="contained">
-          <Link className="link" to={`/viewcourses/${studentID}`}>
-            Courses
-          </Link>
-        </Button>
-        <Button className="m-3 d-block float-end" variant="contained">
-          <Link className="link" to={`/enrolledeca/${studentID}`}>
-            Extracurriculars
-          </Link>
-        </Button>
-        <Button className="m-3 d-block float-end" variant="contained">
-          <Link className="link" to={`/research/${studentID}`}>
-            Research
-          </Link>
-        </Button>
-        <Button className="m-3 d-block float-end" variant="contained">
-          <Link className="link" to={`/updateinfo/${studentID}`}>
-            Update Personal Information
-          </Link>
-        </Button>
-      </div>
-    </section>
+        <div
+          style={{
+            display: "flex",
+            textAlign: "center",
+            verticalAlign: "top",
+            justifyContent: "center",
+            alignItems: "center",
+            minWidth: "25%",
+          }}
+          className="d-inline-block w-25"
+        >
+          <Button className="m-3 d-block float-end" variant="contained">
+            <Link className="link" to={`/viewcourses/${studentID}`}>
+              Courses
+            </Link>
+          </Button>
+          <Button className="m-3 d-block float-end" variant="contained">
+            <Link className="link" to={`/enrolledeca/${studentID}`}>
+              Extracurriculars
+            </Link>
+          </Button>
+          <Button className="m-3 d-block float-end" variant="contained">
+            <Link className="link" to={`/research/${studentID}`}>
+              Research
+            </Link>
+          </Button>
+          <Button className="m-3 d-block float-end" variant="contained">
+            <Link className="link" to={`/updateinfo/${studentID}`}>
+              Update Personal Information
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </>
   );
 }

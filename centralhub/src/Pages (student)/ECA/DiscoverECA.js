@@ -14,6 +14,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -74,61 +75,66 @@ export default function DiscoverECA() {
   };
 
   return (
-    <section className="filtercourse mainSection">
-      <h1 className="m-5">EXPLORE CLUBS</h1>
-      <div
-        className="d-inline-block float-start ms-2"
-        style={{ maxWidth: "75%" }}
-      >
-        <ECAtable data={data} ucid={studentID} />
-      </div>
-      <div
-        className="d-inline-block position-fixed"
-        style={{ right: "5%", verticalAlign: "top" }}
-      >
-        <div>
-          <TextField
-            id="filled-basic"
-            label="Club Name"
-            value={filterValues.clubname}
-            variant="filled"
-            onChange={(e) => handleFilterChange("clubname", e.target.value)}
-          />
+    <>
+      <GoBack text={"🢀 Enrolled Clubs"} link={`/enrolledeca/${studentID}`} />
+      <section className="filtercourse mainSection">
+        <h1 className="m-5">EXPLORE CLUBS</h1>
+        <div
+          className="d-inline-block float-start ms-2"
+          style={{ maxWidth: "75%" }}
+        >
+          <ECAtable data={data} ucid={studentID} />
         </div>
-        <div>
-          <TextField
-            id="filled-basic"
-            label="Club Location"
-            value={filterValues.location}
-            variant="filled"
-            onChange={(e) => handleFilterChange("location", e.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            id="filled-basic"
-            label="Meeting Date and Time"
-            value={filterValues.meetingtime}
-            variant="filled"
-            onChange={(e) => handleFilterChange("meetingtime", e.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            id="filled-basic"
-            label="Club Field"
-            value={filterValues.field}
-            variant="filled"
-            onChange={(e) => handleFilterChange("field", e.target.value)}
-          />
+        <div
+          className="d-inline-block position-fixed"
+          style={{ right: "5%", verticalAlign: "top", bottom: "1%" }}
+        >
           <div>
-            <Button className="mt-3" variant="contained" onClick={filterEcas}>
-              Filter
-            </Button>
+            <TextField
+              id="filled-basic"
+              label="Club Name"
+              value={filterValues.clubname}
+              variant="filled"
+              onChange={(e) => handleFilterChange("clubname", e.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              id="filled-basic"
+              label="Club Location"
+              value={filterValues.location}
+              variant="filled"
+              onChange={(e) => handleFilterChange("location", e.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              id="filled-basic"
+              label="Meeting Date and Time"
+              value={filterValues.meetingtime}
+              variant="filled"
+              onChange={(e) =>
+                handleFilterChange("meetingtime", e.target.value)
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="filled-basic"
+              label="Club Field"
+              value={filterValues.field}
+              variant="filled"
+              onChange={(e) => handleFilterChange("field", e.target.value)}
+            />
+            <div>
+              <Button className="mt-3" variant="contained" onClick={filterEcas}>
+                Filter
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

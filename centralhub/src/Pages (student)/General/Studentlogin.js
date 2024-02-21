@@ -45,7 +45,7 @@ export default function Studentlogin() {
 
   return (
     <>
-      <GoBack />
+      <GoBack text={"🢀 Landing Page"} link={`/`} />
       <div className="loginContainer">
         <div className="loginInfo">
           <h1 style={{}}>Student Login</h1>

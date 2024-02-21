@@ -30,14 +30,17 @@ export default function Pastresearch() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <section className="m-4">
-        <h2 className="title m-5">PAST RESEARCH</h2>
-        <Placeholdertable data={research} />
-        <Button variant="contained" size="large" className="m-5">
-          Explore Research Opportunities ⌕
-        </Button>
+    <>
+      {/* <GoBack text={"🢀 Research Homepage"} link={`/research/${studentID}`} /> */}
+      <section className="mainSection">
+        <section className="m-4">
+          <h2 className="title m-5">PAST RESEARCH</h2>
+          <Placeholdertable data={research} />
+          <Button variant="contained" size="large" className="m-5">
+            Explore Research Opportunities ⌕
+          </Button>
+        </section>
       </section>
-    </section>
+    </>
   );
 }

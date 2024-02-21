@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -64,75 +65,81 @@ export default function Exploreresearch() {
   };
 
   return (
-    <section className="filtercourse mainSection">
-      <h1 className="m-5">EXPLORE RESEARCH</h1>
-      <div className="d-inline-block">
-        <Coursetable data={data} />
-      </div>
-      <div
-        className="d-inline-block"
-        style={{ minWidth: "30%", verticalAlign: "top" }}
-      >
-        <div>
-          <TextField
-            id="researchid"
-            label="Research ID"
-            variant="filled"
-            value={filterValues.researchid}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, researchid: e.target.value })
-            }
-          />
+    <>
+      <GoBack text={"🢀 Research Homepage"} link={`/research/${studentID}`} />
+      <section className="filtercourse mainSection">
+        <h1 className="m-5">EXPLORE RESEARCH</h1>
+        <div className="d-inline-block me-5">
+          <Coursetable data={data} />
         </div>
-        <div>
-          <TextField
-            id="researchname"
-            label="Research Name"
-            variant="filled"
-            value={filterValues.researchname}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, researchname: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            id="field"
-            label="Field"
-            variant="filled"
-            value={filterValues.field}
-            onChange={(e) =>
-              setFilterValues({ ...filterValues, field: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            id="researchername"
-            label="Researcher"
-            variant="filled"
-            value={filterValues.researchername}
-            onChange={(e) =>
-              setFilterValues({
-                ...filterValues,
-                researchername: e.target.value,
-              })
-            }
-          />
-        </div>
-        <div>
+        <div
+          className="d-inline-block position-fixed"
+          style={{ right: "5%", verticalAlign: "top", bottom: "1%" }}
+        >
           <div>
-            <Button
-              className="mt-3"
-              variant="contained"
-              onClick={filterResearch}
-            >
-              Filter
-            </Button>
+            <TextField
+              id="researchid"
+              label="Research ID"
+              variant="filled"
+              value={filterValues.researchid}
+              onChange={(e) =>
+                setFilterValues({ ...filterValues, researchid: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="researchname"
+              label="Research Name"
+              variant="filled"
+              value={filterValues.researchname}
+              onChange={(e) =>
+                setFilterValues({
+                  ...filterValues,
+                  researchname: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="field"
+              label="Field"
+              variant="filled"
+              value={filterValues.field}
+              onChange={(e) =>
+                setFilterValues({ ...filterValues, field: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              id="researchername"
+              label="Researcher"
+              variant="filled"
+              value={filterValues.researchername}
+              onChange={(e) =>
+                setFilterValues({
+                  ...filterValues,
+                  researchername: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div>
+            <div>
+              <Button
+                className="mt-3"
+                variant="contained"
+                onClick={filterResearch}
+              >
+                Filter
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

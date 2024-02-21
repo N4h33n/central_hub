@@ -14,6 +14,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import GoBack from "../../GoBack";
 
 //TODO-Add date joined and other rnship attributes for ECA
 //TODO-Change 'ECA' to 'club'
@@ -50,15 +51,18 @@ export default function ViewenrolledECA() {
     loadECAs();
   }, []);
   return (
-    <section className="mainSection">
-      <h2 className="title m-5">ENROLLED CLUBS</h2>
-      <ECAtable data={data} ucid={ucid} />
-      <Button variant="contained" size="large" className="m-5">
-        <Link className="link" to={`/discoverecas/${ucid}`}>
-          Explore Clubs ⌕
-        </Link>
-      </Button>
-    </section>
+    <>
+      <GoBack text={"🢀 Dashboard"} link={`/dashboard/${ucid}`} />
+      <section className="mainSection">
+        <h2 className="title m-5">ENROLLED CLUBS</h2>
+        <ECAtable data={data} ucid={ucid} />
+        <Button variant="contained" size="large" className="m-5">
+          <Link className="link" to={`/discoverecas/${ucid}`}>
+            Explore Clubs ⌕
+          </Link>
+        </Button>
+      </section>
+    </>
   );
 }
 

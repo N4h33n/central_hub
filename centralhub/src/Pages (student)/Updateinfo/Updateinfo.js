@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -101,121 +102,124 @@ export default function Updateinfo() {
   };
 
   return (
-    <section className="mainSection">
-      <h2 className="m-5">Update Information</h2>
-      <div id="imContainer" className="mb-5">
-        <div id="profImage" className=" d-inline-block"></div>
-        <div>
-          <Button className="" variant="contained">
-            Edit Image
-          </Button>
+    <>
+      <GoBack text={"🢀 Dashboard"} link={`/dashboard/${ucid}`} />
+      <section className="mainSection">
+        <h2 className="m-5">Update Information</h2>
+        <div id="imContainer" className="mb-5">
+          <div id="profImage" className=" d-inline-block"></div>
+          <div>
+            <Button className="" variant="contained">
+              Edit Image
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="name"
-          label="Name"
-          value={name}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="email"
-          label="Email"
-          value={email}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="ucid"
-          label="UCID Number"
-          defaultValue={ucid}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </div>
-      <div className="m-4 editable">
-        <TextField
-          style={{ width: "20%" }}
-          required
-          id="phonenumber"
-          label="Telephone Number"
-          value={student.phone || ""}
-          onChange={(e) => handleChange("phone", e.target.value)}
-          InputProps={{
-            readOnly: !editNumber,
-          }}
-        />
-        <div
-          className="d-inline-block"
-          style={{ verticalAlign: "bottom", cursor: "pointer" }}
-          onClick={() => handleToggleEdit("phone")}
-        >
-          <button className="editPen d-inline-block">
-            {editNumber ? "✅" : "✎"}
-          </button>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="name"
+            label="Name"
+            value={name}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
         </div>
-      </div>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="email"
+            label="Email"
+            value={email}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="ucid"
+            label="UCID Number"
+            defaultValue={ucid}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+        <div className="m-4 editable">
+          <TextField
+            style={{ width: "20%" }}
+            required
+            id="phonenumber"
+            label="Telephone Number"
+            value={student.phone || ""}
+            onChange={(e) => handleChange("phone", e.target.value)}
+            InputProps={{
+              readOnly: !editNumber,
+            }}
+          />
+          <div
+            className="d-inline-block"
+            style={{ verticalAlign: "bottom", cursor: "pointer" }}
+            onClick={() => handleToggleEdit("phone")}
+          >
+            <button className="editPen d-inline-block">
+              {editNumber ? "✅" : "✎"}
+            </button>
+          </div>
+        </div>
 
-      <div className="m-4 editable">
-        <TextField
-          style={{ width: "20%" }}
-          required
-          id="address"
-          label="Address"
-          value={student.address || ""}
-          onChange={(e) => handleChange("address", e.target.value)}
-          InputProps={{
-            readOnly: !editAddy,
-          }}
-        />
-        <div
-          className="d-inline-block"
-          style={{ verticalAlign: "bottom", cursor: "pointer" }}
-          onClick={() => handleToggleEdit("address")}
-        >
-          <button className="editPen d-inline-block">
-            {editAddy ? "✅" : "✎"}
-          </button>
+        <div className="m-4 editable">
+          <TextField
+            style={{ width: "20%" }}
+            required
+            id="address"
+            label="Address"
+            value={student.address || ""}
+            onChange={(e) => handleChange("address", e.target.value)}
+            InputProps={{
+              readOnly: !editAddy,
+            }}
+          />
+          <div
+            className="d-inline-block"
+            style={{ verticalAlign: "bottom", cursor: "pointer" }}
+            onClick={() => handleToggleEdit("address")}
+          >
+            <button className="editPen d-inline-block">
+              {editAddy ? "✅" : "✎"}
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="m-4 editable">
-        <TextField
-          style={{ width: "20%" }}
-          id="password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          value={student.passhash || ""}
-          onChange={(e) => handleChange("passhash", e.target.value)}
-          InputProps={{
-            readOnly: !editPassword,
-          }}
-        />
-        <div
-          className="d-inline-block"
-          style={{ verticalAlign: "bottom", cursor: "pointer" }}
-          onClick={() => handleToggleEdit("passhash")}
-        >
-          <button className="editPen d-inline-block">
-            {editPassword ? "✅" : "✎"}
-          </button>
+        <div className="m-4 editable">
+          <TextField
+            style={{ width: "20%" }}
+            id="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            value={student.passhash || ""}
+            onChange={(e) => handleChange("passhash", e.target.value)}
+            InputProps={{
+              readOnly: !editPassword,
+            }}
+          />
+          <div
+            className="d-inline-block"
+            style={{ verticalAlign: "bottom", cursor: "pointer" }}
+            onClick={() => handleToggleEdit("passhash")}
+          >
+            <button className="editPen d-inline-block">
+              {editPassword ? "✅" : "✎"}
+            </button>
+          </div>
         </div>
-      </div>
-      <Button className="m-3" variant="contained" onClick={handleClick}>
-        Update
-      </Button>
-    </section>
+        <Button className="m-3" variant="contained" onClick={handleClick}>
+          Update
+        </Button>
+      </section>
+    </>
   );
 }
