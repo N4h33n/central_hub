@@ -15,6 +15,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import GoBack from "../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -131,26 +132,29 @@ export default function Updatecoursecomp() {
   };
 
   return (
-    <section className="mainSection mt-4">
-      <div className="d-inline-block m-2">
-        <h3 className="mb-4">Assignments</h3>
-        <Placeholdertable data={assignments} />
-        <CustomizedDialogs
-          title="Update Assignment Grade"
-          updateFunction={updateAssignment}
-          list={assignmentNos}
-        />
-      </div>
-      <div className="d-inline-block m-2">
-        <h3 className="mb-4">Exams</h3>
-        <Placeholdertable data={exams} />
-        <CustomizedDialogs
-          title="Update Exam Grade"
-          updateFunction={updateExam}
-          list={examNos}
-        />
-      </div>
-    </section>
+    <>
+      <GoBack text={"🢀 Student Information"} link={`/studentlist/${ucid}`} />
+      <section className="mainSection mt-4">
+        <div className="d-inline-block m-2">
+          <h3 className="mb-4">Assignments</h3>
+          <Placeholdertable data={assignments} />
+          <CustomizedDialogs
+            title="Update Assignment Grade"
+            updateFunction={updateAssignment}
+            list={assignmentNos}
+          />
+        </div>
+        <div className="d-inline-block m-2">
+          <h3 className="mb-4">Exams</h3>
+          <Placeholdertable data={exams} />
+          <CustomizedDialogs
+            title="Update Exam Grade"
+            updateFunction={updateExam}
+            list={examNos}
+          />
+        </div>
+      </section>
+    </>
   );
 }
 

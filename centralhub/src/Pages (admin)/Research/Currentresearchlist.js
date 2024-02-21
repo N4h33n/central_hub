@@ -12,6 +12,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -66,22 +67,25 @@ export default function Currentresearchlist() {
   };
 
   return (
-    <section className="mainSection">
-      <h2 className="mt-5 m-3">Current Research</h2>
-      <Button
-        variant="contained"
-        className="position-relative float-end m-3"
-        onClick={handleAddResearch}
-      >
-        Add Research
-      </Button>
-      <Studentlisttable data={data} />
-      <AddCourseModal
-        open={modalOpen}
-        handleClose={handleModalClose}
-        addResearch={addResearch}
-      />
-    </section>
+    <>
+      <GoBack text={"🢀 Research Homepage"} link={`/researchlanding/`} />
+      <section className="mainSection">
+        <h2 className="mt-5 m-3">Current Research</h2>
+        <Button
+          variant="contained"
+          className="position-relative float-end m-3"
+          onClick={handleAddResearch}
+        >
+          Add Research
+        </Button>
+        <Studentlisttable data={data} />
+        <AddCourseModal
+          open={modalOpen}
+          handleClose={handleModalClose}
+          addResearch={addResearch}
+        />
+      </section>
+    </>
   );
 }
 

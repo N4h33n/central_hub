@@ -12,6 +12,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -62,24 +63,27 @@ export default function Clublist() {
   };
 
   return (
-    <section className="mainSection">
-      <section className="m-5">
-        <h2 className="mt-5">Active Clubs</h2>
-        <Button
-          variant="contained"
-          className="position-relative float-end m-3"
-          onClick={handleaddClub}
-        >
-          Add Club
-        </Button>
-        <Studentlisttable data={data} />
-        <AddCourseModal
-          open={modalOpen}
-          handleClose={handleModalClose}
-          addClub={addClub}
-        />
+    <>
+      <GoBack text={"🢀 Homepage"} link={`/adminlanding`} />
+      <section className="mainSection">
+        <section className="m-5">
+          <h2 className="mt-5">Active Clubs</h2>
+          <Button
+            variant="contained"
+            className="position-relative float-end m-3"
+            onClick={handleaddClub}
+          >
+            Add Club
+          </Button>
+          <Studentlisttable data={data} />
+          <AddCourseModal
+            open={modalOpen}
+            handleClose={handleModalClose}
+            addClub={addClub}
+          />
+        </section>
       </section>
-    </section>
+    </>
   );
 }
 

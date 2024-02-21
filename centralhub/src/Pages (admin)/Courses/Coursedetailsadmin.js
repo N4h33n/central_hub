@@ -10,6 +10,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import GoBack from "../../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -227,60 +228,63 @@ export default function Coursedetailsadmin() {
   };
 
   return (
-    <section className="mainSection mt-4">
-      <div className="d-inline-block m-2">
-        <h3 className="mb-4">Assignments</h3>
-        {compSumUnder && (
-          <h5 className="sumError">
-            Components do not currently add up to 100%!
-          </h5>
-        )}
-        <Placeholdertable data={assignments} />
-        <CustomizedAssignment
-          title="Add Assignment"
-          updateFunction={addAssignment}
-          courseno={courseno}
-          next={lastAss + 1}
-          compSum={compSum}
-        />
-      </div>
-      <div className="d-inline-block m-2">
-        <h3 className="mb-4">Exams</h3>
-        {compSumUnder && (
-          <h5 className="sumError">
-            Components do not currently add up to 100%!
-          </h5>
-        )}
-        <Placeholdertable data={exams} />
-        <CustomizedExam
-          title="Add Exam"
-          updateFunction={addExam}
-          courseno={courseno}
-          next={lastExam + 1}
-          compSum={compSum}
-        />
-      </div>
-      <div className="d-inline-block m-2">
-        <h3 className="mb-4">Lectures</h3>
-        <Placeholdertable data={lectures} />
-        <CustomizedLecture
-          title="Add Lecture"
-          updateFunction={addLecture}
-          courseno={courseno}
-          next={Number(lastLecture) + 1}
-        />
-      </div>
-      <div className="d-inline-block m-2">
-        <h3 className="mb-4">Tutorials</h3>
-        <Placeholdertable data={tutorials} />
-        <CustomizedTutorial
-          title="Add Tutorial"
-          updateFunction={addTutorial}
-          courseno={courseno}
-          next={Number(lastTutorial) + 1}
-        />
-      </div>
-    </section>
+    <>
+      <GoBack text={"🢀 Course List"} link={`/courselist`} />
+      <section className="mainSection mt-4">
+        <div className="d-inline-block m-2">
+          <h3 className="mb-4">Assignments</h3>
+          {compSumUnder && (
+            <h5 className="sumError">
+              Components do not currently add up to 100%!
+            </h5>
+          )}
+          <Placeholdertable data={assignments} />
+          <CustomizedAssignment
+            title="Add Assignment"
+            updateFunction={addAssignment}
+            courseno={courseno}
+            next={lastAss + 1}
+            compSum={compSum}
+          />
+        </div>
+        <div className="d-inline-block m-2">
+          <h3 className="mb-4">Exams</h3>
+          {compSumUnder && (
+            <h5 className="sumError">
+              Components do not currently add up to 100%!
+            </h5>
+          )}
+          <Placeholdertable data={exams} />
+          <CustomizedExam
+            title="Add Exam"
+            updateFunction={addExam}
+            courseno={courseno}
+            next={lastExam + 1}
+            compSum={compSum}
+          />
+        </div>
+        <div className="d-inline-block m-2">
+          <h3 className="mb-4">Lectures</h3>
+          <Placeholdertable data={lectures} />
+          <CustomizedLecture
+            title="Add Lecture"
+            updateFunction={addLecture}
+            courseno={courseno}
+            next={Number(lastLecture) + 1}
+          />
+        </div>
+        <div className="d-inline-block m-2">
+          <h3 className="mb-4">Tutorials</h3>
+          <Placeholdertable data={tutorials} />
+          <CustomizedTutorial
+            title="Add Tutorial"
+            updateFunction={addTutorial}
+            courseno={courseno}
+            next={Number(lastTutorial) + 1}
+          />
+        </div>
+      </section>
+    </>
   );
 }
 

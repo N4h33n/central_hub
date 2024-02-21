@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import GoBack from "../GoBack";
 
 //TODO-Change phone to phone#
 //TODO-Fix order
@@ -44,17 +45,23 @@ export default function Studentlist() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <section className="m-3">
-        <h2 className="mt-5 m-2">Current Students</h2>
-        <Button variant="contained" className="position-relative float-end m-3">
-          <Link className="link" to="/addstudent">
-            Add Student
-          </Link>
-        </Button>
-        <Studentlisttable data={data} />
+    <>
+      <GoBack text={"🢀 Homepage"} link={`/adminlanding`} />
+      <section className="mainSection">
+        <section className="m-3">
+          <h2 className="mt-5 m-2">Current Students</h2>
+          <Button
+            variant="contained"
+            className="position-relative float-end m-3"
+          >
+            <Link className="link" to="/addstudent">
+              Add Student
+            </Link>
+          </Button>
+          <Studentlisttable data={data} />
+        </section>
       </section>
-    </section>
+    </>
   );
 }
 

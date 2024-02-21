@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link, useParams } from "react-router-dom";
+import GoBack from "../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -127,46 +128,49 @@ export default function Updatestudentinfo() {
   }, []);
 
   return (
-    <section className="mainSection">
-      <h2 className="mt-5 m-3">Enrolled Courses</h2>
-      <Button
-        variant="contained"
-        className="position-relative float-start m-3 ms-5"
-      >
-        <Link className="link" to={`/updatepersonalinfo/${studentID}`}>
-          Update Personal Information
-        </Link>
-      </Button>
-      <Button
-        variant="contained"
-        className="position-relative float-end m-3 me-5"
-        onClick={handleAddToCourse}
-      >
-        Add to Course
-      </Button>
-      <Button
-        variant="contained"
-        className="position-relative float-end m-3 me-5"
-        onClick={handleAddToResearch}
-      >
-        Add to Research
-      </Button>
-      <Studentcoursetable data={data} ucid={studentID} />
+    <>
+      <GoBack text={"🢀 Student List"} link={`/studentlist/`} />
+      <section className="mainSection">
+        <h2 className="mt-5 m-3">Enrolled Courses</h2>
+        <Button
+          variant="contained"
+          className="position-relative float-start m-3 ms-5"
+        >
+          <Link className="link" to={`/updatepersonalinfo/${studentID}`}>
+            Update Personal Information
+          </Link>
+        </Button>
+        <Button
+          variant="contained"
+          className="position-relative float-end m-3 me-5"
+          onClick={handleAddToCourse}
+        >
+          Add to Course
+        </Button>
+        <Button
+          variant="contained"
+          className="position-relative float-end m-3 me-5"
+          onClick={handleAddToResearch}
+        >
+          Add to Research
+        </Button>
+        <Studentcoursetable data={data} ucid={studentID} />
 
-      {notification && <p style={{ color: "red" }}>{notification}</p>}
+        {notification && <p style={{ color: "red" }}>{notification}</p>}
 
-      <AddToCourseResearchModal
-        open={modalOpen}
-        handleClose={() => setModalOpen(false)}
-        title={modalTitle}
-        fields={modalFields}
-        handleFieldChange={handleFieldChange}
-        handleSubmit={() => {
-          modalTitle === "Add to Course" ? addtoCourse() : addtoResearch();
-          setModalOpen(false);
-        }}
-      />
-    </section>
+        <AddToCourseResearchModal
+          open={modalOpen}
+          handleClose={() => setModalOpen(false)}
+          title={modalTitle}
+          fields={modalFields}
+          handleFieldChange={handleFieldChange}
+          handleSubmit={() => {
+            modalTitle === "Add to Course" ? addtoCourse() : addtoResearch();
+            setModalOpen(false);
+          }}
+        />
+      </section>
+    </>
   );
 }
 

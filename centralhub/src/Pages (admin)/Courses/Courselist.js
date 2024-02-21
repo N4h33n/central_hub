@@ -12,6 +12,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import GoBack from "../../GoBack";
 
 //TODO-Change phone to phone#
 //TODO-Fix order
@@ -69,25 +70,28 @@ export default function Courselist() {
   };
 
   return (
-    <section className="mainSection">
-      <section className="m-5">
-        {" "}
-        <h2 className="mt-5 ">Current Courses</h2>
-        <Button
-          variant="contained"
-          className="position-relative float-end m-3"
-          onClick={handleAddCourse}
-        >
-          Add Course
-        </Button>
-        <Studentlisttable data={data} />
-        <AddCourseModal
-          open={modalOpen}
-          handleClose={handleModalClose}
-          addCourse={addCourse}
-        />
+    <>
+      <GoBack text={"🢀 Homepage"} link={`/adminlanding`} />
+      <section className="mainSection">
+        <section className="m-5">
+          {" "}
+          <h2 className="mt-5 ">Current Courses</h2>
+          <Button
+            variant="contained"
+            className="position-relative float-end m-3"
+            onClick={handleAddCourse}
+          >
+            Add Course
+          </Button>
+          <Studentlisttable data={data} />
+          <AddCourseModal
+            open={modalOpen}
+            handleClose={handleModalClose}
+            addCourse={addCourse}
+          />
+        </section>
       </section>
-    </section>
+    </>
   );
 }
 

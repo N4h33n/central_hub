@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import GoBack from "../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -69,57 +70,63 @@ export default function Updatepersonalinfo() {
   };
 
   return (
-    <section className="mainSection">
-      <h2 className="m-5">Update Information</h2>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="name"
-          label="Name"
-          value={student.name || ""}
-          onChange={(e) => handleChange("name", e.target.value)}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="email"
-          label="Email"
-          value={student.email || ""}
-          onChange={(e) => handleChange("email", e.target.value)}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="ucid"
-          label="UCID Number"
-          value={studentID}
-          onChange={(e) => handleChange("ucid", e.target.value)}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          required
-          id="telephone"
-          label="Telephone Number"
-          value={student.phone || ""}
-          onChange={(e) => handleChange("phone", e.target.value)}
-        />
-      </div>
-      <div className="m-4">
-        <TextField
-          style={{ width: "20%" }}
-          id="address"
-          label="Address"
-          value={student.address || ""}
-          onChange={(e) => handleChange("address", e.target.value)}
-        />
-      </div>
-      <Button className="m-3" variant="contained" onClick={handleClick}>
-        Update
-      </Button>
-    </section>
+    <>
+      <GoBack
+        text={"🢀 Student Information"}
+        link={`/studentlist/${studentID}`}
+      />
+      <section className="mainSection">
+        <h2 className="m-5">Update Information</h2>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="name"
+            label="Name"
+            value={student.name || ""}
+            onChange={(e) => handleChange("name", e.target.value)}
+          />
+        </div>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="email"
+            label="Email"
+            value={student.email || ""}
+            onChange={(e) => handleChange("email", e.target.value)}
+          />
+        </div>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="ucid"
+            label="UCID Number"
+            value={studentID}
+            onChange={(e) => handleChange("ucid", e.target.value)}
+          />
+        </div>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            required
+            id="telephone"
+            label="Telephone Number"
+            value={student.phone || ""}
+            onChange={(e) => handleChange("phone", e.target.value)}
+          />
+        </div>
+        <div className="m-4">
+          <TextField
+            style={{ width: "20%" }}
+            id="address"
+            label="Address"
+            value={student.address || ""}
+            onChange={(e) => handleChange("address", e.target.value)}
+          />
+        </div>
+        <Button className="m-3" variant="contained" onClick={handleClick}>
+          Update
+        </Button>
+      </section>
+    </>
   );
 }

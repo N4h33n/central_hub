@@ -4,6 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import GoBack from "../GoBack";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -88,64 +89,67 @@ export default function Addstudent() {
   };
 
   return (
-    <section className="mainSection">
-      <h2 className="m-5">Add Student</h2>
-      <div className="m-4">
-        <InputLabel htmlFor="name">Name</InputLabel>
-        <Input
-          required
-          style={{ width: "20%", border: "1px solid #ccc" }}
-          id="name"
-          placeholder="ex: John Doe"
-        />
-      </div>
-      <div className="m-4">
-        <InputLabel htmlFor="email">Email</InputLabel>
-        <Input
-          required
-          style={{ width: "20%", border: "1px solid #ccc" }}
-          id="email"
-          placeholder="ex: john.doe@example.com"
-        />
-      </div>
-      <div className="m-4">
-        <InputLabel htmlFor="ucid">UCID Number</InputLabel>
-        <Input
-          required
-          style={{ width: "20%", border: "1px solid #ccc" }}
-          id="ucid"
-          placeholder="ex: 12345678"
-        />
-      </div>
-      <div className="m-4">
-        <InputLabel htmlFor="telephone">Telephone Number</InputLabel>
-        <Input
-          style={{ width: "20%", border: "1px solid #ccc" }}
-          id="telephone"
-          placeholder="ex: 1234567890"
-        />
-      </div>
-      <div className="m-4">
-        <InputLabel htmlFor="address">Address</InputLabel>
-        <Input
-          style={{ width: "20%", border: "1px solid #ccc" }}
-          id="address"
-          placeholder="ex: 123 Main St"
-        />
-      </div>
-      <div className="m-4">
-        <InputLabel htmlFor="password">Default Password</InputLabel>
-        <Input
-          style={{ width: "20%", border: "1px solid #ccc" }}
-          id="password"
-          type="password"
-          placeholder="ex: securePassword"
-        />
-      </div>
-      {validationError && <p style={{ color: "red" }}>{validationError}</p>}
-      <Button onClick={handleClick} className="m-3" variant="contained">
-        Add
-      </Button>
-    </section>
+    <>
+      <GoBack text={"🢀 Student List"} link={`/studentlist/`} />
+      <section className="mainSection">
+        <h2 className="m-5">Add Student</h2>
+        <div className="m-4">
+          <InputLabel htmlFor="name">Name</InputLabel>
+          <Input
+            required
+            style={{ width: "20%", border: "1px solid #ccc" }}
+            id="name"
+            placeholder="ex: John Doe"
+          />
+        </div>
+        <div className="m-4">
+          <InputLabel htmlFor="email">Email</InputLabel>
+          <Input
+            required
+            style={{ width: "20%", border: "1px solid #ccc" }}
+            id="email"
+            placeholder="ex: john.doe@example.com"
+          />
+        </div>
+        <div className="m-4">
+          <InputLabel htmlFor="ucid">UCID Number</InputLabel>
+          <Input
+            required
+            style={{ width: "20%", border: "1px solid #ccc" }}
+            id="ucid"
+            placeholder="ex: 12345678"
+          />
+        </div>
+        <div className="m-4">
+          <InputLabel htmlFor="telephone">Telephone Number</InputLabel>
+          <Input
+            style={{ width: "20%", border: "1px solid #ccc" }}
+            id="telephone"
+            placeholder="ex: 1234567890"
+          />
+        </div>
+        <div className="m-4">
+          <InputLabel htmlFor="address">Address</InputLabel>
+          <Input
+            style={{ width: "20%", border: "1px solid #ccc" }}
+            id="address"
+            placeholder="ex: 123 Main St"
+          />
+        </div>
+        <div className="m-4">
+          <InputLabel htmlFor="password">Default Password</InputLabel>
+          <Input
+            style={{ width: "20%", border: "1px solid #ccc" }}
+            id="password"
+            type="password"
+            placeholder="ex: securePassword"
+          />
+        </div>
+        {validationError && <p style={{ color: "red" }}>{validationError}</p>}
+        <Button onClick={handleClick} className="m-3" variant="contained">
+          Add
+        </Button>
+      </section>
+    </>
   );
 }
