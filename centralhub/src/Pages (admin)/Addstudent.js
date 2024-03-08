@@ -146,7 +146,7 @@ export default function Addstudent() {
           />
         </div>
         {validationError && <p style={{ color: "red" }}>{validationError}</p>}
-        <Button onClick={handleClick} className="m-3" variant="contained">
+        <Button onClick={handleClick} className="hover m-3" variant="contained">
           Add
         </Button>
       </section>

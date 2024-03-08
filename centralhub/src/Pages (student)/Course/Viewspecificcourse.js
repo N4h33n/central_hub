@@ -159,13 +159,13 @@ export default function Viewspecificcourse() {
         </div>
         <div className="courseDetails d-inline-block m-4">
           <Listedinfo information={lecture} title={"📓 Lecture Details"} />
-          <Button className="d-block" variant="outlined" onClick={redirect}>
+          <Button className="d-block" variant="contained" onClick={redirect}>
             Instructor Details
           </Button>
         </div>
         <div className="courseDetails d-inline-block m-4">
           <Listedinfo information={tutorial} title={"✎Tutorial Details"} />
-          <Button className="d-block" variant="outlined" onClick={redirect2}>
+          <Button className="d-block" variant="contained" onClick={redirect2}>
             {" "}
             Teaching Assistant Details
           </Button>

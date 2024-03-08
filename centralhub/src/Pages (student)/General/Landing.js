@@ -14,12 +14,20 @@ export default function Landing() {
   return (
     <div className="loginContainer">
       <Button variant="contained" className="loginButton d-block m-5">
-        <Link className="link" to="/studentlogin">
+        <Link
+          style={{ color: "white", fontWeight: "bold" }}
+          className="link"
+          to="/studentlogin"
+        >
           Student Login
         </Link>
       </Button>
       <Button variant="contained" className="loginButton d-block m-5">
-        <Link className="link" to="/adminlogin">
+        <Link
+          style={{ color: "white", fontWeight: "bold" }}
+          className="link"
+          to="/adminlogin"
+        >
           Admin Login
         </Link>
       </Button>

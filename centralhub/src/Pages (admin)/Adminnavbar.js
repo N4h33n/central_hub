@@ -5,7 +5,7 @@ export default function Adminnavbar() {
   return (
     <>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+        <div style={{ backgroundColor: "#c8a694" }} class="container-fluid">
           <a class="navbar-brand" href="#">
             📖 CENTRALHUB
           </a>

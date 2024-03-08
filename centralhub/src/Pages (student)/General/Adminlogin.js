@@ -34,7 +34,7 @@ export default class Adminlogin extends Component {
         <GoBack text={"🢀 Landing"} link={`/`} />
         <div className="loginContainer">
           <div className="loginInfo">
-            <h1 style={{ color: "#1976d2" }}>Admin Login</h1>
+            <h1>Admin Login</h1>
             <TextField
               className="loginput d-block m-5"
               id="outlined-email"

@@ -38,7 +38,7 @@ export default function Enrolledresearch() {
     <>
       <GoBack text={"🢀 Research Homepage"} link={`/research/${ucid}`} />
       <section className="mainSection">
-        <h2 className="title m-5">ENROLLED RESEARCH</h2>
+        <h2 className=" m-5">ENROLLED RESEARCH</h2>
         <section className="m-4">
           <Placeholdertable data={research} />
           <Button variant="contained" size="large" className="m-5">

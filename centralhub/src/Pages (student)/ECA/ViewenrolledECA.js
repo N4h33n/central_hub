@@ -54,7 +54,7 @@ export default function ViewenrolledECA() {
     <>
       <GoBack text={"🢀 Dashboard"} link={`/dashboard/${ucid}`} />
       <section className="mainSection">
-        <h2 className="title m-5">ENROLLED CLUBS</h2>
+        <h2 className=" m-5">ENROLLED CLUBS</h2>
         <ECAtable data={data} ucid={ucid} />
         <Button variant="contained" size="large" className="m-5">
           <Link className="link" to={`/discoverecas/${ucid}`}>
